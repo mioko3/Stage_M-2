@@ -24,6 +24,7 @@
     "nom": "PA",
     "ce": "CLYDE",
     "totalHeuresCE": 352,
+    "aces": [
       { "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "lotsACE": [9002397,5410507] },
       { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "lotsACE": [6006051,6005769] }
     ],
