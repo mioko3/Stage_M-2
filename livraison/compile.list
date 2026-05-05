@@ -15,5 +15,6 @@ app/ihm/dialogue/DialogAjoutLot.java
 app/ihm/dialogue/DialogEditLot.java
 app/ihm/dialogue/DialogEditSociete.java
 app/ihm/ficheroute/PanelFicheRoute.java
+app/ihm/map/PanelMap.java
 app/ihm/FenetrePrincipale.java
 app/Controleur.java

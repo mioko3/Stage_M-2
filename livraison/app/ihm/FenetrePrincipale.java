@@ -3,6 +3,7 @@ package app.ihm;
 import app.Controleur;
 import app.ihm.ficheroute.PanelFicheRoute;
 import app.ihm.gestionlot.PanelAffectation;
+import app.ihm.map.PanelMap;
 import app.ihm.gestionlot.PanelLots;
 import app.ihm.gestionlot.PanelSocietes;
 import app.metier.lot.Lot;
@@ -31,6 +32,7 @@ public class FenetrePrincipale extends JFrame
 	private PanelSocietes    panelSocietes;
 	private PanelLots        panelLots;
 	private PanelFicheRoute  panelFicheRoute;
+	private PanelMap         panelMap;
 	private JLabel           lblInfo;
 
 	public FenetrePrincipale(Controleur ctrl)
@@ -50,18 +52,22 @@ public class FenetrePrincipale extends JFrame
 		panelSocietes    = new PanelSocietes   (ctrl, this);
 		panelLots        = new PanelLots       (ctrl, this);
 		panelFicheRoute  = new PanelFicheRoute (ctrl, this);
+		panelMap         = new PanelMap        (ctrl, this);
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);
 		onglets.addTab("▤ Sociétés & heures", panelSocietes);
 		onglets.addTab("☰ Liste des lots",    panelLots);
 		onglets.addTab("📋 Fiches de Route",   panelFicheRoute);
+		onglets.addTab("🗺 Carte entrepôt",    panelMap);
 		add(onglets, BorderLayout.CENTER);
 
 		// Rafraîchir fiche de route quand on clique sur l'onglet
 		onglets.addChangeListener(e -> {
 			if (onglets.getSelectedComponent() == panelFicheRoute)
 				panelFicheRoute.rafraichir();
+			if (onglets.getSelectedComponent() == panelMap)
+				panelMap.rafraichir();
 		});
 
 		panelAffectation.remplirComboSocietes();
@@ -245,6 +251,7 @@ public class FenetrePrincipale extends JFrame
 			panelSocietes   .rafraichir();
 			panelLots       .rafraichir();
 			panelFicheRoute .rafraichir();
+			panelMap        .rafraichir();
 			if (lblInfo != null) lblInfo.setText(buildInfo());
 		});
 	}
