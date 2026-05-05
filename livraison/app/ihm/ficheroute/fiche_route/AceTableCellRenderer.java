@@ -1,4 +1,4 @@
-package app.ihm.ficheroute;
+package app.ihm.ficheroute.fiche_route;
 
 import java.awt.Color;
 import java.awt.Component;
