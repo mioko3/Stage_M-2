@@ -59,6 +59,11 @@ public class Controleur
 	public void desaffecterLot(Lot lot)
 	{ this.metier.desaffecterLot(lot); autoSauvegarderSocietes(); }
 
+	public void exportNewLot()
+	{
+		this.metier.exportNewLot();
+	}
+
 	// ── Modification ──────────────────────────────────────────────────────
 	public void modifierLot(Lot lot, String typologie, String affaire,
 							int nbPieces, double cadence, int valeurVente,

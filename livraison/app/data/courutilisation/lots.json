@@ -16,7 +16,7 @@
     "dateReception": "2025-02-04",
     "datePaiement": "202506",
     "commentaire": "*PERM",
-	"emplacement": "LTS",
+	"emplacement": "HD",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 40,
@@ -24,7 +24,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -52,7 +53,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -72,7 +74,7 @@
     "dateReception": "2025-03-21",
     "datePaiement": "202512",
     "commentaire": "*HIV2026 S49",
-	"emplacement": "A20",
+	"emplacement": "LTS",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -80,7 +82,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -100,7 +103,7 @@
     "dateReception": "2025-06-25",
     "datePaiement": "202526",
     "commentaire": "*RFIPERM",
-	"emplacement": "A1",
+	"emplacement": "LTS",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 45,
@@ -108,7 +111,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -128,7 +132,7 @@
     "dateReception": "2025-06-25",
     "datePaiement": "202526",
     "commentaire": "*RFIPERM",
-	"emplacement": "D50",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -136,7 +140,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -164,7 +169,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -176,7 +182,7 @@
     "valeurVente": 35979,
     "nbPieces": 12033,
     "cadence": 154.35,
-    "heures": 77.9591836734694,
+    "heures": 77.95,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "A",
@@ -184,7 +190,7 @@
     "dateReception": "2025-08-28",
     "datePaiement": "202535",
     "commentaire": "*TEPRI2026 S19",
-	"emplacement": "A2",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 78,
@@ -192,7 +198,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -204,7 +211,7 @@
     "valeurVente": 71620,
     "nbPieces": 7198,
     "cadence": 134.52,
-    "heures": 53.508771929824555,
+    "heures": 53.5,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -212,7 +219,7 @@
     "dateReception": "2025-10-15",
     "datePaiement": "202546",
     "commentaire": "*PRI2026 S20",
-	"emplacement": "A3",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 54,
@@ -220,7 +227,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -232,7 +240,7 @@
     "valeurVente": 15234,
     "nbPieces": 3404,
     "cadence": 159.14,
-    "heures": 21.38997109463366,
+    "heures": 21.38,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -240,7 +248,7 @@
     "dateReception": "2025-10-23",
     "datePaiement": "202547",
     "commentaire": "*TEPRI2026 S17",
-	"emplacement": "A4",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 21,
@@ -248,7 +256,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -260,7 +269,7 @@
     "valeurVente": 39900,
     "nbPieces": 10000,
     "cadence": 126.23,
-    "heures": 79.22047056959518,
+    "heures": 79.22,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -268,7 +277,7 @@
     "dateReception": "2025-11-04",
     "datePaiement": "202549",
     "commentaire": "*PERM",
-	"emplacement": "A1",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 79,
@@ -276,7 +285,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -304,7 +314,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -332,7 +343,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -360,7 +372,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -388,7 +401,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -416,7 +430,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -444,7 +459,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -472,7 +488,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -500,7 +517,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -528,7 +546,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -556,7 +575,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -584,7 +604,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -612,7 +633,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -640,7 +662,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -668,7 +691,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -696,7 +720,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -724,7 +749,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -752,7 +778,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -780,7 +807,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -808,7 +836,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -836,7 +865,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -864,7 +894,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -892,7 +923,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -920,7 +952,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -948,7 +981,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -976,7 +1010,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1004,7 +1039,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1032,7 +1068,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1060,7 +1097,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1088,7 +1126,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1116,7 +1155,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1128,7 +1168,7 @@
     "valeurVente": 38895,
     "nbPieces": 35504,
     "cadence": 204.72,
-    "heures": 173.4271199687378,
+    "heures": 173.42,
     "statut": "MR",
     "statutEchant": "BL - Bloqué",
     "lotACharge": "",
@@ -1136,7 +1176,7 @@
     "dateReception": "2026-03-30",
     "datePaiement": "202614",
     "commentaire": "PERM",
-	"emplacement": "A5",
+	"emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 173,
@@ -1144,7 +1184,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1172,7 +1213,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1200,7 +1242,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1228,7 +1271,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1256,7 +1300,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1284,7 +1329,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1312,7 +1358,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1340,7 +1387,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1368,7 +1416,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1396,7 +1445,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1424,7 +1474,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1452,7 +1503,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1480,7 +1532,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1508,7 +1561,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1536,7 +1590,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1564,7 +1619,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1592,7 +1648,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1620,7 +1677,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1648,7 +1706,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   },
   {
@@ -1676,7 +1735,8 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 0.0,
+    "estMachine": false
 
   }
 ]

@@ -28,6 +28,26 @@ public class PlanningGlobal
 		chargerDonnees();
 	}
 
+	public void exportNewLot()
+	{
+		try
+		{
+			String xlsx = choisirFichier();
+			if (xlsx != null)
+			{
+				ArrayList<Lot> templots = ExcelReader.lireLots(xlsx);
+				for (Lot temp : templots)
+				{
+					this.lots.add(temp);
+				}
+			}
+		}catch (IOException e)
+		{
+			System.err.println("[PlanningGlobal] Impossible de charger les données : " + e.getMessage());
+			System.err.println("→ Placez les fichiers Excel dans app/data/ ou utilisez les JSON existants.");
+		}
+	}
+
 	private void chargerDonnees()
 	{
 		try

@@ -47,7 +47,7 @@ public class ExcelReader
 	{
 		if (chemin.toLowerCase().endsWith(".json"))
 			return lireSocietesJson(chemin);
-		return lireSocietesExcel(chemin);
+		return null;
 	}
 
 	public static ArrayList<Lot> lireLots(String chemin) throws IOException
@@ -55,65 +55,6 @@ public class ExcelReader
 		if (chemin.toLowerCase().endsWith(".json"))
 			return lireLotsJson(chemin);
 		return lireLotsExcel(chemin);
-	}
-
-	private static ArrayList<Societe> lireSocietesExcel(String xlsmPath) throws IOException
-	{
-		try (FileInputStream fis = new FileInputStream(xlsmPath);
-			 Workbook wb = WorkbookFactory.create(fis))
-		{
-			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
-			Sheet sh = wb.getSheet("Equipe");
-			if (sh == null)
-				throw new IOException("Feuille Excel introuvable : Equipe");
-
-			ArrayList<Societe> societes = new ArrayList<>();
-			String lastNom = null;
-
-			for (int i = 1; i <= sh.getLastRowNum(); i++)
-			{
-				Row row = sh.getRow(i);
-				if (row == null) continue;
-
-				String nomSte   = strSafe(getCell(row, 0), evaluator);
-				String ce       = strSafe(getCell(row, 1), evaluator);
-				int    totalCe  = (int) Math.round(numSafe(getCell(row, 2), evaluator));
-				String aceNom   = strSafe(getCell(row, 3), evaluator);
-				int    nbPers   = (int) Math.round(numSafe(getCell(row, 4), evaluator));
-				int    effectif = (int) Math.round(numSafe(getCell(row, 6), evaluator));
-
-				if (!nomSte.isEmpty())
-				{
-					lastNom = nomSte;
-					final String nomCourant = lastNom;
-					if (societes.stream().noneMatch(s -> s.getNom().equals(nomCourant)))
-					{
-						societes.add(new Societe(nomCourant, ce, new ArrayList<>(), totalCe));
-					}
-				}
-
-				if (!aceNom.isEmpty() && lastNom != null)
-				{
-					final String nomCourant = lastNom;
-					Societe soc = societes.stream()
-						.filter(s -> s.getNom().equals(nomCourant))
-						.findFirst()
-						.orElse(null);
-					if (soc != null)
-					{
-						soc.getAces().add(new Ace(
-							aceNom,
-							nbPers,
-							nbPers * 35,
-							effectif
-						));
-					}
-				}
-			}
-
-			System.out.println("  → " + societes.size() + " sociétés lues depuis Equipe");
-			return societes;
-		}
 	}
 
 	private static ArrayList<Lot> lireLotsExcel(String exportPath) throws IOException
@@ -371,6 +312,7 @@ public class ExcelReader
 			lot.setDistribution(getString(obj, "distribution"));
 			lot.setFormatCarton(getString(obj, "formatCarton"));
 			lot.setHeuresAce(getDouble(obj, "heuresAce"));
+			lot.setEstMachine(getBool(obj, "estMachine"));
 
 			liste.add(lot);
 		}

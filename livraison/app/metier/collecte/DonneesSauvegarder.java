@@ -58,7 +58,8 @@ public class DonneesSauvegarder
 				pw.println("    \"methode\": " + esc(l.getMethode()) + ",");
 				pw.println("    \"distribution\": " + esc(l.getDistribution()) + ",");
 				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
-				pw.println("    \"heuresAce\": " + l.getHeuresAce());
+				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");
+				pw.println("    \"estMachine\": " + l.isEstMachine());
 				pw.println();
 				pw.print("  }");
 				if (i < lots.size() - 1) pw.print(",");
@@ -106,6 +107,7 @@ public class DonneesSauvegarder
 						+ ", \"nbPers\": " + a.getNbPers()
 						+ ", \"totalHeures\": " + a.getTotalHeures()
 						+ ", \"effectifActuel\": " + a.getEffectifActuel()
+						+ ", \"hasMachine\": " + a.isHasMachine()
 						+ ", \"lotsACE\": " + lotsAce + " }");
 					if (j < aces.size() - 1) pw.print(",");
 					pw.println();

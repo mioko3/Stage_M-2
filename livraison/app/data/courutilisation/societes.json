@@ -2,13 +2,13 @@
   {
     "nom": "EUP",
     "ce": "GERALDINE",
-    "totalHeuresCE": 9,
+    "totalHeuresCE": 12,
     "aces": [
-      { "nom": "autre", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397,5410754,5411288] },
-      { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5410507,1804424,5407279,1803082] },
-      { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5408579,1803481,5409297,5410991] }
+      { "nom": "autre", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397,5411288,6006194,1803082,9002397] },
+      { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5410507,1804424,5407279,6006194,5411379,1803082] },
+      { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5408579,1803481,5409297,5410991,1804424,1802839,5409277] }
     ],
-    "lotsAffectes": [6005733,9001797,9002397,5410754,5411288,5410507,1804424,5407279,1803082,5408579,1803481,5409297,5410991]
+    "lotsAffectes": [6005733,9001797,9002397,5411288,5410507,1804424,5407279,5408579,1803481,5409297,5410991,1804424,6006194,6006194,1803082,9002397,5411379,1802839,1803082,5409277]
   },
   {
     "nom": "CFP",
