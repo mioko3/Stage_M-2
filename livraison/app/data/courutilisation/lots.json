@@ -220,7 +220,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.115384615384615
+    "heuresAce": 4.1160593792172735
 
   },
   {
@@ -276,7 +276,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 6.093846153846154
+    "heuresAce": 6.093882351507322
 
   },
   {
@@ -332,7 +332,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.4188888888888895
+    "heuresAce": 4.418986910417543
 
   },
   {
@@ -416,7 +416,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 9.2425
+    "heuresAce": 9.242624117930356
 
   },
   {
@@ -780,7 +780,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 4.341111111111111
 
   },
   {
@@ -988,7 +988,7 @@
     "valeurVente": 129109,
     "nbPieces": 20793,
     "cadence": 36.31,
-    "heures": 572.65,
+    "heures": 572.6521619388598,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -996,7 +996,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "",
+	"emplacement": "B22",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 573,
@@ -1016,7 +1016,7 @@
     "valeurVente": 21942,
     "nbPieces": 3098,
     "cadence": 36.31,
-    "heures": 85.32,
+    "heures": 85.32084825117047,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1024,7 +1024,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "",
+	"emplacement": "B",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 85,
