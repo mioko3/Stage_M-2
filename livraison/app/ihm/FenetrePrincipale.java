@@ -230,15 +230,18 @@ public class FenetrePrincipale extends JFrame
 
 	public String getHeureLotTotal()
 	{
+		// uniquement des lot non affecté et non bloqué
 		int total = 0;
 		for (Lot lot : ctrl.getLots())
 		{
 			if (!lot.getStatut().contains("bloqué") && !lot.isEstSousDouane())
 			{
-				total += lot.getHeures();
+				if (ctrl.getSocieteDuLot(lot) == null)
+				{
+					total += lot.getHeures();
+				}
 			}
 		}
-	
 		return total > 0 ? " (" + total + "h)  |  " : "  |  ";
 	}
 

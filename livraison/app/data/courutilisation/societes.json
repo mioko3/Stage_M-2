@@ -2,13 +2,13 @@
   {
     "nom": "EUP",
     "ce": "GERALDINE",
-    "totalHeuresCE": 607,
+    "totalHeuresCE": 163,
     "aces": [
-      { "nom": "GERALDINE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397] },
+      { "nom": "GERALDINE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397,5410754] },
       { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5410507] },
       { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5408579] }
     ],
-    "lotsAffectes": [6005733,9001797,5410507,5408579,9002397]
+    "lotsAffectes": [6005733,9001797,9002397,5410507,5408579,5410754]
   },
   {
     "nom": "CFP",

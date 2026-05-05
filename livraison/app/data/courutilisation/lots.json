@@ -1375,7 +1375,7 @@
     "numCDE": 6006204,
     "semaine": "202617",
     "priorite": 0,
-    "typologie": "",
+    "typologie": "‎",
     "affaire": "PLANCHES BAMBOU + RANGE-COUVERT ++",
     "valeurVente": 90663,
     "nbPieces": 28119,
@@ -1632,7 +1632,7 @@
     "valeurVente": 137051,
     "nbPieces": 22212,
     "cadence": 50.12,
-    "heures": 443.17,
+    "heures": 443.1763766959298,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1640,7 +1640,7 @@
     "dateReception": "2026-04-14",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "D5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 443,
@@ -1648,7 +1648,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0
+    "heuresAce": 49.24111111111111
 
   },
   {
