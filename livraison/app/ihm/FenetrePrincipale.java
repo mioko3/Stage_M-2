@@ -1,9 +1,9 @@
 package app.ihm;
 
 import app.Controleur;
+import app.ihm.map.PanelMap;
 import app.ihm.ficheroute.PanelFicheRoute;
 import app.ihm.gestionlot.PanelAffectation;
-import app.ihm.map.PanelMap;
 import app.ihm.gestionlot.PanelLots;
 import app.ihm.gestionlot.PanelSocietes;
 import app.metier.lot.Lot;
