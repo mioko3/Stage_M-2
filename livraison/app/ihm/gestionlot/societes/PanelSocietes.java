@@ -1,9 +1,9 @@
-package app.ihm.gestionlot;
+package app.ihm.gestionlot.societes;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.dialogue.DialogEditSociete;
+import app.ihm.dialogue.edit_societe.DialogEditSociete;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
@@ -12,8 +12,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -71,36 +68,18 @@ public class PanelSocietes extends JPanel
 	private JPanel creerTableau()
 	{
 		String[] cols = {"Société", "CE", "H initiales", "H restantes", "% consommé", "Lots", "ACE"};
-		modelSocietes = new DefaultTableModel(cols, 0) {
-			public boolean isCellEditable(int r, int c) { return false; }
-		};
+		modelSocietes = new SocieteTableModel(cols, 0);
 		tbl = IhmUtils.creerTable(modelSocietes);
 
 		// Colorer H restantes
-		tbl.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c) {
-				super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-				try {
-					int h = Integer.parseInt(v.toString().replace("h","").trim());
-					setForeground(h > 100 ? IhmUtils.VERT : h > 30 ? IhmUtils.AMBER : IhmUtils.ROUGE);
-					setFont(getFont().deriveFont(Font.BOLD));
-				} catch (NumberFormatException ex) { setForeground(Color.BLACK); }
-				if (!sel) setBackground(Color.WHITE);
-				return this;
-			}
-		});
+		tbl.getColumnModel().getColumn(3).setCellRenderer(new HeuresRestantesRenderer());
 
 		tbl.getSelectionModel().addListSelectionListener(e -> {
 			int row = tbl.getSelectedRow();
 			if (row >= 0 && row < ctrl.getSocietes().size())
 				detailAce.setText(buildDetail(ctrl.getSocietes().get(row)));
 		});
-		tbl.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) ouvrirEdition();
-			}
-		});
+		tbl.addMouseListener(new SocieteTableMouseListener(this));
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.WHITE);
@@ -124,7 +103,7 @@ public class PanelSocietes extends JPanel
 		return p;
 	}
 
-	private void ouvrirEdition()
+	void ouvrirEdition()
 	{
 		int row = tbl.getSelectedRow();
 		if (row < 0 || row >= ctrl.getSocietes().size()) return;

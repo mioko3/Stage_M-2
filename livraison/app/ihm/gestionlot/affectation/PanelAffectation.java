@@ -1,10 +1,10 @@
-package app.ihm.gestionlot;
+package app.ihm.gestionlot.affectation;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.dialogue.DialogAjoutLot;
-import app.ihm.dialogue.DialogEditLot;
+import app.ihm.dialogue.ajout_lot.DialogAjoutLot;
+import app.ihm.dialogue.edit_lot.DialogEditLot;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;

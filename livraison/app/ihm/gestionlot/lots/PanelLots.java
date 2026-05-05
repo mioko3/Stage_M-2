@@ -1,21 +1,16 @@
-package app.ihm.gestionlot;
+package app.ihm.gestionlot.lots;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.dialogue.DialogEditLot;
+import app.ihm.dialogue.edit_lot.DialogEditLot;
 import app.metier.lot.Lot;
 import app.metier.personelle.Societe;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -27,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -74,9 +68,7 @@ public class PanelLots extends JPanel
 
 		txtRecherche = new JTextField(20);
 		txtRecherche.setToolTipText("Recherche : N° CDE, typologie, affaire...");
-		txtRecherche.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) { rafraichir(); }
-		});
+		txtRecherche.addKeyListener(new RechercheKeyListener(this));
 
 		JButton btnEdit  = IhmUtils.bouton("✏ Modifier",   IhmUtils.BLEU,          Color.WHITE);
 		JButton btnSuppr = IhmUtils.bouton("🗑 Supprimer",  new Color(180, 30, 30), Color.WHITE);
@@ -114,49 +106,15 @@ public class PanelLots extends JPanel
 			"Cadence", "Heures", "Valeur €", "Statut échant.", "Sem.",
 			"Société", "Emplacement"
 		};
-		modelLots = new DefaultTableModel(cols, 0){
-			public boolean isCellEditable(int r, int c) { return false; }
-		};
+		modelLots = new LotTableModel(cols, 0);
 		tbl = IhmUtils.creerTable(modelLots);
-		tbl.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (e.getClickCount() == 2) ouvrirEdition();
-			}
-		});
+		tbl.addMouseListener(new LotTableMouseListener(this));
 
 		// Colorer la colonne "Statut échant." selon la valeur
-		tbl.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
-			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c)
-				{
-					super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-					String s = v != null ? v.toString() : "";
-					if (s.startsWith("VA")) setForeground(IhmUtils.VERT);
-					else if (s.startsWith("BL")) setForeground(IhmUtils.ROUGE);
-					else setForeground(IhmUtils.AMBER);
-					if (!sel) setBackground(Color.WHITE);
-					return this;
-				}
-			});
+		tbl.getColumnModel().getColumn(7).setCellRenderer(new StatutRenderer());
 
 		// Colorer les lignes des lots sous douane
-		tbl.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c)
-				{
-					super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-					if (!sel)
-					{
-						Lot lot = getLotLigne(r);
-						if (lot != null && lot.isEstSousDouane())
-							setBackground(new Color(255, 100, 100)); // rouge clair pour sous douane
-						else
-							setBackground(Color.WHITE);
-					}
-					return this;
-				}
-			});
+		tbl.setDefaultRenderer(Object.class, new LotTableDefaultRenderer(this));
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.WHITE);
@@ -167,7 +125,7 @@ public class PanelLots extends JPanel
 
 	// ── Actions ───────────────────────────────────────────────────────────
 
-	private void ouvrirEdition()
+	void ouvrirEdition()
 	{
 		Lot lot = getLotLigne(tbl.getSelectedRow());
 		if (lot == null) return;
@@ -196,7 +154,7 @@ public class PanelLots extends JPanel
 	}
 
 	/** Retrouve le Lot correspondant à la ligne visible (en tenant compte des filtres). */
-	private Lot getLotLigne(int row)
+	Lot getLotLigne(int row)
 	{
 		if (row < 0) return null;
 		String filtre  = combFiltreStatut.getSelectedIndex() > 0

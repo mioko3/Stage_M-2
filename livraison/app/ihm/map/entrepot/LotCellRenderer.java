@@ -1,4 +1,4 @@
-package app.ihm.map;
+package app.ihm.map.entrepot;
 
 import java.awt.Color;
 import java.awt.Component;

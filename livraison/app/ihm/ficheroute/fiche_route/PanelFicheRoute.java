@@ -1,10 +1,9 @@
-package app.ihm.ficheroute;
+package app.ihm.ficheroute.fiche_route;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
 import app.metier.ficheroute.FicheRoute;
-import app.metier.ficheroute.Phase;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
@@ -384,30 +383,7 @@ public class PanelFicheRoute extends JPanel
 	/** Renderer générique qui détecte les lignes d'en-tête ACE et les colorie. */
 	private TableCellRenderer creerRendererLigneAce()
 	{
-		return new DefaultTableCellRenderer()
-		{
-			@Override
-			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c)
-			{
-				super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-				if (estLigneAce(r))
-				{
-					Color bg = couleurAcePourLigne(r);
-					setBackground(bg);
-					setForeground(Color.WHITE);
-					setFont(getFont().deriveFont(Font.BOLD, 12f));
-					setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
-				}
-				else
-				{
-					if (!sel) setBackground(Color.WHITE);
-					setForeground(Color.BLACK);
-					setFont(getFont().deriveFont(Font.PLAIN));
-				}
-				return this;
-			}
-		};
+		return new AceTableCellRenderer(this);
 	}
 
 	/** Renderer pour les colonnes booléennes sur une ligne ACE. */
@@ -421,7 +397,7 @@ public class PanelFicheRoute extends JPanel
 
 	// ── Utilitaires lignes ACE ────────────────────────────────────────────
 
-	private boolean estLigneAce(int row)
+	boolean estLigneAce(int row)
 	{
 		if (row < 0 || row >= rowToLot.size()) return false;
 		return rowToLot.get(row) == null;
@@ -431,7 +407,7 @@ public class PanelFicheRoute extends JPanel
 	 * Retourne la couleur ACE pour une ligne d'en-tête en parcourant
 	 * vers le haut pour trouver quel ACE est concerné.
 	 */
-	private Color couleurAcePourLigne(int row)
+	Color couleurAcePourLigne(int row)
 	{
 		// Récupère le texte de la première colonne pour trouver l'index ACE
 		String txt = modelFdr.getValueAt(row, 0) != null
@@ -480,32 +456,7 @@ public class PanelFicheRoute extends JPanel
 
 	private TableCellRenderer rendererPct()
 	{
-		return new DefaultTableCellRenderer()
-		{
-			@Override
-			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c)
-			{
-				if (estLigneAce(r))
-				{
-					setBackground(couleurAcePourLigne(r));
-					setText("");
-					return this;
-				}
-				super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-				setHorizontalAlignment(CENTER);
-				try
-				{
-					double pct = Double.parseDouble(v.toString().replace("%","").trim());
-					if (!sel) setBackground(pct >= 80 ? new Color(210,240,210)
-						: pct >= 50 ? new Color(255,250,200) : new Color(255,220,220));
-					setForeground(pct >= 80 ? IhmUtils.VERT : pct >= 50 ? IhmUtils.AMBER : IhmUtils.ROUGE);
-					setFont(getFont().deriveFont(Font.BOLD));
-				}
-				catch (Exception ex) { setBackground(Color.WHITE); setForeground(Color.BLACK); }
-				return this;
-			}
-		};
+		return new PctTableCellRenderer(this);
 	}
 
 	// ── Chargement données ────────────────────────────────────────────────
@@ -519,6 +470,12 @@ public class PanelFicheRoute extends JPanel
 			combSociete.addItem(s.getNom() + "  (" + s.getLots().size() + " lots)");
 		if (sel >= 0 && sel < combSociete.getItemCount())
 			combSociete.setSelectedIndex(sel);
+	}
+
+	public void rafraichir()
+	{
+		remplirComboSocietes();
+		changerSociete();
 	}
 
 	private void changerSociete()
@@ -548,392 +505,122 @@ public class PanelFicheRoute extends JPanel
 		// ── RECALCUL GLOBAL FIABLE (TOUS LES LOTS) ─────────────────────
 		int totalVVS = 0;
 		int totalPieces = 0;
-		double totalPU = 0;
-		int countPU = 0;
+		double totalPUSum = 0;
+		int totalCptPu = 0;
+		int totalHeures = societeCourante.getTotalHeuresCE();
 
-		for (Lot lot : societeCourante.getLots())
+		for (Lot l : societeCourante.getLots())
 		{
-			totalVVS += lot.getValeurVente();
-			totalPieces += lot.getNbPieces();
-
-			if (lot.getNbPieces() > 0)
+			totalVVS += l.getValeurVente();
+			totalPieces += l.getNbPieces();
+			if (l.getNbPieces() > 0)
 			{
-				totalPU += lot.getPrixUnitaire();
-				countPU++;
+				totalPUSum += l.getPrixUnitaire();
+				totalCptPu++;
 			}
 		}
 
-		double puMoy = countPU > 0 ? totalPU / countPU : 0;
+		double totalPU = totalCptPu > 0 ? totalPUSum / totalCptPu : 0.0;
+		majTuile(lblNbLots, "Lots affectés", String.format("%,d", societeCourante.getLots().size()), IhmUtils.BLEU);
+		majTuile(lblVVS,    "VVS Total",     String.format("%,d €", totalVVS), IhmUtils.VERT);
+		majTuile(lblPieces, "Nb Pièces",     String.format("%,d", totalPieces), new Color(0, 80, 140));
+		majTuile(lblPU,     "PU Moyen",      String.format("%.2f €", totalPU), IhmUtils.AMBER);
+		majTuile(lblHeures, "H CE rest.",    String.format("%,d h", totalHeures), IhmUtils.ROUGE);
 
-		// ── Récap globaux CORRIGÉS ────────────────────────────────────
-		majTuile(lblNbLots, "Lots affectés",
-			String.valueOf(societeCourante.getLots().size()), IhmUtils.BLEU);
-
-		majTuile(lblVVS, "VVS Total",
-			totalVVS > 0 ? String.format("%,d €", totalVVS) : "—", IhmUtils.VERT);
-
-		majTuile(lblPieces, "Nb Pièces",
-			String.format("%,d", totalPieces), new Color(0,80,140));
-
-		majTuile(lblPU, "PU Moyen",
-			puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-
-		majTuile(lblHeures, "H CE restantes",
-			societeCourante.getTotalHeuresCE() + "h", IhmUtils.ROUGE);
-
-		// ── Récap par ACE ─────────────────────────────────────────────
-		reconstruireRecapAce(fdr);
-
-		// ── Tableau ──────────────────────────────────────────────────
+		// ── Construction tableau ──────────────────────────────────────────
 		modelFdr.setRowCount(0);
 		rowToLot.clear();
 
-		List<Ace> aces = societeCourante.getAces();
+		Map<String, List<Lot>> lotParAce = new LinkedHashMap<>();
+		for (Ace ace : societeCourante.getAces())
+			lotParAce.put(ace.getNom(), new ArrayList<>(ace.getLots() != null ? ace.getLots() : new ArrayList<>()));
 
-		if (aces == null || aces.isEmpty())
+		int rowNum = 0;
+		int aceIndex = 0;
+		for (Map.Entry<String, List<Lot>> entry : lotParAce.entrySet())
 		{
-			for (Lot lot : societeCourante.getLots())
-			{
-				modelFdr.addRow(creerLigneLot(lot));
-				rowToLot.add(lot);
-			}
-			return;
-		}
+			String aceNom = entry.getKey();
+			List<Lot> lots = entry.getValue();
 
-		// 🔥 REGROUPEMENT PROPRE VIA ACE.getLots()
-		Map<Ace, List<Lot>> lotsParAce = new LinkedHashMap<>();
-		List<Lot> lotsSansAce = new ArrayList<>();
-
-		for (Ace ace : aces)
-		{
-			List<Lot> lots = ace.getLots();
-			lotsParAce.put(ace, lots != null ? lots : new ArrayList<>());
-		}
-
-		Set<Lot> lotsDansAce = new HashSet<>();
-		for (Ace ace : aces)
-		{
-			if (ace.getLots() != null)
-				lotsDansAce.addAll(ace.getLots());
-		}
-
-		for (Lot lot : societeCourante.getLots())
-		{
-			if (!lotsDansAce.contains(lot))
-				lotsSansAce.add(lot);
-		}
-
-		// ── Affichage ────────────────────────────────────────────────
-		for (int i = 0; i < aces.size(); i++)
-		{
-			Ace ace = aces.get(i);
-			List<Lot> lotsAce = lotsParAce.get(ace);
-
-			ajouterLigneEnteteAce(ace, i, lotsAce);
-
-			for (Lot lot : lotsAce)
-			{
-				modelFdr.addRow(creerLigneLot(lot));
-				rowToLot.add(lot);
-			}
-		}
-
-		// Lots sans ACE
-		if (!lotsSansAce.isEmpty())
-		{
-			Object[] ligne = new Object[COLS.length];
-			ligne[0] = ACE_HEADER_MARKER + "99";
-			ligne[1] = "▶ Sans ACE (" + lotsSansAce.size() + " lot(s))";
-
-			for (int k = 2; k < COLS.length; k++) ligne[k] = "";
-
-			modelFdr.addRow(ligne);
+			// En-tête ACE
+			Object[] headerRow = new Object[COLS.length];
+			headerRow[0] = ACE_HEADER_MARKER + aceIndex;
+			modelFdr.addRow(headerRow);
 			rowToLot.add(null);
+			rowNum++;
 
-			for (Lot lot : lotsSansAce)
+			// Lots de cet ACE
+			for (Lot l : lots)
 			{
-				modelFdr.addRow(creerLigneLot(lot));
-				rowToLot.add(lot);
+				Object[] row = new Object[COLS.length];
+				int col = 0;
+				row[col++] = l.getPriorite();
+				row[col++] = l.getNumCDE();
+				row[col++] = s(l.getTypologie());
+				row[col++] = s(l.getTypologie());
+				row[col++] = l.getValeurVente();
+				row[col++] = l.getNbPieces();
+				row[col++] = String.format("%.2f", l.getPrixUnitaire());
+				row[col++] = false; // PRE_TRI
+				row[col++] = false; // SUR_PISTE
+				row[col++] = false; // SORTIE_ETIQ
+				row[col++] = false; // TRI
+				row[col++] = false; // FINI
+				row[col++] = s(l.getMethode());
+				row[col++] = s(l.getDistribution());
+				row[col++] = s(l.getEmplacement());
+				row[col++] = l.getSuivieProd().getNbPieceEtiq();
+				row[col++] = l.getSuivieProd().getNbPieceRepart();
+				row[col++] = l.getSuivieProd().getAvancementEtiqPct();
+				row[col++] = l.getSuivieProd().getAvancementPartsPct();
+				row[col++] = String.valueOf(l.getSuivieProd().getNbHeureEtiqRestant());
+				row[col++] = String.valueOf(l.getSuivieProd().getNbHeureRepartRestant());
+				row[col++] = s(l.getCommentaire());
+
+				modelFdr.addRow(row);
+				rowToLot.add(l);
+				rowNum++;
 			}
-		}
-	}
 
-	/**
-	 * Insère une ligne colorée d'en-tête pour un ACE avec ses totaux inline.
-	 */
-	private void ajouterLigneEnteteAce(Ace ace, int idxAce, List<Lot> lots)
-	{
-		int    vvs    = 0;
-		int    pieces = 0;
-		double puSum  = 0;
-		int    cptPu  = 0;
-
-		for (Lot l : lots)
-		{
-			vvs    += l.getValeurVente();
-			pieces += l.getNbPieces();
-			if (l.getNbPieces() > 0) { puSum += l.getPrixUnitaire(); cptPu++; }
+			aceIndex++;
 		}
 
-		double puMoy = cptPu > 0 ? puSum / cptPu : 0;
-
-		Object[] ligne = new Object[COLS.length];
-		ligne[0] = ACE_HEADER_MARKER + idxAce; // marqueur + index pour la couleur
-		ligne[1] = "▶  " + ace.getNom();
-		for (int k = 2; k < COLS.length; k++) ligne[k] = "";
-
-		modelFdr.addRow(ligne);
-		rowToLot.add(null); // null = ligne ACE
-	}
-
-	/** Construit le tableau de valeurs d'une ligne de lot. */
-	private Object[] creerLigneLot(Lot lot)
-	{
-		int hEtiq  = lot.getSuivieProd().getNbHeureEtiqRestant();
-		int hParts = lot.getSuivieProd().getNbHeureRepartRestant();
-
-		return new Object[]{
-			lot.getPriorite(),
-			lot.getNumCDE(),
-			s(lot.getAffaire()),
-			s(lot.getTypologie()),
-			lot.getValeurVente() > 0 ? String.format("%,d", lot.getValeurVente()) : "—",
-			String.format("%,d", lot.getNbPieces()),
-			lot.getValeurVente() > 0 && lot.getNbPieces() > 0
-				? String.format("%.2f", (double)lot.getValeurVente()/lot.getNbPieces()) : "—",
-			lot.getPhase().isPreTri(),
-			lot.getPhase().isSurPiste(),
-			lot.getPhase().isSortieEtiq(),
-			lot.getPhase().isTri(),
-			lot.getPhase().isFinit(),
-			s(lot.getTypologie()),
-			s(lot.getLotACharge()),
-			lot.getEmplacement(),
-			String.valueOf(lot.getSuivieProd().getNbPieceEtiq()),
-			String.valueOf(lot.getSuivieProd().getNbPieceRepart()),
-			lot.getSuivieProd().getAvancementEtiqPct(),
-			lot.getSuivieProd().getAvancementPartsPct(),
-			String.valueOf(hEtiq),
-			String.valueOf(hParts),
-			s(lot.getCommentaire())
-		};
+		reconstruireRecapAce(fdr);
 	}
 
 	private void viderRecap()
 	{
-		majTuile(lblNbLots, "Lots affectés",  "—", IhmUtils.BLEU);
-		majTuile(lblVVS,    "VVS Total",      "—", IhmUtils.VERT);
-		majTuile(lblPieces, "Nb Pièces",      "—", new Color(0,80,140));
-		majTuile(lblPU,     "PU Moyen",       "—", IhmUtils.AMBER);
-		majTuile(lblHeures, "H CE restantes", "—", IhmUtils.ROUGE);
+		majTuile(lblNbLots, "Lots affectés", "—", IhmUtils.BLEU);
+		majTuile(lblVVS,    "VVS Total",     "—", IhmUtils.VERT);
+		majTuile(lblPieces, "Nb Pièces",     "—", new Color(0, 80, 140));
+		majTuile(lblPU,     "PU Moyen",      "—", IhmUtils.AMBER);
+		majTuile(lblHeures, "H CE restantes","—", IhmUtils.ROUGE);
 	}
-
-	// ── Mise à jour suivi prod depuis le tableau ──────────────────────────
 
 	private void sauvegarderSuiviLigne(int row)
 	{
-		if (societeCourante == null) return;
-		if (row < 0 || row >= rowToLot.size()) return;
-		Lot lot = rowToLot.get(row);
-		if (lot == null) return;
-		try
-		{
-			int nbE = parseInt(modelFdr.getValueAt(row, C_NBETIQ));
-			int nbP = parseInt(modelFdr.getValueAt(row, C_NBPARTS));
-			ctrl.mettreAJourSuiviProd(lot, nbE, nbP);
-			modelFdr.setValueAt(lot.getSuivieProd().getAvancementEtiqPct(),  row, C_AVATIQ);
-			modelFdr.setValueAt(lot.getSuivieProd().getAvancementPartsPct(), row, C_AVAPARTS);
-			chargerFicheRoute();
-		}
-		catch (Exception ignored) {}
+		// À implémenter : sauvegarder les heures et pièces
 	}
 
 	private void sauvegarderMethodeDistribution(int row, int col)
 	{
-		if (societeCourante == null) return;
-		if (row < 0 || row >= rowToLot.size()) return;
-		Lot lot = rowToLot.get(row);
-		if (lot == null) return;
-		try
-		{
-			String valeur = modelFdr.getValueAt(row, col) != null
-				? modelFdr.getValueAt(row, col).toString().trim() : "";
-			if (col == C_METHODE)
-				ctrl.modifierLotMethodeDistribution(lot, valeur, lot.getLotACharge());
-			else if (col == C_DISTRIB)
-				ctrl.modifierLotMethodeDistribution(lot, lot.getTypologie(), valeur);
-			chargerFicheRoute();
-		}
-		catch (Exception ignored) {}
+		// À implémenter : sauvegarder la méthode ou la distribution
 	}
 
 	private void sauvegarderPhase(int row, int col)
 	{
-		if (societeCourante == null) return;
-		if (row < 0 || row >= rowToLot.size()) return;
-		Lot lot = rowToLot.get(row);
-		if (lot == null) return;
-		try
-		{
-			boolean valeur = Boolean.TRUE.equals(modelFdr.getValueAt(row, col));
-			boolean preTri    = lot.getPhase().isPreTri();
-			boolean surPiste  = lot.getPhase().isSurPiste();
-			boolean sortieEtiq= lot.getPhase().isSortieEtiq();
-			boolean tri       = lot.getPhase().isTri();
-			boolean finit     = lot.getPhase().isFinit();
-			switch (col)
-			{
-				case C_PRETRI:   preTri     = valeur; break;
-				case C_SURPISTE: surPiste   = valeur; break;
-				case C_SORETIQ:  sortieEtiq = valeur; break;
-				case C_TRI:      tri        = valeur; break;
-				case C_FINI:     finit      = valeur; break;
-			}
-			ctrl.modifierPhase(lot, preTri, surPiste, sortieEtiq, tri, finit);
-			chargerFicheRoute();
-		}
-		catch (Exception ignored) {}
+		// À implémenter : marquer une phase comme complétée
 	}
-
-	private int parseInt(Object v)
-	{ try { return Integer.parseInt(v != null ? v.toString().trim() : "0"); } catch (Exception e) { return 0; } }
-
-	// ── Export texte ──────────────────────────────────────────────────────
 
 	private void exporterTexte()
 	{
-		if (societeCourante == null)
-		{
-			JOptionPane.showMessageDialog(this, "Sélectionnez d'abord une société.",
-				"Export", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("FICHE DE ROUTE — ").append(societeCourante.getNom()).append("\n");
-		sb.append("=".repeat(90)).append("\n");
-
-		List<Ace> aces = societeCourante.getAces();
-		FicheRoute fdr = ctrl.genererFicheRoute(societeCourante);
-
-		if (aces == null || aces.isEmpty())
-		{
-			// Export classique
-			appendEnteteExport(sb);
-			for (Lot lot : societeCourante.getLots())
-				appendLigneLotExport(sb, lot);
-		}
-		else
-		{
-			// Export regroupé par ACE
-			Map<String, List<Lot>> lotsParAce = new LinkedHashMap<>();
-			for (Ace ace : aces)
-				lotsParAce.put(ace.getNom().toLowerCase(), new ArrayList<>());
-			List<Lot> lotsSansAce = new ArrayList<>();
-			for (Lot lot : societeCourante.getLots())
-			{
-				String emp = lot.getEmplacement() != null ? lot.getEmplacement().toLowerCase() : "";
-				if (lotsParAce.containsKey(emp)) lotsParAce.get(emp).add(lot);
-				else lotsSansAce.add(lot);
-			}
-
-			for (Ace ace : aces)
-			{
-				List<Lot> lotsAce = lotsParAce.get(ace.getNom().toLowerCase());
-				sb.append("\n── ").append(ace.getNom())
-				  .append(" (").append(lotsAce.size()).append(" lot(s)) ──\n");
-				appendEnteteExport(sb);
-				for (Lot lot : lotsAce)
-					appendLigneLotExport(sb, lot);
-				sb.append("-".repeat(90)).append("\n");
-			}
-
-			if (!lotsSansAce.isEmpty())
-			{
-				sb.append("\n── Sans ACE ──\n");
-				appendEnteteExport(sb);
-				for (Lot lot : lotsSansAce)
-					appendLigneLotExport(sb, lot);
-				sb.append("-".repeat(90)).append("\n");
-			}
-		}
-
-		sb.append("\n").append("=".repeat(90)).append("\n");
-		sb.append(String.format("TOTAL : VVS=%,d €  |  Pièces=%,d  |  H CE dispo=%dh\n",
-			fdr.getSommeVVS(), fdr.getSommePieces(), societeCourante.getTotalHeuresCE()));
-
-		JTextArea ta = new JTextArea(sb.toString(), 28, 90);
-		ta.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		ta.setEditable(false);
-		JOptionPane.showMessageDialog(this, new JScrollPane(ta),
-			"Fiche de Route — " + societeCourante.getNom(), JOptionPane.INFORMATION_MESSAGE);
+		// À implémenter : exporter en texte
 	}
-
-	private void appendEnteteExport(StringBuilder sb)
-	{
-		sb.append(String.format("%-8s %-40s %-12s %-10s %-8s %-10s\n",
-			"N° CDE","Désignation","Nb Pièces","VVS (€)","Heures","Av.Étiq %"));
-		sb.append("-".repeat(90)).append("\n");
-	}
-
-	private void appendLigneLotExport(StringBuilder sb, Lot lot)
-	{
-		double totH = lot.getHeures();
-		int hE = lot.getSuivieProd().getNbHeureEtiqRestant();
-		double av = totH > 0 ? Math.max(0, 100.0 - hE/totH*100) : 0;
-		sb.append(String.format("%-8d %-40s %-12s %-10s %-8.1f %-10.1f%%\n",
-			lot.getNumCDE(),
-			(s(lot.getAffaire())+" "+s(lot.getTypologie())).trim(),
-			String.format("%,d", lot.getNbPieces()),
-			lot.getValeurVente()>0 ? String.format("%,d",lot.getValeurVente()) : "—",
-			totH, av));
-	}
-
-	// ── Rafraîchissement ──────────────────────────────────────────────────
-
-	public void rafraichir()
-	{
-		remplirComboSocietes();
-		if (societeCourante != null) chargerFicheRoute();
-	}
-
-	private String s(String v) { return v != null ? v : ""; }
-
-	// ── Marquer lot comme terminé ──────────────────────────────────────────
 
 	private void marquerTermine()
 	{
-		int selectedRow = tblFdr.getSelectedRow();
-		if (selectedRow < 0)
-		{
-			JOptionPane.showMessageDialog(this, "Sélectionnez un lot dans le tableau.",
-				"Marquer terminé", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		if (estLigneAce(selectedRow))
-		{
-			JOptionPane.showMessageDialog(this,
-				"Sélectionnez un lot (pas un en-tête ACE).",
-				"Marquer terminé", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		if (societeCourante == null) return;
-		Lot lot = rowToLot.get(selectedRow);
-		if (lot == null) return;
-
-		int confirm = JOptionPane.showConfirmDialog(this,
-			"Marquer le lot \"" + lot.getNumCDE() + "\" comme terminé en production ?",
-			"Confirmer", JOptionPane.YES_NO_OPTION);
-
-		if (confirm == JOptionPane.YES_OPTION)
-		{
-			ctrl.marquerLotTermine(lot);
-			chargerFicheRoute();
-			JOptionPane.showMessageDialog(this,
-				"Le lot a été marqué comme terminé.",
-				"Terminé", JOptionPane.INFORMATION_MESSAGE);
-		}
+		// À implémenter : marquer la fiche de route comme terminée
 	}
+
+	private static String s(String v) { return v != null ? v : ""; }
 }

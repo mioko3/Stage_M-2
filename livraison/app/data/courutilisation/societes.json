@@ -2,13 +2,13 @@
   {
     "nom": "EUP",
     "ce": "GERALDINE",
-    "totalHeuresCE": 647,
+    "totalHeuresCE": 607,
     "aces": [
-      { "nom": "GERALDINE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797] },
+      { "nom": "GERALDINE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397] },
       { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5410507] },
       { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5408579] }
     ],
-    "lotsAffectes": [6005733,5410507,9001797,5408579]
+    "lotsAffectes": [6005733,9001797,5410507,5408579,9002397]
   },
   {
     "nom": "CFP",
@@ -33,11 +33,11 @@
   {
     "nom": "NP",
     "ce": "CHRISTELLE",
-    "totalHeuresCE": 199,
+    "totalHeuresCE": 64,
     "aces": [
-      { "nom": "CHRISTELLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0, "lotsACE": [6004656] }
+      { "nom": "CHRISTELLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0, "lotsACE": [6004656,6006057,5411134] }
     ],
-    "lotsAffectes": [6004656]
+    "lotsAffectes": [6004656,6006057,5411134]
   },
   {
     "nom": "Autre 3",

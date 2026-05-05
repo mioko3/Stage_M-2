@@ -1,9 +1,9 @@
-package app.ihm.dialogue;
+package app.ihm.dialogue.edit_societe;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.gestionlot.PanelSocietes;
+import app.ihm.gestionlot.societes.PanelSocietes;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
 import java.awt.BorderLayout;

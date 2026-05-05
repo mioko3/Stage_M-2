@@ -1,4 +1,4 @@
-package app.ihm.map;
+package app.ihm.map.entrepot;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
@@ -266,5 +266,4 @@ public class PanelMap extends JPanel
 		if (st.startsWith("BL")) return "🔴";
 		return "🟡";
 	}
-
 }

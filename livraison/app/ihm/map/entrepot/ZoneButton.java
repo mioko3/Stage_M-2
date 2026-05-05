@@ -1,4 +1,4 @@
-package app.ihm.map;
+package app.ihm.map.entrepot;
 
 import app.ihm.IhmUtils;
 import app.metier.lot.Lot;

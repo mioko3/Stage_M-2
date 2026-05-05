@@ -1,9 +1,9 @@
-package app.ihm.dialogue;
+package app.ihm.dialogue.ajout_lot;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.gestionlot.PanelAffectation;
+import app.ihm.gestionlot.affectation.PanelAffectation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -13,7 +13,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -85,9 +84,7 @@ public class DialogAjoutLot extends JDialog
 		lblHeures.setForeground(IhmUtils.BLEU);
 		lblHeures.setFont(new Font("SansSerif", Font.BOLD, 13));
 
-		KeyAdapter majH = new KeyAdapter() {
-			public void keyReleased(KeyEvent e) { calculerHeures(); }
-		};
+		KeyAdapter majH = new CalculHeuresKeyListenerAjout(this);
 		fNbPieces.addKeyListener(majH);
 		fCadence .addKeyListener(majH);
 
@@ -148,7 +145,7 @@ public class DialogAjoutLot extends JDialog
 		return p;
 	}
 
-	private void calculerHeures()
+	void calculerHeures()
 	{
 		try
 		{

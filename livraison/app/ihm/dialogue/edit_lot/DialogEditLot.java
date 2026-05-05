@@ -1,9 +1,9 @@
-package app.ihm.dialogue;
+package app.ihm.dialogue.edit_lot;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.ihm.gestionlot.PanelAffectation;
+import app.ihm.gestionlot.affectation.PanelAffectation;
 import app.metier.lot.Lot;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,7 +14,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -103,9 +102,7 @@ public class DialogEditLot extends JDialog
 		lblHeuresAce.setFont(new Font("SansSerif", Font.BOLD, 13));
 
 		// Recalcul en temps réel
-		KeyAdapter majH = new KeyAdapter() {
-			public void keyReleased(KeyEvent e) { calculerHeures(); }
-		};
+		KeyAdapter majH = new CalculHeuresKeyListenerEdit(this);
 		fNbPieces.addKeyListener(majH);
 		fCadence .addKeyListener(majH);
 
@@ -197,7 +194,7 @@ public class DialogEditLot extends JDialog
 
 	// ── Calcul heures ─────────────────────────────────────────────────────
 
-	private void calculerHeures()
+	void calculerHeures()
 	{
 		try
 		{
