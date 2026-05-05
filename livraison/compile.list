@@ -24,9 +24,9 @@ app/ihm/dialogue/ajout_lot/CalculHeuresKeyListenerAjout.java
 app/ihm/dialogue/edit_lot/DialogEditLot.java
 app/ihm/dialogue/edit_lot/CalculHeuresKeyListenerEdit.java
 app/ihm/dialogue/edit_societe/DialogEditSociete.java
-app/ihm/ficheroute/fiche_route/PanelFicheRoute.java
-app/ihm/ficheroute/fiche_route/AceTableCellRenderer.java
-app/ihm/ficheroute/fiche_route/PctTableCellRenderer.java
+app/ihm/ficheroute/PanelFicheRoute.java
+app/ihm/ficheroute/AceTableCellRenderer.java
+app/ihm/ficheroute/PctTableCellRenderer.java
 app/ihm/map/entrepot/PanelMap.java
 app/ihm/map/entrepot/ZoneButton.java
 app/ihm/map/entrepot/LotCellRenderer.java

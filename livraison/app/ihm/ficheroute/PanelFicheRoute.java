@@ -1,4 +1,4 @@
-package app.ihm.ficheroute.fiche_route;
+package app.ihm.ficheroute;
 
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
