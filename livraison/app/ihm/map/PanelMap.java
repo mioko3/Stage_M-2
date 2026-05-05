@@ -86,40 +86,63 @@ public class PanelMap extends JPanel
 		protected void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
-
 			Graphics2D g2 = (Graphics2D) g;
+			// dessine l'entrepot 
+			dessineTour(g2);
+			// dessiner les zone de stockage
+			dessineZones(g2);
+			// dessiner les lots
+			dessineLots(g2);
+		}
+	}
 
-			// 🔲 Bâtiment principal
-			g2.setColor(Color.BLACK);
-			g2.drawRect(20, 20, 600, 350);
+	private void dessineTour(Graphics2D g2)
+	{
+		g2.setColor(new Color(220, 220, 220));
+		g2.fillRect(0, 0, getWidth(), getHeight());
+	}
 
-			// 🔳 Zone A
-			g2.setColor(Color.BLUE);
-			g2.drawRect(50, 50, 200, 200);
-			g2.drawString("A", 120, 160);
+	public void dessineZones(Graphics2D g2)
+	{
+		// dessiner toute les Zone A,B,C,LTS,HD
+		// zone A
+		g2.setColor(new Color(200, 230, 255));
+		g2.fillRect(50, 50, 200, 200);
+		// zone B
+		g2.setColor(new Color(200, 255, 200));
+		g2.fillRect(400, 50, 100, 200);
+		// zone LTS
+		g2.setColor(new Color(255, 200, 200));
+		g2.fillRect(20, 430, 500, 70);
+		// zone REPOS
+		g2.setColor(new Color(255, 255, 200));
+		g2.fillRect(650, 100, 200, 300);
+	}
 
-			// 🔳 Zone B
-			g2.drawRect(400, 50, 100, 200);
-			g2.drawString("B", 420, 160);
+	public void dessineLots(Graphics2D g2)
+	{
+		// dessiner les lots dans les zones
+		for (Lot lot : ctrl.getLots())
+		{
+			String zone = ""+lot.getEmplacement().charAt(0);
+			Point pos = null;
 
-			// 🔳 Couloir
-			g2.drawRect(20, 380, 600, 40);
+			switch (zone)
+			{
+				case "A": pos = new Point(60, 60 ); break;
+				case "B": pos = new Point(410, 60); break;
+				case "L": pos = new Point(30, 440); break;
+				case "H": pos = new Point(30, 440); break;
+			}
 
-			// 🔳 Zone LTS
-			g2.drawRect(20, 430, 500, 70);
-			g2.drawString("LTS", 240, 470);
-
-			// 🔳 Petite zone
-			g2.drawRect(450, 410, 120, 40);
-
-			// 🏢 Bureaux
-			g2.setColor(Color.GRAY);
-			g2.drawRect(520, 430, 100, 100);
-
-			// 🟫 Repos
-			g2.setColor(Color.BLACK);
-			g2.drawRect(650, 100, 200, 300);
-			g2.drawString("REPOS", 720, 250);
+			if (pos != null)
+			{
+				g2.setColor(new Color(100, 100, 255));
+				g2.fillRect(pos.x, pos.y, 20, 20);
+				lot.setPosX(pos.x);
+				lot.setPosY(pos.y);
+				g2.setColor(Color.BLACK);
+			}
 		}
 	}
 

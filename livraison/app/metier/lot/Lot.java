@@ -37,8 +37,11 @@ public class Lot
 	private SuivieProd suivieProd;
 	private Phase      phase;
 	private int    nbPalettes,nbColisPrevue, nbColisRecup;
-	private String methode, distribution, poucentrecupCartonFour,
-	               formatCarton, dateDebut, finTheorique;
+	private String methode, distribution, poucentrecupCartonFour;
+	private String formatCarton, dateDebut, finTheorique;
+
+	// ── position ───────────────────────────────────────────
+	private int posX, posY;
 
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
 			   int valeurVente, String statut, String statutEchant)
@@ -136,4 +139,10 @@ public class Lot
 	public void setDistribution(String distribution) {this.distribution = distribution;}
 	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton;}
 	public void setHeuresAce(double heuresAce) {this.heuresAce = heuresAce;}
+
+	// ── position ───────────────────────────────────────────────────────────
+	public int getPosX() { return posX; }
+	public int getPosY() { return posY; }
+	public void setPosX(int x) { this.posX = x; }
+	public void setPosY(int y) { this.posY = y; }
 }
