@@ -6,7 +6,6 @@ import app.ihm.IhmUtils;
 import app.metier.lot.Lot;
 import app.metier.personelle.Societe;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -71,212 +70,156 @@ public class PanelMap extends JPanel
 	}
 
 	// ══════════════════════════════════════════════════════════════════════
-	// Plan dessiné
+	// Plan Swing
 	// ══════════════════════════════════════════════════════════════════════
 
 	private class PlanPanel extends JPanel
 	{
-		// Hitboxes pour les clics et tooltips
-		private final Map<String, Rectangle> hitboxes = new LinkedHashMap<>();
+		private final Map<String, JButton> emplacementButtons = new LinkedHashMap<>();
 
 		PlanPanel()
 		{
 			setBackground(new Color(238, 240, 244));
 			setPreferredSize(new Dimension(820, 560));
-			ToolTipManager.sharedInstance().registerComponent(this);
-			addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					for (Map.Entry<String, Rectangle> en : hitboxes.entrySet())
-						if (en.getValue().contains(e.getPoint())) {
-							selectionnerEmplacement(en.getKey());
-							repaint();
-							return;
-						}
-				}
-			});
+			setLayout(new GridBagLayout());
+			rebuildPlan();
 		}
 
-		@Override
-		public String getToolTipText(MouseEvent e)
+		public void rebuildPlan()
 		{
-			for (Map.Entry<String, Rectangle> en : hitboxes.entrySet())
-				if (en.getValue().contains(e.getPoint()))
-					return buildTooltip(en.getKey());
-			return null;
+			removeAll();
+			emplacementButtons.clear();
+
+			JPanel topRow = new JPanel(new GridLayout(1, ZONES_RANGEES.length, 10, 10));
+			topRow.setOpaque(false);
+			for (String lettre : ZONES_RANGEES)
+				topRow.add(creerZoneRangees(lettre));
+
+			JPanel bottomRow = new JPanel(new GridLayout(1, ZONES_SPECIALES.length, 10, 10));
+			bottomRow.setOpaque(false);
+			for (String code : ZONES_SPECIALES)
+				bottomRow.add(creerZoneSpeciale(code));
+
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.weightx = 1.0;
+			gbc.weighty = 1.0;
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.insets = new Insets(0, 0, 10, 0);
+			add(topRow, gbc);
+
+			gbc.gridy = 1;
+			gbc.weighty = 0.3;
+			add(bottomRow, gbc);
+
+			revalidate();
+			repaint();
 		}
 
-		@Override
-		protected void paintComponent(Graphics g)
+		public void updatePlan()
 		{
-			super.paintComponent(g);
-			hitboxes.clear();
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-			int W = getWidth(), H = getHeight();
-
-			// ── Contour entrepôt ──────────────────────────────────────────
-			g2.setColor(new Color(220, 222, 228));
-			g2.fillRoundRect(8, 8, W - 16, H - 16, 16, 16);
-			g2.setColor(new Color(160, 165, 175));
-			g2.setStroke(new BasicStroke(2));
-			g2.drawRoundRect(8, 8, W - 16, H - 16, 16, 16);
-
-			// Titre
-			g2.setFont(new Font("SansSerif", Font.BOLD, 14));
-			g2.setColor(new Color(50, 55, 65));
-			g2.drawString("Plan de l'entrepôt", 24, 30);
-
-			// ── Dimensions layout ─────────────────────────────────────────
-			int mX  = 22, mY  = 42;
-			int gap = 10;
-			int specH = 80; // hauteur zones LTS / HD
-
-			// Hauteur disponible pour les zones à rangées
-			int zoneH = H - mY - specH - gap * 3 - 22;
-			// Largeur d'une zone (4 zones côte à côte)
-			int zoneW = (W - mX * 2 - gap * 3) / 4;
-
-			// ── Zones à rangées (A B C D) ─────────────────────────────────
-			for (int z = 0; z < ZONES_RANGEES.length; z++)
-			{
-				int x = mX + z * (zoneW + gap);
-				dessinerZoneRangees(g2, ZONES_RANGEES[z], x, mY, zoneW, zoneH);
-			}
-
-			// ── Zones spéciales (LTS large, HD plus petit) ────────────────
-			int y1   = mY + zoneH + gap;
-			int ltsW = zoneW * 3 + gap * 2;
-			int hdW  = zoneW;
-
-			dessinerZoneSpeciale(g2, "LTS", mX,              y1, ltsW, specH);
-			dessinerZoneSpeciale(g2, "HD",  mX + ltsW + gap, y1, hdW,  specH);
-
-			// ── Entrée ────────────────────────────────────────────────────
-			int eY = H - 14;
-			g2.setFont(new Font("SansSerif", Font.BOLD, 10));
-			g2.setColor(new Color(70, 75, 85));
-			String entree = "▲  ENTRÉE";
-			FontMetrics fm = g2.getFontMetrics();
-			g2.drawString(entree, W / 2 - fm.stringWidth(entree) / 2, eY);
+			for (Map.Entry<String, JButton> entry : emplacementButtons.entrySet())
+				styleButton(entry.getKey(), entry.getValue());
+			revalidate();
+			repaint();
 		}
 
-		// ── Zone avec rangées numérotées ──────────────────────────────────
-
-		private void dessinerZoneRangees(Graphics2D g2, String lettre,
-		                                  int x, int y, int w, int h)
+		private JPanel creerZoneRangees(String lettre)
 		{
 			Color cFond = COULEUR_ZONE.getOrDefault(lettre, Color.LIGHT_GRAY);
+			JPanel zone = new JPanel(new BorderLayout(0, 8));
+			zone.setOpaque(true);
+			zone.setBackground(cFond);
+			zone.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(cFond.darker()),
+				BorderFactory.createEmptyBorder(8, 8, 8, 8)));
 
-			// Fond + bordure
-			g2.setColor(cFond);
-			g2.fillRoundRect(x, y, w, h, 10, 10);
-			g2.setColor(cFond.darker());
-			g2.setStroke(new BasicStroke(1.5f));
-			g2.drawRoundRect(x, y, w, h, 10, 10);
+			JLabel titre = new JLabel("Zone " + lettre);
+			titre.setFont(new Font("SansSerif", Font.BOLD, 14));
+			titre.setForeground(new Color(35, 40, 50));
+			zone.add(titre, BorderLayout.NORTH);
 
-			// Titre zone
-			g2.setFont(new Font("SansSerif", Font.BOLD, 14));
-			g2.setColor(new Color(35, 40, 50));
-			g2.drawString("Zone " + lettre, x + 7, y + 17);
-
-			// Emplacements
 			List<String> nums = getNumerosZone(lettre);
 			if (nums.isEmpty())
 			{
-				g2.setFont(new Font("SansSerif", Font.ITALIC, 11));
-				g2.setColor(new Color(130, 135, 145));
-				g2.drawString("vide", x + w / 2 - 12, y + h / 2 + 4);
-				return;
+				JLabel vide = new JLabel("vide", SwingConstants.CENTER);
+				vide.setFont(new Font("SansSerif", Font.ITALIC, 11));
+				vide.setForeground(new Color(130, 135, 145));
+				zone.add(vide, BorderLayout.CENTER);
 			}
-
-			// Calcul grille de cellules
-			int n    = nums.size();
-			int cols = Math.max(1, (int) Math.ceil(Math.sqrt(n)));
-			int rows = (int) Math.ceil((double) n / cols);
-			int pad  = 6, topPad = 22;
-			int cw   = (w - pad * 2 - (cols - 1) * 5) / cols;
-			int ch   = (h - topPad - pad - (rows - 1) * 5) / rows;
-			cw = Math.max(cw, 32); ch = Math.max(ch, 26);
-
-			for (int i = 0; i < n; i++)
+			else
 			{
-				String num  = nums.get(i);
-				String empl = lettre + num;
-				int col = i % cols, row = i / cols;
-				int cx  = x + pad  + col * (cw + 5);
-				int cy  = y + topPad + row * (ch + 5);
-				dessinerCellule(g2, empl, cx, cy, cw, ch);
-				hitboxes.put(empl, new Rectangle(cx, cy, cw, ch));
+				int n = nums.size();
+				int cols = Math.max(1, (int) Math.ceil(Math.sqrt(n)));
+				int rows = (int) Math.ceil((double) n / cols);
+				JPanel grille = new JPanel(new GridLayout(rows, cols, 5, 5));
+				grille.setOpaque(false);
+				for (String num : nums)
+				{
+					String empl = lettre + num;
+					JButton btn = creerBoutonEmplacement(empl);
+					emplacementButtons.put(empl, btn);
+					grille.add(btn);
+				}
+				zone.add(grille, BorderLayout.CENTER);
 			}
+
+			return zone;
 		}
 
-		// ── Zone spéciale ─────────────────────────────────────────────────
-
-		private void dessinerZoneSpeciale(Graphics2D g2, String code,
-		                                   int x, int y, int w, int h)
+		private JPanel creerZoneSpeciale(String code)
 		{
 			Color cFond = COULEUR_ZONE.getOrDefault(code, Color.LIGHT_GRAY);
-
-			g2.setColor(cFond);
-			g2.fillRoundRect(x, y, w, h, 10, 10);
-			g2.setColor(cFond.darker());
-			g2.setStroke(new BasicStroke(1.5f));
-			g2.drawRoundRect(x, y, w, h, 10, 10);
+			JPanel zone = new JPanel(new BorderLayout(0, 8));
+			zone.setOpaque(true);
+			zone.setBackground(cFond);
+			zone.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(cFond.darker()),
+				BorderFactory.createEmptyBorder(8, 8, 8, 8)));
 
 			String lib = code.equals("LTS") ? "LTS — Long Term Storage" : "HD — Hors Douane";
-			g2.setFont(new Font("SansSerif", Font.BOLD, 12));
-			g2.setColor(new Color(35, 40, 50));
-			g2.drawString(lib, x + 7, y + 15);
+			JLabel titre = new JLabel(lib);
+			titre.setFont(new Font("SansSerif", Font.BOLD, 12));
+			titre.setForeground(new Color(35, 40, 50));
+			zone.add(titre, BorderLayout.NORTH);
 
-			int pad = 7;
-			dessinerCellule(g2, code, x + pad, y + 20, w - pad * 2, h - 26);
-			hitboxes.put(code, new Rectangle(x + pad, y + 20, w - pad * 2, h - 26));
+			JButton btn = creerBoutonEmplacement(code);
+			emplacementButtons.put(code, btn);
+			zone.add(btn, BorderLayout.CENTER);
+			return zone;
 		}
 
-		// ── Cellule d'emplacement ─────────────────────────────────────────
+		private JButton creerBoutonEmplacement(String empl)
+		{
+			JButton btn = new JButton(empl);
+			btn.setFocusPainted(false);
+			btn.setMargin(new Insets(4, 4, 4, 4));
+			btn.setOpaque(true);
+			btn.setBorderPainted(false);
+			btn.setContentAreaFilled(true);
+			btn.setHorizontalAlignment(SwingConstants.CENTER);
+			btn.addActionListener(e -> {
+				selectionnerEmplacement(empl);
+				updatePlan();
+			});
+			styleButton(empl, btn);
+			btn.setToolTipText(buildTooltip(empl));
+			return btn;
+		}
 
-		private void dessinerCellule(Graphics2D g2, String empl,
-		                              int cx, int cy, int cw, int ch)
+		private void styleButton(String empl, JButton btn)
 		{
 			List<Lot> lots = getLotsEmplacement(empl);
-			boolean sel    = empl.equals(emplacementSel);
+			Color bg = empl.equals(emplacementSel) ? new Color(45, 105, 215) : couleurLots(lots);
+			btn.setBackground(bg);
+			btn.setForeground(getTextColor(bg));
+			btn.setToolTipText(buildTooltip(empl));
+		}
 
-			Color cFond = sel ? new Color(45, 105, 215) : couleurLots(lots);
-			Color cText = luminance(cFond) < 140 ? Color.WHITE : new Color(25, 30, 40);
-
-			// Fond
-			g2.setColor(cFond);
-			g2.fillRoundRect(cx, cy, cw, ch, 7, 7);
-
-			// Bordure
-			g2.setStroke(new BasicStroke(sel ? 2.5f : 1f));
-			g2.setColor(sel ? new Color(20, 75, 195) : new Color(0, 0, 0, 45));
-			g2.drawRoundRect(cx, cy, cw, ch, 7, 7);
-
-			// Label emplacement
-			g2.setFont(new Font("SansSerif", Font.BOLD, 11));
-			g2.setColor(cText);
-			FontMetrics fm = g2.getFontMetrics();
-			int ly = lots.isEmpty()
-				? cy + ch / 2 + fm.getAscent() / 2 - 1
-				: cy + ch / 2 + 2;
-			g2.drawString(empl, cx + (cw - fm.stringWidth(empl)) / 2, ly);
-
-			// Badge nb lots
-			if (!lots.isEmpty())
-			{
-				g2.setFont(new Font("SansSerif", Font.BOLD, 9));
-				fm = g2.getFontMetrics();
-				String badge = "" + lots.size();
-				int bw = fm.stringWidth(badge) + 7, bh = fm.getAscent() + 4;
-				int bx = cx + cw - bw - 2, by = cy + 2;
-				g2.setColor(new Color(0, 0, 0, 100));
-				g2.fillRoundRect(bx, by, bw, bh, 4, 4);
-				g2.setColor(Color.WHITE);
-				g2.drawString(badge, bx + 3, by + fm.getAscent());
-			}
+		private Color getTextColor(Color c)
+		{
+			return luminance(c) < 140 ? Color.WHITE : new Color(25, 30, 40);
 		}
 
 		private Color couleurLots(List<Lot> lots)
@@ -291,7 +234,8 @@ public class PanelMap extends JPanel
 			return new Color(50, 150, 60);
 		}
 
-		private int luminance(Color c) {
+		private int luminance(Color c)
+		{
 			return (int)(0.299 * c.getRed() + 0.587 * c.getGreen() + 0.114 * c.getBlue());
 		}
 	}
@@ -333,6 +277,7 @@ public class PanelMap extends JPanel
 		emplacementSel = empl;
 		List<Lot> lots = getLotsEmplacement(empl);
 		lotsCourants = lots;
+		planPanel.updatePlan();
 
 		lblEmpl.setText("📦  " + empl + "  —  " + lots.size() + " lot(s)");
 		listModel.clear();
@@ -360,6 +305,7 @@ public class PanelMap extends JPanel
 	public void rafraichir()
 	{
 		construireCacheLots();
+		planPanel.rebuildPlan();
 		if (emplacementSel != null)
 			selectionnerEmplacement(emplacementSel);
 		planPanel.repaint();
