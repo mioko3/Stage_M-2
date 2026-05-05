@@ -5,12 +5,11 @@ import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
 import app.metier.lot.Lot;
 import app.metier.personelle.Societe;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * Carte interactive de l'entrepôt.
@@ -28,6 +27,7 @@ public class PanelMap extends JPanel
 	private final Controleur        ctrl;
 	private final FenetrePrincipale fenetre;
 
+	private JTextArea         infoLot;
 	// ── Zones ─────────────────────────────────────────────────────────────
 	private static final String[] ZONES_RANGEES   = { "A", "B", "C", "D" };
 	private static final String[] ZONES_SPECIALES = { "LTS", "HD" };
@@ -42,9 +42,11 @@ public class PanelMap extends JPanel
 		COULEUR_ZONE.put("HD",  new Color(255, 210, 210));
 	}
 
-	// ── État ──────────────────────────────────────────────────────────────
 	private String    emplacementSel = null;
 	private PlanPanel planPanel;
+	private List<Lot> lotsCourants = new ArrayList<>();
+	private Map<String, List<Lot>> lotsParEmplacement = new HashMap<>();
+	private Map<String, List<String>> numerosParZone = new HashMap<>();
 
 	// Panneau détail
 	private JLabel                   lblEmpl;
@@ -61,6 +63,7 @@ public class PanelMap extends JPanel
 		setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 		setBackground(IhmUtils.FOND);
 
+		construireCacheLots();
 		planPanel = new PlanPanel();
 		add(planPanel,          BorderLayout.CENTER);
 		add(creerPanelDetail(), BorderLayout.EAST);
@@ -295,37 +298,14 @@ public class PanelMap extends JPanel
 
 	// ── Données ───────────────────────────────────────────────────────────
 
-	/**
-	 * Retourne les numéros de rangée existants dans les lots pour une lettre.
-	 * Ex: lettre="B" → ["21", "22", "42"]
-	 * Si des lots ont juste la lettre sans numéro (ex "B"), renvoie [""$].
-	 */
 	private List<String> getNumerosZone(String lettre)
 	{
-		Set<String> nums = new TreeSet<>(Comparator.comparingInt(a -> {
-			try { return Integer.parseInt(a); } catch (Exception e) { return 0; }
-		}));
-		for (Lot l : ctrl.getLots())
-		{
-			String empl = s(l.getEmplacement());
-			if (empl.equals(lettre))
-				nums.add("");
-			else if (empl.startsWith(lettre) && empl.length() > lettre.length())
-			{
-				String reste = empl.substring(lettre.length());
-				if (reste.matches("\\d+")) nums.add(reste);
-			}
-		}
-		return new ArrayList<>(nums);
+		return numerosParZone.getOrDefault(lettre, new ArrayList<>());
 	}
 
 	private List<Lot> getLotsEmplacement(String empl)
 	{
-		List<Lot> res = new ArrayList<>();
-		for (Lot l : ctrl.getLots())
-			if (empl.equalsIgnoreCase(s(l.getEmplacement())))
-				res.add(l);
-		return res;
+		return lotsParEmplacement.getOrDefault(empl, new ArrayList<>());
 	}
 
 	private String buildTooltip(String empl)
@@ -352,6 +332,7 @@ public class PanelMap extends JPanel
 	{
 		emplacementSel = empl;
 		List<Lot> lots = getLotsEmplacement(empl);
+		lotsCourants = lots;
 
 		lblEmpl.setText("📦  " + empl + "  —  " + lots.size() + " lot(s)");
 		listModel.clear();
@@ -378,9 +359,52 @@ public class PanelMap extends JPanel
 
 	public void rafraichir()
 	{
+		construireCacheLots();
 		if (emplacementSel != null)
 			selectionnerEmplacement(emplacementSel);
 		planPanel.repaint();
+	}
+
+	private void construireCacheLots()
+	{
+		lotsParEmplacement.clear();
+		numerosParZone.clear();
+
+		Map<String, Set<String>> tempNums = new HashMap<>();
+		for (String lettre : ZONES_RANGEES)
+		{
+			tempNums.put(lettre, new TreeSet<>(Comparator.comparingInt(a -> {
+				try { return Integer.parseInt(a); } catch (Exception e) { return 0; }
+			})));
+		}
+
+		for (Lot l : ctrl.getLots())
+		{
+			String empl = s(l.getEmplacement());
+			lotsParEmplacement.computeIfAbsent(empl, k -> new ArrayList<>()).add(l);
+
+			// Calcul des numéros de zone
+			if (!empl.isEmpty())
+			{
+				String lettre = empl.substring(0, 1);
+				if (Arrays.asList(ZONES_RANGEES).contains(lettre))
+				{
+					Set<String> nums = tempNums.get(lettre);
+					if (empl.equals(lettre))
+						nums.add("");
+					else if (empl.length() > lettre.length())
+					{
+						String reste = empl.substring(lettre.length());
+						if (reste.matches("\\d+")) nums.add(reste);
+					}
+				}
+			}
+		}
+
+		for (String lettre : ZONES_RANGEES)
+		{
+			numerosParZone.put(lettre, new ArrayList<>(tempNums.get(lettre)));
+		}
 	}
 
 	// ── Panel détail ──────────────────────────────────────────────────────
@@ -402,9 +426,11 @@ public class PanelMap extends JPanel
 		listeLots = new JList<>(listModel);
 		listeLots.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		listeLots.setSelectionBackground(IhmUtils.SEL);
-		listeLots.setCellRenderer(new DefaultListCellRenderer() {
+		listeLots.setCellRenderer(new DefaultListCellRenderer()
+		{
 			public Component getListCellRendererComponent(JList<?> list, Object val,
-					int idx, boolean sel, boolean focus) {
+					int idx, boolean sel, boolean focus)
+			{
 				JLabel l = (JLabel) super.getListCellRendererComponent(list, val, idx, sel, focus);
 				l.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
 				if (!sel && idx % 2 == 0) l.setBackground(new Color(248, 249, 252));
@@ -412,11 +438,34 @@ public class PanelMap extends JPanel
 			}
 		});
 
+		listeLots.addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				int idx = listeLots.getSelectedIndex();
+				if (idx >= 0 && idx < lotsCourants.size()) {
+					Lot lot = lotsCourants.get(idx);
+					afficherInfoLot(lot);
+				} else {
+					infoLot.setText("");
+				}
+			}
+		});
+
+		// Infos lot sélectionné
+		infoLot = new JTextArea(8, 20);
+		infoLot.setEditable(false);
+		infoLot.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		infoLot.setBackground(IhmUtils.INFO);
+		infoLot.setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 8));
+		JScrollPane scrollInfo = new JScrollPane(infoLot);
+		scrollInfo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 190));
+		scrollInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 		JScrollPane scroll = new JScrollPane(listeLots);
 		scroll.setBorder(BorderFactory.createLineBorder(IhmUtils.BORD));
 
 		p.add(lblEmpl, BorderLayout.NORTH);
 		p.add(scroll,  BorderLayout.CENTER);
+		p.add(scrollInfo, BorderLayout.SOUTH);
 		return p;
 	}
 
@@ -466,4 +515,37 @@ public class PanelMap extends JPanel
 		if (st.startsWith("BL")) return "🔴";
 		return "🟡";
 	}
+
+	private void afficherInfoLot(Lot lot)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Numéro de commande: ").append(lot.getNumCDE()).append("\n");
+		sb.append("Typologie: ").append(s(lot.getTypologie())).append("\n");
+		sb.append("Affaire: ").append(s(lot.getAffaire())).append("\n");
+		sb.append("Nombre de pièces: ").append(lot.getNbPieces()).append("\n");
+		sb.append("Cadence: ").append(lot.getCadence()).append("\n");
+		sb.append("Heures: ").append(String.format("%.2f", lot.getHeures())).append("\n");
+		sb.append("Heures ACE: ").append(String.format("%.2f", lot.getHeuresAce())).append("\n");
+		sb.append("Valeur de vente: ").append(lot.getValeurVente()).append("\n");
+		sb.append("Prix unitaire: ").append(String.format("%.2f", lot.getPrixUnitaire())).append("\n");
+		sb.append("Semaine: ").append(s(lot.getSemaine())).append("\n");
+		sb.append("Priorité: ").append(lot.getPriorite()).append("\n");
+		sb.append("Statut: ").append(s(lot.getStatut())).append("\n");
+		sb.append("Statut échantillon: ").append(s(lot.getStatutEchant())).append("\n");
+		sb.append("Lot à charge: ").append(s(lot.getLotACharge())).append("\n");
+		sb.append("Sous douane: ").append(lot.isEstSousDouane() ? "Oui" : "Non").append("\n");
+		sb.append("Date réception: ").append(s(lot.getDateReception())).append("\n");
+		sb.append("Date paiement: ").append(s(lot.getDatePaiement())).append("\n");
+		sb.append("Commentaire: ").append(s(lot.getCommentaire())).append("\n");
+		sb.append("Emplacement: ").append(s(lot.getEmplacement())).append("\n");
+		sb.append("Méthode: ").append(s(lot.getMethode())).append("\n");
+		sb.append("Distribution: ").append(s(lot.getDistribution())).append("\n");
+		sb.append("Format carton: ").append(s(lot.getFormatCarton())).append("\n");
+		sb.append("Machine: ").append(lot.isEstMachine() ? "Oui" : "Non").append("\n");
+		Societe soc = ctrl.getSocieteDuLot(lot);
+		sb.append("Société: ").append(soc != null ? soc.getNom() : "—").append("\n");
+		infoLot.setText(sb.toString());
+	}
+
+	
 }

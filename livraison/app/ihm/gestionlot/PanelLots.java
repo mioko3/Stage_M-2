@@ -150,7 +150,7 @@ public class PanelLots extends JPanel
 					{
 						Lot lot = getLotLigne(r);
 						if (lot != null && lot.isEstSousDouane())
-							setBackground(new Color(255, 100, 100)); // rouge clair pour sous douane
+							setBackground(new Color(170, 85, 195));
 						else
 							setBackground(Color.WHITE);
 					}
