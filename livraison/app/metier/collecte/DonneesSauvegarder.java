@@ -34,6 +34,7 @@ public class DonneesSauvegarder
 			{
 				Lot l = lots.get(i);
 				pw.println("  {");
+				pw.println("    \"id\": " + esc(l.getId()) + ",");
 				pw.println("    \"numCDE\": " + l.getNumCDE() + ",");
 				pw.println("    \"semaine\": " + esc(l.getSemaine()) + ",");
 				pw.println("    \"priorite\": " + l.getPriorite() + ",");
@@ -99,7 +100,7 @@ public class DonneesSauvegarder
 					StringBuilder lotsAce = new StringBuilder("[");
 					for (int k = 0; k < a.getLots().size(); k++)
 					{
-						lotsAce.append(a.getLots().get(k).getNumCDE());
+						lotsAce.append("\"").append(a.getLots().get(k).getId()).append("\"");
 						if (k < a.getLots().size() - 1) lotsAce.append(",");
 					}
 					lotsAce.append("]");
@@ -117,7 +118,7 @@ public class DonneesSauvegarder
 				ArrayList<Lot> lotsAff = s.getLots();
 				for (int j = 0; j < lotsAff.size(); j++)
 				{
-					pw.print(lotsAff.get(j).getNumCDE());
+					pw.print("\"" + lotsAff.get(j).getId() + "\"");
 					if (j < lotsAff.size() - 1) pw.print(",");
 				}
 				pw.println("]");
@@ -207,9 +208,9 @@ public class DonneesSauvegarder
 			// Lots affectés à la société
 			String lotsAff = extraireTableauPrimitif(obj, "lotsAffectes");
 			if (lotsAff != null)
-				for (int cde : parseCdeList(lotsAff))
+				for (String id : parseIdList(lotsAff))
 				{
-					Lot lot = trouverLot(metier.getLots(), cde);
+					Lot lot = trouverLot(metier.getLots(), id);
 					if (lot != null) soc.getLots().add(lot);
 				}
 
@@ -222,9 +223,9 @@ public class DonneesSauvegarder
 					if (ai >= aces.size()) break;
 					String lotsAce = extraireTableauPrimitif(a, "lotsACE");
 					if (lotsAce != null)
-						for (int cde : parseCdeList(lotsAce))
+						for (String id : parseIdList(lotsAce))
 						{
-							Lot lot = trouverLot(metier.getLots(), cde);
+							Lot lot = trouverLot(metier.getLots(), id);
 							if (lot != null && !aces.get(ai).getLots().contains(lot))
 								aces.get(ai).getLots().add(lot);
 						}
@@ -253,6 +254,9 @@ public class DonneesSauvegarder
 			getString(obj, "statut"),
 			getString(obj, "statutEchant")
 		);
+		// Restaurer l'UUID persisté (prioritaire sur celui généré dans le constructeur)
+		String savedId = getString(obj, "id");
+		if (savedId != null && !savedId.isEmpty()) lot.setId(savedId);
 		lot.setTypologie    (getString(obj, "typologie"));
 		lot.setAffaire      (getString(obj, "affaire"));
 		lot.setSemaine      (getString(obj, "semaine"));
@@ -274,19 +278,24 @@ public class DonneesSauvegarder
 		return lot;
 	}
 
-	private Lot trouverLot(ArrayList<Lot> lots, int numCDE)
+	/** Recherche un lot par son UUID (clé technique unique). */
+	private Lot trouverLot(ArrayList<Lot> lots, String id)
 	{
-		for (Lot l : lots) if (l.getNumCDE() == numCDE) return l;
+		for (Lot l : lots) if (id.equals(l.getId())) return l;
 		return null;
 	}
 
-	private ArrayList<Integer> parseCdeList(String tableau)
+	/** Parse un tableau JSON de chaînes UUID : ["uuid1","uuid2",...] */
+	private ArrayList<String> parseIdList(String tableau)
 	{
-		ArrayList<Integer> liste = new ArrayList<>();
+		ArrayList<String> liste = new ArrayList<>();
 		String contenu = tableau.replace("[", "").replace("]", "").trim();
 		if (contenu.isEmpty()) return liste;
 		for (String s : contenu.split(","))
-			try { liste.add(Integer.parseInt(s.trim())); } catch (NumberFormatException ignored) {}
+		{
+			String id = s.trim().replace("\"", "");
+			if (!id.isEmpty()) liste.add(id);
+		}
 		return liste;
 	}
 

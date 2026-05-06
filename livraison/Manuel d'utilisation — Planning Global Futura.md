@@ -221,3 +221,18 @@ Pour commencer une nouvelle session vierge :
 ---
 
 *Manuel rédigé pour les utilisateurs de l'application Planning Global Futura — PAM.*
+
+Idées de fonctionnalités à implémenter 💡
+Voici des suggestions adaptées à un stage et au domaine (gestion de lots / transfert vers des sociétés) :
+1. Historique des actions (Undo/Redo)
+Implémenter le pattern Command pour annuler les dernières affectations ou modifications. Très utile en pratique et très apprécié dans un oral de stage pour montrer la maîtrise des design patterns.
+2. Tableau de bord avec indicateurs visuels
+Un panneau récapitulatif : nombre de lots affectés vs non-affectés, heures consommées par société en barre de progression colorée (vert/orange/rouge selon le taux de remplissage). Faisable en Swing pur avec un JProgressBar stylisé.
+3. Filtres avancés dans les tableaux
+Actuellement la recherche est un simple filtre textuel. Tu pourrais ajouter : filtrer par statut, par semaine, par plage d'heures, ou afficher uniquement les lots sans affectation. Cela améliore l'ergonomie sans complexité architecturale.
+4. Export PDF de la fiche de route
+La FicheRoute existe déjà dans le métier. L'ajouter en export PDF (avec la bibliothèque iText ou Apache PDFBox) donnerait un résultat concret et visible — un livrable imprimable pour les sociétés.
+5. Détection de conflit de capacité
+Avant d'affecter un lot, avertir si la société dépasse un seuil (ex : 80% de ses heures déjà utilisées). Actuellement le blocage est binaire (0 heure = refus). Un avertissement intermédiaire serait plus ergonomique.
+6. Vue "planning semaine" visuelle
+Un tableau de type calendrier avec les sociétés en lignes et les semaines en colonnes, montrant la charge de chaque société semaine par semaine. Cela valoriserait bien les données semaine déjà présentes sur chaque lot.

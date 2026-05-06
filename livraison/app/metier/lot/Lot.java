@@ -2,17 +2,22 @@ package app.metier.lot;
 
 import app.metier.ficheroute.Phase;
 import app.metier.ficheroute.SuivieProd;
+import java.util.UUID;
 
 /**
  * Représente un lot de production issu du fichier export.XLSX.
  *
  * Heures = NbPieces / Cadence (valeur directe du fichier, pas étiq+répart séparés).
  * Pas de champ Societe : l'affectation est gérée exclusivement par Societe.ajouterLot().
+ *
+ * Identifiant interne : id (UUID généré à la création, sauvegardé en JSON).
+ * numCDE reste pour l'affichage mais n'est PAS unique → ne jamais l'utiliser comme clé.
  */
 public class Lot
 {
 	// ── Identité ──────────────────────────────────────────────────────────
-	private int     numCDE;
+	private String  id;      // clé technique unique (UUID), persistée en JSON
+	private int     numCDE;  // numéro affiché à l'utilisateur — pas unique
 	private String  typologie;
 	private String  affaire;
 	private int     nbPieces;
@@ -47,6 +52,7 @@ public class Lot
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
 			   int valeurVente, String statut, String statutEchant)
 	{
+		this.id          = UUID.randomUUID().toString();
 		this.numCDE      = numCDE;
 		this.nbPieces    = nbPieces;
 		this.cadence     = cadence;
@@ -89,6 +95,7 @@ public class Lot
 	}
 
 	// ── Getters ───────────────────────────────────────────────────────────
+	public String  getId()             { return id;            }
 	public int     getNumCDE()         { return numCDE;        }
 	public String  getTypologie()      { return typologie;     }
 	public String  getAffaire()        { return affaire;       }
@@ -117,6 +124,8 @@ public class Lot
 	public boolean isEstMachine() {return estMachine;}
 
 	// ── Setters ───────────────────────────────────────────────────────────
+	/** Utilisé UNIQUEMENT au chargement JSON pour restaurer l'UUID persisté. */
+	public void setId(String v)            { this.id           = v; }
 	public void setNumCDE(int v)           { this.numCDE       = v; }
 	public void setTypologie(String v)     { this.typologie    = v; }
 	public void setAffaire(String v)       { this.affaire      = v; }

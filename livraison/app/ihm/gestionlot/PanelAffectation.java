@@ -186,7 +186,7 @@ public class PanelAffectation extends JPanel
 
 	private JPanel creerTableauAffectes()
 	{
-		String[] cols = {"N° CDE", "Typologie", "Société", "ACE", "H"};
+		String[] cols = {"N° CDE", "Typologie", "Société", "ACE", "H/pers"};
 		modelAffectes = new DefaultTableModel(cols, 0) {
 			public boolean isCellEditable(int r, int c) { return false; }
 		};

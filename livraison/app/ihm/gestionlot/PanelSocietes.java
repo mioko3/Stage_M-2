@@ -152,7 +152,7 @@ public class PanelSocietes extends JPanel
 					throw new NumberFormatException();
 
 				// Appel du contrôleur
-				ctrl.NouvelleHeurePourSociete(semaine);
+				ctrl.nouvelleHeurePourSociete(semaine);
 			}
 			catch (NumberFormatException ex)
 			{

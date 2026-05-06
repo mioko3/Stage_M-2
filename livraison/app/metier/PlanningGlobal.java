@@ -6,159 +6,101 @@ import app.metier.ficheroute.Phase;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Couche métier pure — aucune dépendance Swing.
+ *
+ * Toute interaction avec l'utilisateur (JFileChooser, JOptionPane, System.exit)
+ * a été retirée. PlanningGlobal reçoit des chemins de fichiers en paramètre,
+ * lance des exceptions en cas d'erreur, et laisse le Contrôleur décider
+ * comment réagir (afficher un dialogue, logger, quitter…).
+ */
 public class PlanningGlobal
 {
-	private ArrayList<Societe> societes;
-	private ArrayList<Lot>     lots;
+	private ArrayList<Societe>    societes;
+	private ArrayList<Lot>        lots;
 	private ArrayList<FicheRoute> ficheRoute;
 
+	// ── Constructeur ──────────────────────────────────────────────────────
+
+	/**
+	 * Constructeur vide : le planning est initialisé à vide.
+	 * C'est le Contrôleur qui appellera chargerDepuisExcel() ou chargerDepuisJson()
+	 * selon le choix de l'utilisateur.
+	 */
 	public PlanningGlobal()
 	{
 		this.societes   = new ArrayList<>();
 		this.lots       = new ArrayList<>();
 		this.ficheRoute = new ArrayList<>();
 		ExcelReader.donnerPlanningGlobal(this);
-		chargerDonnees();
 	}
 
-	public void exportNewLot()
-	{
-		try
-		{
-			String xlsx = choisirFichier();
-			if (xlsx != null)
-			{
-				ArrayList<Lot> templots = ExcelReader.lireLots(xlsx);
-				for (Lot temp : templots)
-				{
-					this.lots.add(temp);
-				}
-			}
-		}catch (IOException e)
-		{
-			System.err.println("[PlanningGlobal] Impossible de charger les données : " + e.getMessage());
-			System.err.println("→ Placez les fichiers Excel dans app/data/ ou utilisez les JSON existants.");
-		}
-	}
+	// ── Chargement des données ────────────────────────────────────────────
 
-	private void chargerDonnees()
+	/**
+	 * Charge les lots depuis un fichier Excel (XLSX/XLSM).
+	 * Lance une IOException si le fichier est illisible.
+	 *
+	 * @param cheminXlsx chemin absolu vers le fichier Excel
+	 * @param cheminSocietes chemin vers le JSON des sociétés
+	 * @param semaine numéro de semaine (pour les heures ACE)
+	 * @param cheminXlsxHeures chemin vers le fichier Excel des heures (peut être le même)
+	 */
+	public void chargerDepuisExcel(String cheminXlsx, String cheminSocietes,
+	                               int semaine, String cheminXlsxHeures) throws IOException
 	{
-		try
-		{
-			String xlsx = choisirFichier();
-
-			if (xlsx != null)
-			{
-				this.lots = ExcelReader.lireLots(xlsx);
-				this.societes = ExcelReader.lireSocietes("app/data/pastouche/societes.json");
-				// Extraire la semaine du premier lot pour charger les heures correspondantes
-				String semaine = this.lots.get(0).getSemaine();
-				int sem = Integer.parseInt(semaine.charAt(semaine.length()-2)+""+semaine.charAt(semaine.length()-1));
-				ExcelReader.ajouterHeuresDepuisExcel(choisirFichier(), this.societes, sem);
-			}
-			else
-			{
-				this.lots = ExcelReader.lireLots("app/data/courutilisation/lots.json");
-				this.societes = ExcelReader.lireSocietes("app/data/courutilisation/societes.json");
-			}
-		}
-		catch (IOException e)
-		{
-			System.err.println("[PlanningGlobal] Impossible de charger les données : " + e.getMessage());
-			System.err.println("→ Placez les fichiers Excel dans app/data/ ou utilisez les JSON existants.");
-		}
+		this.lots     = ExcelReader.lireLots(cheminXlsx);
+		this.societes = ExcelReader.lireSocietes(cheminSocietes);
+		ExcelReader.ajouterHeuresDepuisExcel(cheminXlsxHeures, this.societes, semaine);
 	}
 
 	/**
-	 * Ouvre un JFileChooser pour que l'utilisateur sélectionne le fichier XLSX des lots.
+	 * Charge les lots et sociétés depuis les fichiers JSON de secours.
 	 *
-	 * @return le chemin absolu du fichier choisi, ou null si l'utilisateur annule.
+	 * @param cheminLotsJson    chemin vers lots.json
+	 * @param cheminSocietesJson chemin vers societes.json
 	 */
-	private String choisirFichier()
+	public void chargerDepuisJson(String cheminLotsJson, String cheminSocietesJson) throws IOException
 	{
-		JFileChooser chooser = new JFileChooser();
-		chooser.setDialogTitle("Sélectionner le fichier des lots (XLSX / XLSM)");
-		chooser.setFileFilter(new FileNameExtensionFilter(
-			"Fichiers Excel (*.xlsx, *.xlsm)", "xlsx", "xlsm"));
- 
-		// Ouvrir par défaut dans app/data/ si le dossier existe
-		File dossierDefaut = new File("app/data");
-		if (dossierDefaut.exists() && dossierDefaut.isDirectory())
-			chooser.setCurrentDirectory(dossierDefaut);
- 
-		int resultat = chooser.showOpenDialog(null);
-		if (resultat == JFileChooser.APPROVE_OPTION)
-			return chooser.getSelectedFile().getAbsolutePath();
- 
-		// L'utilisateur a annulé → proposer le fallback JSON
-		int rep = JOptionPane.showConfirmDialog(
-			null,
-			"Aucun fichier sélectionné.\nVoulez-vous utiliser les données JSON existantes ?",
-			"Chargement des lots",
-			JOptionPane.YES_NO_OPTION,
-			JOptionPane.QUESTION_MESSAGE
-		);
- 
-		if (rep == JOptionPane.YES_OPTION)
-			return null; // null → fallback JSON dans chargerDonnees()
- 
-		// L'utilisateur refuse le fallback → quitter proprement
-		System.err.println("[PlanningGlobal] Chargement annulé par l'utilisateur.");
-		System.exit(0);
-		return null;
+		this.lots     = ExcelReader.lireLots(cheminLotsJson);
+		this.societes = ExcelReader.lireSocietes(cheminSocietesJson);
 	}
 
-	public void nouvelleHeurePourSociete(int semaine)
+	/**
+	 * Importe de nouveaux lots depuis un fichier Excel et les ajoute
+	 * à la liste existante (sans effacer les lots déjà présents).
+	 *
+	 * @param cheminXlsx chemin absolu vers le fichier Excel
+	 */
+	public void importerNouveauxLots(String cheminXlsx) throws IOException
 	{
-		JFileChooser chooser = new JFileChooser();
-		chooser.setDialogTitle("Sélectionner le fichier des lots (XLSX / XLSM)");
-		chooser.setFileFilter(new FileNameExtensionFilter(
-			"Fichiers Excel (*.xlsx, *.xlsm)", "xlsx", "xlsm"));
- 
-		// Ouvrir par défaut dans app/data/ si le dossier existe
-		File dossierDefaut = new File("app/data");
-		if (dossierDefaut.exists() && dossierDefaut.isDirectory())
-			chooser.setCurrentDirectory(dossierDefaut);
- 
-		int resultat = chooser.showOpenDialog(null);
-		if (resultat == JFileChooser.APPROVE_OPTION)
-		{
-			String xml = chooser.getSelectedFile().getAbsolutePath();
-			try
-			{
-				ExcelReader.ajouterHeuresDepuisExcel(xml, this.societes, semaine);
-				JOptionPane.showMessageDialog(null, "Heures ajoutées avec succès !", "Nouvelle heure", JOptionPane.INFORMATION_MESSAGE);
-			}
-			catch (IOException e)
-			{
-				System.err.println("[PlanningGlobal] Impossible de charger les données : " + e.getMessage());
-				JOptionPane.showMessageDialog(null, "Erreur lors du chargement du fichier Excel.", "Nouvelle heure", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "Aucun fichier sélectionné. Opération annulée.", "Nouvelle heure", JOptionPane.INFORMATION_MESSAGE);
-		}
-
-		
+		ArrayList<Lot> nouveaux = ExcelReader.lireLots(cheminXlsx);
+		this.lots.addAll(nouveaux);
 	}
-	//
-	// Methode IHM
-	//
+
+	/**
+	 * Met à jour les heures disponibles des sociétés depuis un fichier Excel.
+	 *
+	 * @param cheminXlsx chemin absolu vers le fichier Excel
+	 * @param semaine    numéro de semaine à lire
+	 */
+	public void mettreAJourHeuresSocietes(String cheminXlsx, int semaine) throws IOException
+	{
+		ExcelReader.ajouterHeuresDepuisExcel(cheminXlsx, this.societes, semaine);
+	}
+
+	// ── Méthodes IHM (inchangées, pas de Swing) ───────────────────────────
+
 	public void modifierLot(Lot lot, String typologie, String affaire,
-							 int nbPieces, double cadence, int valeurVente,
-							 String statut, String statutEchant,
-							 String semaine, int priorite,
-							 String lotACharge,String emplacment,
-							 boolean sousDouane, String dateReception, 
-							 String datePaiement, String commentaire)
+	                        int nbPieces, double cadence, int valeurVente,
+	                        String statut, String statutEchant,
+	                        String semaine, int priorite,
+	                        String lotACharge, String emplacement,
+	                        boolean sousDouane, String dateReception,
+	                        String datePaiement, String commentaire)
 	{
 		int heuresAvant = (int) Math.ceil(lot.getHeures());
 
@@ -173,13 +115,12 @@ public class PlanningGlobal
 		lot.setSemaine      (semaine);
 		lot.setPriorite     (priorite);
 		lot.setLotACharge   (lotACharge);
-		lot.setEmplacement  (emplacment);
+		lot.setEmplacement  (emplacement);
 		lot.setEstSousDouane(sousDouane);
 		lot.setDateReception(dateReception);
 		lot.setDatePaiement (datePaiement);
 		lot.setCommentaire  (commentaire);
 
-		// Ajuster les heures disponibles de la société si le lot est affecté
 		int heuresApres = (int) Math.ceil(lot.getHeures());
 		int delta = heuresAvant - heuresApres;
 		if (delta != 0)
@@ -192,40 +133,41 @@ public class PlanningGlobal
 
 	public void modifierLotMethodeDistribution(Lot lot, String typologie, String lotACharge)
 	{
-		lot.setTypologie(typologie != null ? typologie : "");
+		lot.setTypologie (typologie  != null ? typologie  : "");
 		lot.setLotACharge(lotACharge != null ? lotACharge : "");
 	}
 
 	public void modifierPhase(Lot lot, boolean preTri, boolean surPiste,
-						boolean sortieEtiq, boolean tri, boolean finit)
+	                          boolean sortieEtiq, boolean tri, boolean finit)
 	{
 		Phase phase = lot.getPhase();
-		phase.setPreTri(preTri);
-		phase.setSurPiste(surPiste);
-		phase.setSortieEtiq(sortieEtiq);
-		phase.setTri(tri);
-		phase.setFinit(finit);
+		phase.setPreTri      (preTri);
+		phase.setSurPiste    (surPiste);
+		phase.setSortieEtiq  (sortieEtiq);
+		phase.setTri         (tri);
+		phase.setFinit       (finit);
 	}
 
 	public void marquerLotTermine(Lot lot)
 	{
 		modifierPhase(lot, true, true, true, true, true);
-		lot.getSuivieProd().setNbPieceEtiq(lot.getNbPieces());
+		lot.getSuivieProd().setNbPieceEtiq  (lot.getNbPieces());
 		lot.getSuivieProd().setNbPieceRepart(lot.getNbPieces());
 	}
 
-	public void modifierSociete(Societe soc, String nom, String ce, int totalHeuresCE,int effectif)
+	public void modifierSociete(Societe soc, String nom, String ce,
+	                            int totalHeuresCE, int effectif)
 	{
-		soc.setNom(nom);
-		soc.setCe(ce);
-		soc.setTotalHeuresCE(totalHeuresCE);
-		soc.setEffectifTotal(effectif);
+		soc.setNom           (nom);
+		soc.setCe            (ce);
+		soc.setTotalHeuresCE (totalHeuresCE);
+		soc.setEffectifTotal (effectif);
 	}
 
 	public void modifierAce(Ace ace, String nom, int nbPers, int effectif)
 	{
-		ace.setNom(nom);
-		ace.setNbPers(nbPers);
+		ace.setNom           (nom);
+		ace.setNbPers        (nbPers);
 		ace.setEffectifActuel(effectif);
 	}
 
@@ -251,10 +193,6 @@ public class PlanningGlobal
 	// ── Affectation ───────────────────────────────────────────────────────
 
 	/**
-	 * Affecte un lot à une société et un ACE.
-	 * Seules les heures de la SOCIÉTÉ sont vérifiées et décomptées.
-	 * L'ACE n'a pas de compteur d'heures (plus de risque de valeur négative).
-	 *
 	 * @return true si succès, false si la société n'a pas assez d'heures
 	 */
 	public boolean affecterLot(Lot lot, Societe societe, Ace ace)
@@ -263,22 +201,17 @@ public class PlanningGlobal
 		Societe ancSociete = getSocieteDuLot(lot);
 		Ace     ancAce     = getAceDuLot(lot);
 
-		// Déjà affecté à la même cible → no-op
 		if (ancSociete == societe && ancAce == ace) return true;
 
-		// Vérifier les heures disponibles (seulement si changement de société)
-		// Si même société, les heures ont déjà été décomptées → OK
 		if (ancSociete != societe && societe.getTotalHeuresCE() < heuresLot)
 			return false;
 
-		// Retrait de l'ancienne affectation
 		if (ancSociete != null)
 		{
 			if (ancAce != null) ancSociete.enleverLotACE(ancAce, lot);
 			ancSociete.enleverLot(lot);
 		}
 
-		// Nouvelle affectation
 		if (ace != null) societe.ajouterLot(lot, ace);
 
 		return true;
@@ -295,51 +228,45 @@ public class PlanningGlobal
 		}
 	}
 
-	public void ajouterLot  (Lot lot) { lots.add(lot);    }
-
 	public void ajouterLot(int numCDE, String typologie, String affaire,
-					int nbPieces, double cadence, int valeurVente,
-					String statut, String statutEchant,
-					String semaine, int priorite,
-					String lotACharge, String emplacement,
-					boolean sousDouane, String dateReception,
-					String datePaiement, String commentaire)
+	                       int nbPieces, double cadence, int valeurVente,
+	                       String statut, String statutEchant,
+	                       String semaine, int priorite,
+	                       String lotACharge, String emplacement,
+	                       boolean sousDouane, String dateReception,
+	                       String datePaiement, String commentaire)
 	{
 		Lot lot = new Lot(numCDE, nbPieces, cadence,
-						 nbPieces > 0 && cadence > 0 ? nbPieces / cadence : 0.0,
-						 valeurVente, statut, statutEchant);
-		lot.setTypologie(typologie != null ? typologie : "");
-		lot.setAffaire(affaire != null ? affaire : "");
-		lot.setSemaine(semaine != null ? semaine : "");
-		lot.setPriorite(priorite);
-		lot.setLotACharge(lotACharge != null ? lotACharge : "");
-		lot.setEmplacement(emplacement != null ? emplacement : "");
+		                  nbPieces > 0 && cadence > 0 ? nbPieces / cadence : 0.0,
+		                  valeurVente, statut, statutEchant);
+		lot.setTypologie    (typologie    != null ? typologie    : "");
+		lot.setAffaire      (affaire      != null ? affaire      : "");
+		lot.setSemaine      (semaine      != null ? semaine      : "");
+		lot.setPriorite     (priorite);
+		lot.setLotACharge   (lotACharge   != null ? lotACharge   : "");
+		lot.setEmplacement  (emplacement  != null ? emplacement  : "");
 		lot.setEstSousDouane(sousDouane);
 		lot.setDateReception(dateReception != null ? dateReception : "");
-		lot.setDatePaiement(datePaiement != null ? datePaiement : "");
-		lot.setCommentaire(commentaire != null ? commentaire : "");
+		lot.setDatePaiement (datePaiement  != null ? datePaiement  : "");
+		lot.setCommentaire  (commentaire   != null ? commentaire   : "");
 		lots.add(lot);
 	}
 
 	public void supprimerLot(Lot lot) { lots.remove(lot); }
 
 	// ── Fiche de route ────────────────────────────────────────────────────
+
 	public FicheRoute genererFicheRoute(Societe societe)
 	{
 		for (FicheRoute fr : ficheRoute)
-		{
 			if (fr.getSociete() == societe) return fr;
-		}
 		FicheRoute fr2 = new FicheRoute(societe);
 		this.ficheRoute.add(fr2);
 		return fr2;
 	}
 
-	//
-	// getters et setters
-	//
+	// ── Getters / Setters ─────────────────────────────────────────────────
+
 	public ArrayList<Societe> getSocietes()       { return societes; }
 	public ArrayList<Lot>     getLots()           { return lots;     }
-	public void setSocietes(ArrayList<Societe> s) { this.societes = s; }
-	public void setLots    (ArrayList<Lot>     l) { this.lots     = l; }
 }

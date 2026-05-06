@@ -1,50 +1,50 @@
 [
-  {
-    "nom": "EUP",
-    "ce": "GERALDINE",
-    "totalHeuresCE": 12,
-    "aces": [
-      { "nom": "autre", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [6005733,9001797,9002397,5411288,6006194,1803082,9002397] },
-      { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5410507,1804424,5407279,6006194,5411379,1803082] },
-      { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "lotsACE": [5408579,1803481,5409297,5410991,1804424,1802839,5409277] }
-    ],
-    "lotsAffectes": [6005733,9001797,9002397,5411288,5410507,1804424,5407279,5408579,1803481,5409297,5410991,1804424,6006194,6006194,1803082,9002397,5411379,1802839,1803082,5409277]
-  },
-  {
-    "nom": "CFP",
-    "ce": "LAETITIA",
-    "totalHeuresCE": 7,
-    "aces": [
-      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "lotsACE": [9001349,5409277,5408741,1804424,6006204,6006051,9002397,6006068] },
-      { "nom": "CAMILLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "lotsACE": [6005770,1804288] }
-    ],
-    "lotsAffectes": [9001349,5409277,5408741,1804424,6006204,6006051,9002397,6006068,6005770,1804288]
-  },
-  {
-    "nom": "PA",
-    "ce": "CLYDE",
-    "totalHeuresCE": 3,
-    "aces": [
-      { "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "lotsACE": [1802493,1802539,5411379,5410148,9001797] },
-      { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "lotsACE": [6005769,9002962] }
-    ],
-    "lotsAffectes": [1802493,1802539,5411379,5410148,9001797,6005769,9002962]
-  },
-  {
-    "nom": "NP",
-    "ce": "CHRISTELLE",
-    "totalHeuresCE": 1,
-    "aces": [
-      { "nom": "CHRISTELLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0, "lotsACE": [6004656,6006057,5411134,6006244,9002448,9001797] }
-    ],
-    "lotsAffectes": [6004656,6006057,5411134,6006244,9002448,9001797]
-  },
-  {
-    "nom": "Autre 3",
-    "ce": "Autre CE 3",
-    "totalHeuresCE": 0,
-    "aces": [
-    ],
-    "lotsAffectes": []
-  }
+	{
+		"nom": "EUP",
+		"ce": "GERALDINE",
+		"totalHeuresCE": 58,
+		"aces": [
+			{ "nom": "autre", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "hasMachine": false, "lotsACE": [6005733,9002397,5411288,6006194,1803082] },
+			{ "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "hasMachine": false, "lotsACE": [5410507,1804424,5407279,6006194,5411379,1803082] },
+			{ "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "hasMachine": false, "lotsACE": [5408579,1803481,5409297,5410991,1804424,1802839,5409277] }
+		],
+		"lotsAffectes": [6005733,9002397,5411288,6006194,1803082,5410507,1804424,5407279,5411379,5408579,1803481,5409297,5410991,1802839,5409277]
+	},
+	{
+		"nom": "CFP",
+		"ce": "LAETITIA",
+		"totalHeuresCE": 7,
+		"aces": [
+			{ "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "hasMachine": false, "lotsACE": [9001349,5409277,5408741,1804424,6006204,6006051,9002397,6006068] },
+			{ "nom": "CAMILLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "hasMachine": false, "lotsACE": [6005770,1804288] }
+		],
+		"lotsAffectes": [9001349,5409277,5408741,1804424,6006204,6006051,9002397,6006068,6005770,1804288]
+	},
+	{
+		"nom": "PA",
+		"ce": "CLYDE",
+		"totalHeuresCE": 14,
+		"aces": [
+			{ "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "hasMachine": false, "lotsACE": [1802493,1802539,5411379,5410148,1804424] },
+			{ "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "hasMachine": false, "lotsACE": [6005769,9002962] }
+		],
+		"lotsAffectes": [1802493,1802539,5411379,5410148,6005769,9002962,1804424]
+	},
+	{
+		"nom": "NP",
+		"ce": "CHRISTELLE",
+		"totalHeuresCE": 1,
+		"aces": [
+			{ "nom": "CHRISTELLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0, "hasMachine": false, "lotsACE": [6004656,6006057,5411134,6006244,9002448,9001797] }
+		],
+		"lotsAffectes": [6004656,6006057,5411134,6006244,9002448,9001797]
+	},
+	{
+		"nom": "Autre 3",
+		"ce": "Autre CE 3",
+		"totalHeuresCE": 0,
+		"aces": [
+		],
+		"lotsAffectes": []
+	}
 ]
