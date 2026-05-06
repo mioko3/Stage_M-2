@@ -192,8 +192,10 @@ public class PanelFicheRoute extends JPanel
 			int vvs = 0;
 			int pieces = 0;
 			double puSum = 0;
+			double pAvancPiece = 0;
 			int cptPu = 0;
 
+			int nbPieceEtiq = 0;
 			for (Lot l : lots)
 			{
 				vvs += l.getValeurVente();
@@ -204,7 +206,14 @@ public class PanelFicheRoute extends JPanel
 					puSum += l.getPrixUnitaire();
 					cptPu++;
 				}
+
+				// Calcul avancement pièces (basé sur nbPieceEtiqueter / nbPieces total)
+				if (l.getNbPieces() > 0 && l.getSuivieProd() != null)
+				{
+					nbPieceEtiq += l.getSuivieProd().getNbPieceEtiq();
+				}
 			}
+			pAvancPiece = pieces > 0 ? 100.0 * nbPieceEtiq / pieces : 0;
 
 			double puMoy = cptPu > 0 ? puSum / cptPu : 0;
 
@@ -235,6 +244,9 @@ public class PanelFicheRoute extends JPanel
 
 			tuiles3.add(creerTuileMini("PU Moy.",
 				puMoy > 0 ? String.format("%.2f €", puMoy) : "—", couleur));
+
+			tuiles3.add(creerTuileMini("% total.",
+				pAvancPiece > 0 ? String.format("%.2f %%", pAvancPiece) : "—", couleur));
 
 			groupe.add(titreLbl, BorderLayout.NORTH);
 			groupe.add(tuiles3, BorderLayout.CENTER);

@@ -18,14 +18,14 @@
     "datePaiement": "202506",
     "commentaire": "*PERM",
 	"emplacement": "HD",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 5000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 40,
+    "sp_nbHeureEtiqRestant": 4,
     "sp_nbHeureRepartRestant": 40,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.3038483225260786,
+    "heuresAce": 2.6430786580208627,
     "estMachine": false
 
   },
@@ -55,7 +55,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.742102575326475,
+    "heuresAce": 4.267892317793828,
     "estMachine": false
 
   },
@@ -205,7 +205,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 8.662131519274377,
+    "heuresAce": 7.79591836734694,
     "estMachine": false
 
   },
@@ -235,7 +235,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.1160593792172735,
+    "heuresAce": 3.1475748194014446,
     "estMachine": false
 
   },
@@ -265,7 +265,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 1.6453823918948969,
+    "heuresAce": 1.25823359380198,
     "estMachine": false
 
   },
@@ -295,7 +295,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 6.093882351507322,
+    "heuresAce": 4.660027680564422,
     "estMachine": false
 
   },
@@ -325,7 +325,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.4418741802881864,
+    "heuresAce": 0.3976867622593678,
     "estMachine": false
 
   },
@@ -348,14 +348,14 @@
     "datePaiement": "202601",
     "commentaire": "*PERM",
 	"emplacement": "LTS",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 13000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 40,
+    "sp_nbHeureEtiqRestant": 1,
     "sp_nbHeureRepartRestant": 40,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.418986910417543,
+    "heuresAce": 3.9770882193757893,
     "estMachine": false
 
   },
@@ -438,14 +438,14 @@
     "datePaiement": "202551",
     "commentaire": "*PERM+ETE2026 S26",
 	"emplacement": "B5",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 6000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 111,
+    "sp_nbHeureEtiqRestant": 73,
     "sp_nbHeureRepartRestant": 111,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 9.242624117930356,
+    "heuresAce": 7.394099294344285,
     "estMachine": false
 
   },
@@ -625,7 +625,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 14.858385184295994,
+    "heuresAce": 13.372546665866395,
     "estMachine": false
 
   },
@@ -648,14 +648,14 @@
     "datePaiement": "202606",
     "commentaire": "*TEPRI2026 S19",
 	"emplacement": "A3",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 3845,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 51,
+    "sp_nbHeureEtiqRestant": 0,
     "sp_nbHeureRepartRestant": 51,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.210468681559353,
+    "heuresAce": 3.368374945247482,
     "estMachine": false
 
   },
@@ -798,14 +798,14 @@
     "datePaiement": "202612",
     "commentaire": "*PLAIR2026 S18",
 	"emplacement": "C7",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 4994,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 46,
+    "sp_nbHeureEtiqRestant": 0,
     "sp_nbHeureRepartRestant": 46,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.829989569912265,
+    "heuresAce": 3.063991655929812,
     "estMachine": false
 
   },
@@ -828,14 +828,14 @@
     "datePaiement": "202612",
     "commentaire": "*HIV2026+R S42+S49",
 	"emplacement": "C8",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 6000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 39,
+    "sp_nbHeureEtiqRestant": 1,
     "sp_nbHeureRepartRestant": 39,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.2558333333333334,
+    "heuresAce": 2.604834317791463,
     "estMachine": false
 
   },
@@ -888,14 +888,14 @@
     "datePaiement": "202609",
     "commentaire": "*PRI2026 S17",
 	"emplacement": "C17",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 74000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 354,
+    "sp_nbHeureEtiqRestant": 1,
     "sp_nbHeureRepartRestant": 354,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 29.503333333333334,
+    "heuresAce": 23.603061695389954,
     "estMachine": false
 
   },
@@ -1015,7 +1015,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.481111111111111,
+    "heuresAce": 4.033867553674025,
     "estMachine": false
 
   },
@@ -1075,7 +1075,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 44.05,
+    "heuresAce": 33.68542129052116,
     "estMachine": false
 
   },
@@ -1135,7 +1135,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 10.368461538461538,
+    "heuresAce": 7.929059715708378,
     "estMachine": false
 
   },
@@ -1158,14 +1158,14 @@
     "datePaiement": "202613",
     "commentaire": "*NOEL2026 S44",
 	"emplacement": "C2",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 10000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 70,
-    "sp_nbHeureRepartRestant": 70,
+    "sp_nbHeureEtiqRestant": 12,
+    "sp_nbHeureRepartRestant": 49,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 5.858333333333333,
+    "heuresAce": 3.27530768377869,
     "estMachine": false
 
   },
@@ -1195,7 +1195,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.5622222222222222,
+    "heuresAce": 0.5061970793962449,
     "estMachine": false
 
   },
@@ -1248,14 +1248,14 @@
     "datePaiement": "202614",
     "commentaire": "*PERM",
 	"emplacement": "C4",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 10000,
     "sp_nbPieceRepart": 0,
-    "sp_nbHeureEtiqRestant": 136,
+    "sp_nbHeureEtiqRestant": 76,
     "sp_nbHeureRepartRestant": 136,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 11.342500000000001,
+    "heuresAce": 9.074285256987375,
     "estMachine": false
 
   },
@@ -1375,7 +1375,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 8.983333333333333,
+    "heuresAce": 8.085519922254615,
     "estMachine": false
 
   },
@@ -1488,7 +1488,7 @@
     "datePaiement": "202615",
     "commentaire": "*PERM",
 	"emplacement": "C18",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 20000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
     "sp_nbHeureRepartRestant": 0,
@@ -1555,7 +1555,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.611111111111111,
+    "heuresAce": 4.150889133873365,
     "estMachine": false
 
   },
@@ -1585,7 +1585,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 6.978888888888889,
+    "heuresAce": 4.819947165963757,
     "estMachine": false
 
   },
@@ -1638,14 +1638,14 @@
     "datePaiement": "202616",
     "commentaire": "*PERM",
 	"emplacement": "C26",
-    "sp_nbPieceEtiq": 0,
+    "sp_nbPieceEtiq": 100,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 4,
     "sp_nbHeureRepartRestant": 4,
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.33999999999999997,
+    "heuresAce": 0.26002166847237274,
     "estMachine": false
 
   },
@@ -1675,7 +1675,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.823333333333333,
+    "heuresAce": 3.440953412784399,
     "estMachine": false
 
   },
@@ -1735,7 +1735,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 2.7415384615384615,
+    "heuresAce": 2.0968079344564834,
     "estMachine": false
 
   },
@@ -1795,7 +1795,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.09,
+    "heuresAce": 2.7810585164479162,
     "estMachine": false
 
   }

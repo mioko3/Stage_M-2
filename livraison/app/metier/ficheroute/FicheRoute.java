@@ -14,13 +14,6 @@ public class FicheRoute
 	private double prixUntaireMoy;
 	private int effectif;
 
-	// resultat de la fiche de route par ACE
-	private int[] sommeVVSAce;
-	private int[] sommePiecesAce;
-	private double[] prixUntaireMoyAce;
-	private int[] effectifAce;
-	private int[] nbPalettesAce;
-
 	// referenciel
 	private int objProd;
 	private int objVVS;
@@ -33,13 +26,6 @@ public class FicheRoute
 		this.sommePieces = 0;
 		this.prixUntaireMoy = 0;
 		this.effectif = 0;
-
-		// Initialisation vide - sera redimensionné lors de setSociete
-		this.sommeVVSAce = new int[0];
-		this.sommePiecesAce = new int[0];
-		this.prixUntaireMoyAce = new double[0];
-		this.effectifAce = new int[0];
-		this.nbPalettesAce = new int[0];
 
 		calculSommeVVS();
 		caculSommePieces();
@@ -88,15 +74,7 @@ public class FicheRoute
 	public void setSociete(Societe societe)
 	{
 		this.societe = societe;
-		if (societe != null && societe.getAces() != null)
-		{
-			int nbAce = societe.getAces().size();
-			this.sommeVVSAce = new int[nbAce];
-			this.sommePiecesAce = new int[nbAce];
-			this.prixUntaireMoyAce = new double[nbAce];
-			this.effectifAce = new int[nbAce];
-			this.nbPalettesAce = new int[nbAce];
-		}
+		
 	}
 	public void setSommeVVS(int sommeVVS) {this.sommeVVS = sommeVVS;}
 	public void setSommePieces(int sommePieces) {this.sommePieces = sommePieces;}
