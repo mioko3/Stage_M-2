@@ -194,6 +194,8 @@ public class PlanningGlobal
 
 	/**
 	 * @return true si succès, false si la société n'a pas assez d'heures
+	 * ou que la société et l'ACE sont déjà affectés au lot. Dans ce cas,
+	 * aucune modification n'est appliquée.
 	 */
 	public boolean affecterLot(Lot lot, Societe societe, Ace ace)
 	{
