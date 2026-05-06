@@ -162,6 +162,10 @@ public class ExcelReader
 					int part = effectif / soc.getAces().size();
 					ace.setEffectifActuel(part);
 				}
+				for (Lot lot : soc.getLots())
+				{
+					hAff -= (int) Math.ceil(lot.getHeures());
+				}
 				soc.setTotalHeuresCE(hAff);
 			}
 		}
@@ -235,21 +239,19 @@ public class ExcelReader
 							getInt(a, "effectifActuel")
 						);
 						aces.add(ace);
-						// ajouter les lots au societe et au Aces (si besoin)
-						// lotsACE est un tableau de lots pour chaque ace
 						String blocLotsAce = extraireBloc(a, "\"lotsACE\"");
 						if (blocLotsAce != null)
 						{
-							for (int cde : parseCdeList(blocLotsAce))
+							for (String id : parseIdList(blocLotsAce))
 							{
-								Lot lot = trouverLot(cde);
+								Lot lot = trouverLotParId(id);
 								if (lot != null && !ace.getLots().contains(lot))
 								{
-									ace.getLots().add(lot);
-									if (!soc.getLots().contains(lot))
-										soc.getLots().add(lot);
-									if (ace.getEffectifActuel() > 0)
-										lot.setHeuresAce(lot.getHeures() / ace.getEffectifActuel());
+									soc.ajouterLotSansHeures(lot, ace);
+								}
+								else if (lot == null)
+								{
+									System.err.println("[ERREUR] Lot non trouvé (ID: " + id + ") pour l'ACE " + ace.getNom() + " de " + soc.getNom());
 								}
 							}
 						}
@@ -258,11 +260,13 @@ public class ExcelReader
 				String lotsAffectes = extraireBloc(obj, "\"lotsAffectes\"");
 			if (lotsAffectes != null)
 			{
-				for (int cde : parseCdeList(lotsAffectes))
+				for (String id : parseIdList(lotsAffectes))
 				{
-					Lot lot = trouverLot(cde);
+					Lot lot = trouverLotParId(id);
 					if (lot != null && !soc.getLots().contains(lot))
-						soc.getLots().add(lot);
+						soc.ajouterLot(lot, null);
+					else if (lot == null)
+						System.err.println("[ERREUR] Lot non trouvé (ID: " + id + ") pour la société " + soc.getNom());
 				}
 			}
 			liste.add(soc);
@@ -270,10 +274,10 @@ public class ExcelReader
 			return liste;
 	}
 
-	private static Lot trouverLot(int numCDE)
+	private static Lot trouverLotParId(String id)
 	{
 		for (Lot l : ExcelReader.planningGlobal.getLots())
-			if (l.getNumCDE() == numCDE) return l;
+			if (l.getId().equals(id)) return l;
 		return null;
 	}
 
@@ -293,8 +297,7 @@ public class ExcelReader
 				getString(obj, "statut"),
 				getString(obj, "statutEchant")
 			);
-
-			lot.setTypologie(getString(obj, "typologie"));
+		lot.setId(getString(obj, "id"));			lot.setTypologie(getString(obj, "typologie"));
 			lot.setAffaire(getString(obj, "affaire"));
 			lot.setSemaine(getString(obj, "semaine"));
 			lot.setPriorite(getInt(obj, "priorite"));
@@ -362,15 +365,15 @@ public class ExcelReader
 		return liste;
 	}
 
-	private static ArrayList<Integer> parseCdeList(String tableau)
+	private static ArrayList<String> parseIdList(String tableau)
 	{
-		ArrayList<Integer> liste = new ArrayList<>();
+		ArrayList<String> liste = new ArrayList<>();
 		String contenu = tableau.replace("[", "").replace("]", "").trim();
 		if (contenu.isEmpty()) return liste;
 		for (String s : contenu.split(","))
 		{
-			try { liste.add(Integer.parseInt(s.trim())); }
-			catch (NumberFormatException ignored) {}
+			String id = s.trim().replace("\"", "");
+			if (!id.isEmpty()) liste.add(id);
 		}
 		return liste;
 	}

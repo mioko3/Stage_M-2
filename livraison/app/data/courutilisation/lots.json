@@ -1,5 +1,6 @@
 [
   {
+    "id": "6897f116-82db-47c3-9f47-838b9023e5e9",
     "numCDE": 9001349,
     "semaine": "202617",
     "priorite": 0,
@@ -29,6 +30,7 @@
 
   },
   {
+    "id": "90cb09a9-db68-403d-87dc-87fcf43babc1",
     "numCDE": 5407279,
     "semaine": "202617",
     "priorite": 0,
@@ -58,6 +60,7 @@
 
   },
   {
+    "id": "e482a7a0-a509-4d11-8787-fa3c891ebfab",
     "numCDE": 6004656,
     "semaine": "202617",
     "priorite": 0,
@@ -82,11 +85,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "2a17092b-790e-4b5b-9c2d-5ca6c2066528",
     "numCDE": 9001797,
     "semaine": "202617",
     "priorite": 0,
@@ -111,11 +115,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.465907252192485,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "04365d11-9d44-4ea5-b7d9-b94f2b65e15b",
     "numCDE": 9001797,
     "semaine": "202617",
     "priorite": 0,
@@ -145,10 +150,11 @@
 
   },
   {
+    "id": "ce669251-7b4d-4522-b0fb-62e1382b946c",
     "numCDE": 1800743,
     "semaine": "202617",
     "priorite": 0,
-    "typologie": "",
+    "typologie": ".",
     "affaire": "BAC - SANDALE / MULE CUIR FEMME",
     "valeurVente": 22944,
     "nbPieces": 4598,
@@ -161,7 +167,7 @@
     "dateReception": "2025-08-26",
     "datePaiement": "202535",
     "commentaire": "*TEPRI2026 S20",
-	"emplacement": "",
+	"emplacement": "C31",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -174,6 +180,7 @@
 
   },
   {
+    "id": "f3be6152-5c32-4181-bbea-ebaf95c3e7b8",
     "numCDE": 5408579,
     "semaine": "202617",
     "priorite": 0,
@@ -198,11 +205,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 8.661111111111111,
+    "heuresAce": 8.662131519274377,
     "estMachine": false
 
   },
   {
+    "id": "924a44bc-6718-4112-a006-9391f3038cfb",
     "numCDE": 1802493,
     "semaine": "202617",
     "priorite": 0,
@@ -227,11 +235,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.115384615384615,
+    "heuresAce": 4.1160593792172735,
     "estMachine": false
 
   },
   {
+    "id": "aae09213-d9f5-4310-8c3d-15560790c4c9",
     "numCDE": 6005769,
     "semaine": "202617",
     "priorite": 0,
@@ -256,11 +265,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 1.6446153846153846,
+    "heuresAce": 1.6453823918948969,
     "estMachine": false
 
   },
   {
+    "id": "ed39fa62-91dc-434b-82b8-fc71857498bb",
     "numCDE": 1802539,
     "semaine": "202617",
     "priorite": 0,
@@ -285,11 +295,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 6.093846153846154,
+    "heuresAce": 6.093882351507322,
     "estMachine": false
 
   },
   {
+    "id": "af658e72-408a-4aea-adb3-b055568e43dc",
     "numCDE": 1803481,
     "semaine": "202617",
     "priorite": 0,
@@ -314,11 +325,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.4411111111111111,
+    "heuresAce": 0.4418741802881864,
     "estMachine": false
 
   },
   {
+    "id": "7e3dc7c3-6518-4991-8032-81ccc30085f6",
     "numCDE": 6005733,
     "semaine": "202617",
     "priorite": 0,
@@ -327,7 +339,7 @@
     "valeurVente": 28128,
     "nbPieces": 13227,
     "cadence": 332.58,
-    "heures": 39.77,
+    "heures": 39.77088219375789,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -335,7 +347,7 @@
     "dateReception": "2025-12-05",
     "datePaiement": "202601",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "LTS",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 40,
@@ -343,11 +355,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.4188888888888895,
+    "heuresAce": 4.418986910417543,
     "estMachine": false
 
   },
   {
+    "id": "a2a0f64f-c189-4f3d-8486-4eca5ac0bbbd",
     "numCDE": 1802021,
     "semaine": "202617",
     "priorite": 0,
@@ -377,6 +390,7 @@
 
   },
   {
+    "id": "a7ca17f2-ae5d-4611-8a3e-0a249151d0f0",
     "numCDE": 1802021,
     "semaine": "202617",
     "priorite": 0,
@@ -385,7 +399,7 @@
     "valeurVente": 0,
     "nbPieces": 40797,
     "cadence": 472.0,
-    "heures": 86.43,
+    "heures": 86.43432203389831,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "D",
@@ -393,7 +407,7 @@
     "dateReception": "2025-12-17",
     "datePaiement": "202551",
     "commentaire": "*ETE2026+NOEL2026 S27",
-	"emplacement": "",
+	"emplacement": "C32",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 86,
@@ -406,6 +420,7 @@
 
   },
   {
+    "id": "424d8b0f-76a5-42c2-bb64-8443422efa0c",
     "numCDE": 5409277,
     "semaine": "202617",
     "priorite": 0,
@@ -414,7 +429,7 @@
     "valeurVente": 70447,
     "nbPieces": 17656,
     "cadence": 159.19,
-    "heures": 110.91,
+    "heures": 110.91148941516427,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -422,7 +437,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*PERM+ETE2026 S26",
-	"emplacement": "",
+	"emplacement": "B5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 111,
@@ -430,11 +445,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 9.2425,
+    "heuresAce": 9.242624117930356,
     "estMachine": false
 
   },
   {
+    "id": "b6c6f4a1-8330-4c6c-b8f8-48f95c7053d0",
     "numCDE": 5409277,
     "semaine": "202617",
     "priorite": 0,
@@ -443,7 +459,7 @@
     "valeurVente": 59451,
     "nbPieces": 14900,
     "cadence": 159.19,
-    "heures": 93.59,
+    "heures": 93.5988441485018,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -451,7 +467,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*PERM+ETE2026 S26",
-	"emplacement": "",
+	"emplacement": "C9",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 94,
@@ -464,6 +480,7 @@
 
   },
   {
+    "id": "0e98d6a4-fbc2-4af0-bc33-17d622bfee56",
     "numCDE": 6006057,
     "semaine": "202617",
     "priorite": 0,
@@ -472,7 +489,7 @@
     "valeurVente": 25502,
     "nbPieces": 3384,
     "cadence": 81.42,
-    "heures": 41.56,
+    "heures": 41.56226971260133,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -480,7 +497,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*TEPRI2026+TEETE2026+TEAUT2026 S20+S34+S40",
-	"emplacement": "",
+	"emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 42,
@@ -488,11 +505,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "366c724d-fac1-45ff-aada-61527940eceb",
     "numCDE": 1802825,
     "semaine": "202617",
     "priorite": 0,
@@ -522,6 +540,7 @@
 
   },
   {
+    "id": "0f9b3a3a-5ae6-48e6-b5e8-172a4866ba45",
     "numCDE": 1802825,
     "semaine": "202617",
     "priorite": 0,
@@ -551,6 +570,7 @@
 
   },
   {
+    "id": "9657bd21-6118-4e87-bb5e-8ab22e938349",
     "numCDE": 9002553,
     "semaine": "202617",
     "priorite": 0,
@@ -580,6 +600,7 @@
 
   },
   {
+    "id": "2d10fdd1-6c6d-457e-ac82-1cef743d956d",
     "numCDE": 5410507,
     "semaine": "202617",
     "priorite": 0,
@@ -588,7 +609,7 @@
     "valeurVente": 130197,
     "nbPieces": 22280,
     "cadence": 166.61,
-    "heures": 133.72,
+    "heures": 133.72546665866395,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -596,7 +617,7 @@
     "dateReception": "2026-01-29",
     "datePaiement": "202609",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "D5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 134,
@@ -604,11 +625,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 14.857777777777777,
+    "heuresAce": 14.858385184295994,
     "estMachine": false
 
   },
   {
+    "id": "4ee6fa18-eca8-4529-b525-70481b530856",
     "numCDE": 6006068,
     "semaine": "202617",
     "priorite": 0,
@@ -617,7 +639,7 @@
     "valeurVente": 24529,
     "nbPieces": 3845,
     "cadence": 76.1,
-    "heures": 50.52,
+    "heures": 50.52562417871223,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -625,7 +647,7 @@
     "dateReception": "2026-02-03",
     "datePaiement": "202606",
     "commentaire": "*TEPRI2026 S19",
-	"emplacement": "",
+	"emplacement": "A3",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 51,
@@ -633,11 +655,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 4.21,
+    "heuresAce": 4.210468681559353,
     "estMachine": false
 
   },
   {
+    "id": "20e0fbe9-9533-4c3a-9b52-a9cd0e9c3a85",
     "numCDE": 5410972,
     "semaine": "202617",
     "priorite": 0,
@@ -646,7 +669,7 @@
     "valeurVente": 36457,
     "nbPieces": 11080,
     "cadence": 142.62,
-    "heures": 77.68,
+    "heures": 77.68896367970831,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -654,7 +677,7 @@
     "dateReception": "2026-02-04",
     "datePaiement": "202606",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C33",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 78,
@@ -667,6 +690,7 @@
 
   },
   {
+    "id": "3aae01b2-cd3c-4fe2-9ba9-37473dad5bab",
     "numCDE": 5409874,
     "semaine": "202617",
     "priorite": 0,
@@ -675,7 +699,7 @@
     "valeurVente": 151789,
     "nbPieces": 37423,
     "cadence": 200.31,
-    "heures": 186.82,
+    "heures": 186.82542059807298,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "A",
@@ -683,7 +707,7 @@
     "dateReception": "2026-02-09",
     "datePaiement": "202611",
     "commentaire": "*PERM+R",
-	"emplacement": "",
+	"emplacement": "C34",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 187,
@@ -696,6 +720,7 @@
 
   },
   {
+    "id": "1f9926e1-8126-45c2-84cc-879dd07d88a3",
     "numCDE": 5409874,
     "semaine": "202617",
     "priorite": 0,
@@ -725,6 +750,7 @@
 
   },
   {
+    "id": "45776901-9907-447e-8e68-1b1159409a54",
     "numCDE": 1802901,
     "semaine": "202617",
     "priorite": 0,
@@ -733,7 +759,7 @@
     "valeurVente": 146509,
     "nbPieces": 16716,
     "cadence": 211.75,
-    "heures": 78.94,
+    "heures": 78.94214876033058,
     "statut": "MR",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -741,7 +767,7 @@
     "dateReception": "2026-02-17",
     "datePaiement": "202612",
     "commentaire": "*PRI2026 S20",
-	"emplacement": "",
+	"emplacement": "C8",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 79,
@@ -754,6 +780,7 @@
 
   },
   {
+    "id": "fd2224ce-103a-44ba-a37a-160bb2fbfcab",
     "numCDE": 6005770,
     "semaine": "202617",
     "priorite": 0,
@@ -762,7 +789,7 @@
     "valeurVente": 67667,
     "nbPieces": 4994,
     "cadence": 108.66,
-    "heures": 45.95,
+    "heures": 45.95987483894718,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "A",
@@ -770,7 +797,7 @@
     "dateReception": "2026-02-17",
     "datePaiement": "202612",
     "commentaire": "*PLAIR2026 S18",
-	"emplacement": "",
+	"emplacement": "C7",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 46,
@@ -778,11 +805,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 3.829166666666667,
+    "heuresAce": 3.829989569912265,
     "estMachine": false
 
   },
   {
+    "id": "bfb6bd9f-0963-42db-b28a-3423b72388bc",
     "numCDE": 9002397,
     "semaine": "202617",
     "priorite": 0,
@@ -791,7 +819,7 @@
     "valeurVente": 31029,
     "nbPieces": 6218,
     "cadence": 159.14,
-    "heures": 39.07,
+    "heures": 39.07251476687194,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -799,7 +827,7 @@
     "dateReception": "2026-02-19",
     "datePaiement": "202612",
     "commentaire": "*HIV2026+R S42+S49",
-	"emplacement": "",
+	"emplacement": "C8",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 39,
@@ -812,6 +840,7 @@
 
   },
   {
+    "id": "0fad2551-cc07-4163-9892-7b905ad34a40",
     "numCDE": 9002397,
     "semaine": "202617",
     "priorite": 0,
@@ -820,7 +849,7 @@
     "valeurVente": 24787,
     "nbPieces": 4967,
     "cadence": 159.14,
-    "heures": 31.21,
+    "heures": 31.211511876335305,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -828,7 +857,7 @@
     "dateReception": "2026-02-19",
     "datePaiement": "202612",
     "commentaire": "*HIV2026+R S42+S49",
-	"emplacement": "",
+	"emplacement": "C20",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 31,
@@ -841,6 +870,7 @@
 
   },
   {
+    "id": "fbb35de8-9e38-4273-8b65-f00e09e587ba",
     "numCDE": 6006051,
     "semaine": "202617",
     "priorite": 0,
@@ -849,7 +879,7 @@
     "valeurVente": 224819,
     "nbPieces": 74162,
     "cadence": 209.47,
-    "heures": 354.04,
+    "heures": 354.0459254308493,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -857,7 +887,7 @@
     "dateReception": "2026-02-25",
     "datePaiement": "202609",
     "commentaire": "*PRI2026 S17",
-	"emplacement": "",
+	"emplacement": "C17",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 354,
@@ -870,6 +900,7 @@
 
   },
   {
+    "id": "20e9bd96-872c-43b9-a4d2-eee0deb1653e",
     "numCDE": 1804061,
     "semaine": "202617",
     "priorite": 0,
@@ -899,6 +930,7 @@
 
   },
   {
+    "id": "05df8160-a423-421a-96e1-1dc895e82f92",
     "numCDE": 5411410,
     "semaine": "202617",
     "priorite": 0,
@@ -928,6 +960,7 @@
 
   },
   {
+    "id": "26e2a72c-12cf-4281-b5eb-579617253fb5",
     "numCDE": 5411410,
     "semaine": "202617",
     "priorite": 0,
@@ -957,6 +990,7 @@
 
   },
   {
+    "id": "ae6d4f6c-1ff7-4050-8a05-216732db75d0",
     "numCDE": 5409297,
     "semaine": "202617",
     "priorite": 0,
@@ -965,7 +999,7 @@
     "valeurVente": 43153,
     "nbPieces": 14674,
     "cadence": 363.77,
-    "heures": 40.33,
+    "heures": 40.33867553674025,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -973,7 +1007,7 @@
     "dateReception": "2026-03-12",
     "datePaiement": "202615",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C21",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 40,
@@ -986,6 +1020,7 @@
 
   },
   {
+    "id": "96582e34-8178-45a2-8693-e5eeca8f6350",
     "numCDE": 5411134,
     "semaine": "202617",
     "priorite": 0,
@@ -994,15 +1029,15 @@
     "valeurVente": 74535,
     "nbPieces": 15351,
     "cadence": 166.61,
-    "heures": 92.13,
-    "statut": "TE",
+    "heures": 92.13732669107496,
+    "statut": "",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
     "estSousDouane": false,
     "dateReception": "2026-03-20",
     "datePaiement": "202612",
     "commentaire": "*TEAUT2026 S39",
-	"emplacement": "",
+	"emplacement": "C22",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 92,
@@ -1010,11 +1045,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "1c088576-79b2-4cf9-b996-1ef9efb2f0bc",
     "numCDE": 5411379,
     "semaine": "202617",
     "priorite": 0,
@@ -1023,7 +1059,7 @@
     "valeurVente": 129109,
     "nbPieces": 20793,
     "cadence": 36.31,
-    "heures": 572.65,
+    "heures": 572.6521619388598,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1031,7 +1067,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "",
+	"emplacement": "C23",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 573,
@@ -1044,6 +1080,7 @@
 
   },
   {
+    "id": "f60d7ae3-3b8f-4456-9a5f-9eccd049e9e5",
     "numCDE": 5411379,
     "semaine": "202617",
     "priorite": 0,
@@ -1052,7 +1089,7 @@
     "valeurVente": 21942,
     "nbPieces": 3098,
     "cadence": 36.31,
-    "heures": 85.32,
+    "heures": 85.32084825117047,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1060,7 +1097,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "",
+	"emplacement": "C0",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 85,
@@ -1073,6 +1110,7 @@
 
   },
   {
+    "id": "b8e5f403-ff51-4512-ae36-cce0f96a1c9c",
     "numCDE": 5410148,
     "semaine": "202617",
     "priorite": 0,
@@ -1081,7 +1119,7 @@
     "valeurVente": 98572,
     "nbPieces": 32883,
     "cadence": 243.95,
-    "heures": 134.79,
+    "heures": 134.79401516704243,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "C",
@@ -1089,7 +1127,7 @@
     "dateReception": "2026-03-24",
     "datePaiement": "202617",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C1",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 135,
@@ -1102,6 +1140,7 @@
 
   },
   {
+    "id": "d8c8f593-d818-42da-8d31-57b4275968d8",
     "numCDE": 1804288,
     "semaine": "202617",
     "priorite": 0,
@@ -1110,7 +1149,7 @@
     "valeurVente": 23530,
     "nbPieces": 13293,
     "cadence": 270.57,
-    "heures": 70.3,
+    "heures": 49.129615256680346,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "B",
@@ -1118,7 +1157,7 @@
     "dateReception": "2026-03-27",
     "datePaiement": "202613",
     "commentaire": "*NOEL2026 S44",
-	"emplacement": "",
+	"emplacement": "C2",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 70,
@@ -1131,6 +1170,7 @@
 
   },
   {
+    "id": "0dae0d8a-bb93-4e6a-ab98-5f974b5ac7fc",
     "numCDE": 5411288,
     "semaine": "202617",
     "priorite": 0,
@@ -1139,7 +1179,7 @@
     "valeurVente": 1708,
     "nbPieces": 2475,
     "cadence": 488.94,
-    "heures": 5.06,
+    "heures": 5.061970793962449,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "A",
@@ -1147,7 +1187,7 @@
     "dateReception": "2026-03-27",
     "datePaiement": "202613",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C3",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 5,
@@ -1160,6 +1200,7 @@
 
   },
   {
+    "id": "5942fc09-a268-48a0-8eaf-c411fa78fd8a",
     "numCDE": 9002931,
     "semaine": "202617",
     "priorite": 0,
@@ -1189,6 +1230,7 @@
 
   },
   {
+    "id": "01c82b4e-99a2-4baa-a7e3-089958dc4a48",
     "numCDE": 5408741,
     "semaine": "202617",
     "priorite": 0,
@@ -1197,7 +1239,7 @@
     "valeurVente": 99657,
     "nbPieces": 22678,
     "cadence": 166.61,
-    "heures": 136.11,
+    "heures": 136.11427885481064,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1205,7 +1247,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C4",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 136,
@@ -1218,6 +1260,7 @@
 
   },
   {
+    "id": "894cf03d-41a5-4c98-9298-ac40fc276f26",
     "numCDE": 6006244,
     "semaine": "202617",
     "priorite": 0,
@@ -1226,7 +1269,7 @@
     "valeurVente": 9410,
     "nbPieces": 6720,
     "cadence": 258.39,
-    "heures": 26.0,
+    "heures": 26.007198420991525,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1234,7 +1277,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*NOEL2026 S48",
-	"emplacement": "",
+	"emplacement": "C5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 26,
@@ -1242,11 +1285,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "90a5d45a-33b4-499e-9726-50c9c2fac7f6",
     "numCDE": 6006244,
     "semaine": "202617",
     "priorite": 0,
@@ -1255,7 +1299,7 @@
     "valeurVente": 49380,
     "nbPieces": 35270,
     "cadence": 258.39,
-    "heures": 136.49,
+    "heures": 136.49909052207903,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1263,7 +1307,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*NOEL2026 S48",
-	"emplacement": "",
+	"emplacement": "C6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 136,
@@ -1276,6 +1320,7 @@
 
   },
   {
+    "id": "8ace843c-2107-4deb-b759-53d7e6ca08cb",
     "numCDE": 9002448,
     "semaine": "202617",
     "priorite": 0,
@@ -1284,7 +1329,7 @@
     "valeurVente": 27629,
     "nbPieces": 8391,
     "cadence": 230.33,
-    "heures": 36.43,
+    "heures": 36.430339078713146,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1292,7 +1337,7 @@
     "dateReception": "2026-04-07",
     "datePaiement": "202619",
     "commentaire": "*PRI2026 S18",
-	"emplacement": "",
+	"emplacement": "C11",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 36,
@@ -1300,11 +1345,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": Infinity,
     "estMachine": false
 
   },
   {
+    "id": "f58de353-6c7b-494a-87e1-fffe92c3128e",
     "numCDE": 1803082,
     "semaine": "202617",
     "priorite": 0,
@@ -1313,7 +1359,7 @@
     "valeurVente": 37315,
     "nbPieces": 12480,
     "cadence": 154.35,
-    "heures": 80.85,
+    "heures": 80.85519922254616,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1321,7 +1367,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*TEETE2026+R S22+S27",
-	"emplacement": "",
+	"emplacement": "C13",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 81,
@@ -1334,6 +1380,7 @@
 
   },
   {
+    "id": "44fcc74d-b90b-492f-817f-209a8cc2c928",
     "numCDE": 1803082,
     "semaine": "202617",
     "priorite": 0,
@@ -1342,7 +1389,7 @@
     "valeurVente": 12011,
     "nbPieces": 4017,
     "cadence": 154.35,
-    "heures": 26.02,
+    "heures": 26.025267249757047,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1350,7 +1397,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*TEETE2026+R S22+S27",
-	"emplacement": "",
+	"emplacement": "C14",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 26,
@@ -1363,6 +1410,7 @@
 
   },
   {
+    "id": "5d732fab-6f12-402c-818b-1be9208c1f89",
     "numCDE": 1803472,
     "semaine": "202617",
     "priorite": 0,
@@ -1371,7 +1419,7 @@
     "valeurVente": 31490,
     "nbPieces": 8997,
     "cadence": 140.78,
-    "heures": 63.9,
+    "heures": 63.908225600227304,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1379,7 +1427,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*AUT2026 S36",
-	"emplacement": "",
+	"emplacement": "C15",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 64,
@@ -1392,6 +1440,7 @@
 
   },
   {
+    "id": "f938eb5e-beaa-4123-896a-7acd68525e1b",
     "numCDE": 9003100,
     "semaine": "202617",
     "priorite": 0,
@@ -1400,7 +1449,7 @@
     "valeurVente": 84967,
     "nbPieces": 17880,
     "cadence": 205.27,
-    "heures": 87.1,
+    "heures": 87.10478881473182,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1408,7 +1457,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202615",
     "commentaire": "*ETE2026 S29",
-	"emplacement": "",
+	"emplacement": "C16",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 87,
@@ -1421,10 +1470,11 @@
 
   },
   {
+    "id": "262e163c-1e83-467a-8775-5ed148077fcd",
     "numCDE": 6006204,
     "semaine": "202617",
     "priorite": 0,
-    "typologie": "",
+    "typologie": ".",
     "affaire": "PLANCHES BAMBOU + RANGE-COUVERT ++",
     "valeurVente": 90663,
     "nbPieces": 28119,
@@ -1437,7 +1487,7 @@
     "dateReception": "2026-04-09",
     "datePaiement": "202615",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C18",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -1450,6 +1500,7 @@
 
   },
   {
+    "id": "b9a05cb4-f840-42d4-969a-9b7031fa0738",
     "numCDE": 9002912,
     "semaine": "202617",
     "priorite": 0,
@@ -1479,6 +1530,7 @@
 
   },
   {
+    "id": "10ef3e9d-410a-4713-a840-4bf0d668a0f4",
     "numCDE": 1802839,
     "semaine": "202617",
     "priorite": 0,
@@ -1487,7 +1539,7 @@
     "valeurVente": 49895,
     "nbPieces": 17320,
     "cadence": 417.26,
-    "heures": 41.5,
+    "heures": 41.50889133873365,
     "statut": "MR",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1495,7 +1547,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202619",
     "commentaire": "*PRI2026 S19",
-	"emplacement": "",
+	"emplacement": "C19",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 42,
@@ -1508,6 +1560,7 @@
 
   },
   {
+    "id": "383fbaea-837b-450a-9489-0597959e2f3c",
     "numCDE": 6006194,
     "semaine": "202617",
     "priorite": 0,
@@ -1516,7 +1569,7 @@
     "valeurVente": 62296,
     "nbPieces": 10400,
     "cadence": 215.77,
-    "heures": 62.81,
+    "heures": 48.199471659637574,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1524,7 +1577,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202615",
     "commentaire": "*PERM+ETE2026 S23",
-	"emplacement": "",
+	"emplacement": "C24",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 63,
@@ -1537,6 +1590,7 @@
 
   },
   {
+    "id": "b051555c-4a0f-47a5-a833-a129743b2fc1",
     "numCDE": 6006194,
     "semaine": "202617",
     "priorite": 0,
@@ -1545,7 +1599,7 @@
     "valeurVente": 60757,
     "nbPieces": 10143,
     "cadence": 215.77,
-    "heures": 61.6,
+    "heures": 47.008388561894606,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1553,7 +1607,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202615",
     "commentaire": "*PERM+ETE2026 S23",
-	"emplacement": "",
+	"emplacement": "C25",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 62,
@@ -1566,6 +1620,7 @@
 
   },
   {
+    "id": "291a0893-e2a4-4a61-ab05-51374eb2e732",
     "numCDE": 1804424,
     "semaine": "202617",
     "priorite": 0,
@@ -1574,7 +1629,7 @@
     "valeurVente": 12232,
     "nbPieces": 816,
     "cadence": 184.6,
-    "heures": 4.42,
+    "heures": 4.420368364030336,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1582,7 +1637,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C26",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 4,
@@ -1590,11 +1645,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.36833333333333335,
+    "heuresAce": 0.33999999999999997,
     "estMachine": false
 
   },
   {
+    "id": "559b479c-7568-472b-84b0-4ed8897caf71",
     "numCDE": 1804424,
     "semaine": "202617",
     "priorite": 0,
@@ -1603,7 +1659,7 @@
     "valeurVente": 82512,
     "nbPieces": 6352,
     "cadence": 184.6,
-    "heures": 34.41,
+    "heures": 34.40953412784399,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1611,7 +1667,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C27",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 34,
@@ -1619,11 +1675,12 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": 0.0,
+    "heuresAce": 3.823333333333333,
     "estMachine": false
 
   },
   {
+    "id": "7888f398-8602-4452-8997-7a8a5141a184",
     "numCDE": 6006130,
     "semaine": "202617",
     "priorite": 0,
@@ -1653,6 +1710,7 @@
 
   },
   {
+    "id": "5b89eb84-c039-4885-834f-4ad8d14af55a",
     "numCDE": 9002962,
     "semaine": "202617",
     "priorite": 0,
@@ -1661,7 +1719,7 @@
     "valeurVente": 73097,
     "nbPieces": 7317,
     "cadence": 205.27,
-    "heures": 35.64,
+    "heures": 35.64573488576022,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1669,7 +1727,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C28",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 36,
@@ -1682,6 +1740,7 @@
 
   },
   {
+    "id": "3b21330e-dc26-4a64-9e60-1febe29b5673",
     "numCDE": 5410754,
     "semaine": "202617",
     "priorite": 0,
@@ -1690,7 +1749,7 @@
     "valeurVente": 137051,
     "nbPieces": 22212,
     "cadence": 50.12,
-    "heures": 443.17,
+    "heures": 443.1763766959298,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1698,7 +1757,7 @@
     "dateReception": "2026-04-14",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C29",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 443,
@@ -1711,6 +1770,7 @@
 
   },
   {
+    "id": "ac5c495e-23d9-4adc-a190-3459359b2cc7",
     "numCDE": 5410991,
     "semaine": "202617",
     "priorite": 0,
@@ -1719,7 +1779,7 @@
     "valeurVente": 19380,
     "nbPieces": 15023,
     "cadence": 540.19,
-    "heures": 27.81,
+    "heures": 27.81058516447916,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -1727,7 +1787,7 @@
     "dateReception": "2026-04-15",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "",
+	"emplacement": "C30",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 28,

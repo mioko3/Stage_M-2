@@ -36,7 +36,7 @@ public class Societe
 	/**
 	 * Affecte un lot à cette société.
 	 * Décrémente les heures disponibles de la société.
-	 * L'ACE n'est PAS impacté en heures.
+	 * L'ACE n'est PAS impacté en heures (peut être null).
 	 */
 	public void ajouterLot(Lot lot , Ace ace)
 	{
@@ -44,7 +44,18 @@ public class Societe
 		{
 			lots.add(lot);
 			totalHeuresCE -= (int) Math.ceil(lot.getHeures());
-			ace.donnerLotACE(lot);
+			if (ace != null)
+				ace.donnerLotACE(lot);
+		}
+	}
+
+	public void ajouterLotSansHeures(Lot lot, Ace ace)
+	{
+		if (!lots.contains(lot))
+		{
+			lots.add(lot);
+			if (ace != null)
+				ace.donnerLotACE(lot);
 		}
 	}
 

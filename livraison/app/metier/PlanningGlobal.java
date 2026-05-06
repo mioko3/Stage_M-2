@@ -214,7 +214,7 @@ public class PlanningGlobal
 			ancSociete.enleverLot(lot);
 		}
 
-		if (ace != null) societe.ajouterLot(lot, ace);
+		societe.ajouterLot(lot, ace);
 
 		return true;
 	}

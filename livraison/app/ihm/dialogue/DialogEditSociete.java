@@ -194,6 +194,7 @@ public class DialogEditSociete extends JDialog
 		{
 			lblErreur.setText("Valeur invalide : " + ex.getMessage());
 		}
+		this.fenetre.rafraichirTout();
 	}
 
 	private int parseInt(Object v)

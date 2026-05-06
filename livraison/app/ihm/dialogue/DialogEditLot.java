@@ -346,6 +346,7 @@ public class DialogEditLot extends JDialog
 		{
 			lblErreur.setText("Valeur numérique invalide : " + ex.getMessage());
 		}
+		this.fenetre.rafraichirTout();
 	}
 
 	private String s(String v) { return v != null ? v : ""; }

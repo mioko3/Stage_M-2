@@ -164,6 +164,7 @@ public class PanelSocietes extends JPanel
 				);
 			}
 		}
+		rafraichir();
 	}
 
 	private String buildDetail(Societe soc)
@@ -221,5 +222,6 @@ public class PanelSocietes extends JPanel
 			detailAce.setText(buildDetail(ctrl.getSocietes().get(sel)));
 		}
 		else detailAce.setText("");
+		this.fenetre.rafraichirTout();
 	}
 }
