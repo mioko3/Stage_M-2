@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DialogEditSociete extends JDialog
 {
+	private final FenetrePrincipale fenetre;
 	private final Controleur    ctrl;
 	private final Societe       soc;
 	private final PanelSocietes panelSoc;
@@ -47,6 +48,7 @@ public class DialogEditSociete extends JDialog
 							  Societe soc, PanelSocietes panelSoc)
 	{
 		super(fenetre, "Modifier — " + soc.getNom(), true);
+		this.fenetre = fenetre;
 		this.ctrl     = ctrl;
 		this.soc      = soc;
 		this.panelSoc = panelSoc;
