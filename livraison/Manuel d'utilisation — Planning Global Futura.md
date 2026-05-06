@@ -16,6 +16,7 @@
 8. [Sauvegarder et charger les données](#8-sauvegarder-et-charger-les-données)
 9. [Remettre à zéro (nouvelle semaine)](#9-remettre-à-zéro-nouvelle-semaine)
 10. [Questions fréquentes](#10-questions-fréquentes)
+11. [Idées](#11-idées)
 
 ---
 
@@ -222,11 +223,7 @@ Pour commencer une nouvelle session vierge :
 
 *Manuel rédigé pour les utilisateurs de l'application Planning Global Futura — PAM.*
 
-# 💡 Idées de fonctionnalités à implémenter
-
-Voici des suggestions adaptées à un stage et au domaine (gestion de lots / transfert vers des sociétés) :
-
----
+## 11. Idées
 
 ## 1. Historique des actions (Undo / Redo) (très bonne idée)
 
