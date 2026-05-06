@@ -265,8 +265,11 @@ public class Controleur
 
 	public void mettreAJourSuiviProd(Lot lot, int nbPieceEtiq, int nbPieceRepart)
 	{
-		lot.getSuivieProd().setNbPieceEtiq  (nbPieceEtiq);
-		lot.getSuivieProd().setNbPieceRepart(nbPieceRepart);
+		if (nbPieceEtiq <= lot.getNbPieces() && nbPieceRepart <= lot.getNbPieces())
+		{
+			lot.getSuivieProd().setNbPieceEtiq  (nbPieceEtiq);
+			lot.getSuivieProd().setNbPieceRepart(nbPieceRepart);
+		}
 		autoSauvegarderLots();
 	}
 

@@ -245,7 +245,7 @@ public class PanelFicheRoute extends JPanel
 			tuiles3.add(creerTuileMini("PU Moy.",
 				puMoy > 0 ? String.format("%.2f €", puMoy) : "—", couleur));
 
-			tuiles3.add(creerTuileMini("% total.",
+			tuiles3.add(creerTuileMini("Av. total.",
 				pAvancPiece > 0 ? String.format("%.2f %%", pAvancPiece) : "—", couleur));
 
 			groupe.add(titreLbl, BorderLayout.NORTH);
