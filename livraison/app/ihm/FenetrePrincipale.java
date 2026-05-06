@@ -84,16 +84,16 @@ public class FenetrePrincipale extends JFrame
 		JMenu menuFichier = new JMenu("Fichier");
 		menuFichier.setFont(new Font("SansSerif", Font.PLAIN, 13));
 
-		JMenuItem itemOuvrir      = new JMenuItem("📂  Ouvrir une sauvegarde…");
-		JMenuItem itemSauvegarder = new JMenuItem("💾  Sauvegarder          Ctrl+S");
+		JMenuItem itemOuvrir      = new JMenuItem("📂  Charger une sauvegarde…");
+		JMenuItem itemSauvegarder = new JMenuItem("💾  Sauvegarder      Ctrl+S");
 		JMenuItem itemNouveaux    = new JMenuItem("🆕  Nouveaux fichiers JSON…");
 
 		itemOuvrir     .addActionListener(e -> ouvrirSauvegarde());
 		itemSauvegarder.addActionListener(e -> sauvegarder());
 		itemNouveaux   .addActionListener(e -> nouveaux());
 
-		itemSauvegarder.setAccelerator(KeyStroke.getKeyStroke("ctrl S"));
 		itemOuvrir     .setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
+		itemSauvegarder.setAccelerator(KeyStroke.getKeyStroke("ctrl S"));
 		itemNouveaux   .setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 
 		menuFichier.add(itemOuvrir);

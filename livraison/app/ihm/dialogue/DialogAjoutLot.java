@@ -26,6 +26,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+// tout est a revoir dans lui
+
 /**
  * Dialogue de création manuelle d'un nouveau lot.
  * Heures = NbPieces / Cadence (calcul en temps réel).
@@ -75,11 +77,7 @@ public class DialogAjoutLot extends JDialog
 		fStatut = new JComboBox<>(new String[]{
 			"","OU", "TC","MR"});
 		fStatutEchant = new JComboBox<>(new String[]{
-			"","VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP",
-			"A faire", "En cours"});
-		femplacement = new JComboBox<>(new String[]{
-			"","B42", "A99", "LTS", "HD", "B21", "C"
-		});
+			"","VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP",});
 
 		lblHeures = new JLabel("—");
 		lblHeures.setForeground(IhmUtils.BLEU);

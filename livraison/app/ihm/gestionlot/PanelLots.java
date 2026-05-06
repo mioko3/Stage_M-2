@@ -249,7 +249,7 @@ public class PanelLots extends JPanel
 
 		for (Lot l : ctrl.getLots())
 		{
-			// 🔴 Filtre sous douane
+			// Filtre sous douane
 			if (!inclureSousDouane && l.isEstSousDouane())
 				continue;
 

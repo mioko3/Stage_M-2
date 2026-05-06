@@ -135,8 +135,8 @@ public class ExcelReader
 		// colStart+3 : H aff.
 
 		try (FileInputStream fis = new FileInputStream(exportPath);
-			Workbook wb = WorkbookFactory.create(fis)) {
-
+			Workbook wb = WorkbookFactory.create(fis))
+		{
 			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
 			Sheet sh = wb.getSheet("TDB V2");
 			if (sh == null)
@@ -144,7 +144,8 @@ public class ExcelReader
 
 			int colStart = 5 + (semaine - 1) * 7; // 0-indexed
 
-			for (Societe soc : societes) {
+			for (Societe soc : societes)
+			{
 				Integer rowIdx = SOCIETE_ROW.get(soc.getNom());
 				if (rowIdx == null) continue;
 

@@ -52,7 +52,7 @@ public class Lot
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
 			   int valeurVente, String statut, String statutEchant)
 	{
-		this.id          = UUID.randomUUID().toString();
+		this.id          = UUID.randomUUID().toString(); // probas est trop faible pour avoir des collisions
 		this.numCDE      = numCDE;
 		this.nbPieces    = nbPieces;
 		this.cadence     = cadence;

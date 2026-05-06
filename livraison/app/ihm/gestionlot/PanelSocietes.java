@@ -77,15 +77,18 @@ public class PanelSocietes extends JPanel
 		tbl = IhmUtils.creerTable(modelSocietes);
 
 		// Colorer H restantes
-		tbl.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+		tbl.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer(){
 			public Component getTableCellRendererComponent(JTable t, Object v,
-					boolean sel, boolean foc, int r, int c) {
+					boolean sel, boolean foc, int r, int c)
+			{
 				super.getTableCellRendererComponent(t, v, sel, foc, r, c);
-				try {
+				try
+				{
 					int h = Integer.parseInt(v.toString().replace("h","").trim());
 					setForeground(h > 100 ? IhmUtils.VERT : h > 30 ? IhmUtils.AMBER : IhmUtils.ROUGE);
 					setFont(getFont().deriveFont(Font.BOLD));
-				} catch (NumberFormatException ex) { setForeground(Color.BLACK); }
+				}
+				catch (NumberFormatException ex) { setForeground(Color.BLACK); }
 				if (!sel) setBackground(Color.WHITE);
 				return this;
 			}
@@ -96,8 +99,9 @@ public class PanelSocietes extends JPanel
 			if (row >= 0 && row < ctrl.getSocietes().size())
 				detailAce.setText(buildDetail(ctrl.getSocietes().get(row)));
 		});
-		tbl.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+		tbl.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e)
+			{
 				if (e.getClickCount() == 2) ouvrirEdition();
 			}
 		});

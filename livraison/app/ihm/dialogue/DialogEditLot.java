@@ -103,13 +103,12 @@ public class DialogEditLot extends JDialog
 		fStatut = new JComboBox<>(new String[]{
 			"", "OU", "TC", "MR"});
 		fStatutEchant = new JComboBox<>(new String[]{
-			"", "VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP",
-			"A faire", "En cours"});
+			"", "VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP",});
 
 		// ── Sélecteur emplacement : lettre + numéro ───────────────────────
 		fEmplacementLettre = new JComboBox<>(new String[]{
-			"", "A", "B", "C", "D", "LTS", "HD"
-		});
+			"", "A", "B", "C", "D", "LTS", "HD"});
+
 		fEmplacementNumero = new JTextField(5);
 		fEmplacementNumero.setToolTipText("Numéro de rangée (ex: 42)");
 

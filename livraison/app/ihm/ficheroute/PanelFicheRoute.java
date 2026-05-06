@@ -4,7 +4,6 @@ import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
 import app.metier.ficheroute.FicheRoute;
-import app.metier.ficheroute.Phase;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
@@ -115,7 +114,7 @@ public class PanelFicheRoute extends JPanel
 		combSociete.setPreferredSize(new Dimension(280, 28));
 		combSociete.addActionListener(e -> changerSociete());
 
-		JButton btnExport = IhmUtils.bouton("🖨 Aperçu / Export texte", IhmUtils.BLEU, Color.WHITE);
+		JButton btnExport = IhmUtils.bouton("🖨 Aperçu / Export ", IhmUtils.BLEU, Color.WHITE);
 		btnExport.addActionListener(e -> exporterTexte());
 
 		JButton btnTerminer = IhmUtils.bouton("✓ Marquer terminé", IhmUtils.VERT, Color.WHITE);
@@ -467,7 +466,7 @@ public class PanelFicheRoute extends JPanel
 		p.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, IhmUtils.BORD));
 		for (String s : new String[]{
 			"✏ Phases & colonnes blanches = éditables",
-			"🟩 Avancement ≥ 80%", "🟨 50–79%", "🟥 < 50%",
+			"🟩 Avancement ≥ 80%", "🟨 50-79%", "🟥 < 50%",
 			"  |  Ligne colorée = en-tête ACE"})
 		{
 			JLabel l = new JLabel(s);
@@ -663,20 +662,6 @@ public class PanelFicheRoute extends JPanel
 	 */
 	private void ajouterLigneEnteteAce(Ace ace, int idxAce, List<Lot> lots)
 	{
-		int    vvs    = 0;
-		int    pieces = 0;
-		double puSum  = 0;
-		int    cptPu  = 0;
-
-		for (Lot l : lots)
-		{
-			vvs    += l.getValeurVente();
-			pieces += l.getNbPieces();
-			if (l.getNbPieces() > 0) { puSum += l.getPrixUnitaire(); cptPu++; }
-		}
-
-		double puMoy = cptPu > 0 ? puSum / cptPu : 0;
-
 		Object[] ligne = new Object[COLS.length];
 		ligne[0] = ACE_HEADER_MARKER + idxAce; // marqueur + index pour la couleur
 		ligne[1] = "▶  " + ace.getNom();
