@@ -1027,6 +1027,7 @@ public class PanelFicheRoute extends JPanel
 		{
 			aceCourante = a;
 
+
 			for (int i = 0; i < combAce.getItemCount(); i++)
 			{
 				String item = combAce.getItemAt(i);

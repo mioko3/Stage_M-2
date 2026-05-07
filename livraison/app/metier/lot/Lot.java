@@ -41,8 +41,9 @@ public class Lot
 	// -- fiche de route --
 	private SuivieProd suivieProd;
 	private Phase      phase;
+	private Methode     methode; // une class pour stoker le lien des méthodes
 	private int    nbPalettes,nbColisPrevue, nbColisRecup;
-	private String methode, distribution, poucentrecupCartonFour;
+	private String  distribution, poucentrecupCartonFour;
 	private String formatCarton, dateDebut, finTheorique;
 	private boolean estMachine;  // ← Ajouté : indique si le lot est produit à la machine
 
@@ -117,7 +118,7 @@ public class Lot
 	// fiche de route
 	public SuivieProd   getSuivieProd()    { return suivieProd;   }
 	public Phase        getPhase()         { return phase;        }
-	public String getMethode() {return methode;}
+	public Methode getMethode() {return methode;}
 	public String getDistribution() {return distribution;}
 	public String getFormatCarton() {return formatCarton;}
 	public double getHeuresAce() {return heuresAce;}
@@ -147,7 +148,7 @@ public class Lot
 	// fiche de route
 	public void setSuivieProd(SuivieProd v)  { this.suivieProd = v; this.suivieProd.setLot(this);}
 	public void setPhase(Phase v)            { this.phase      = v; }
-	public void setMethode(String methode) {this.methode = methode;}
+	public void setMethode(String methode) {this.methode = Methode.getMetode(methode);}
 	public void setDistribution(String distribution) {this.distribution = distribution;}
 	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton;}
 	public void setHeuresAce(double heuresAce) {this.heuresAce = heuresAce;}
