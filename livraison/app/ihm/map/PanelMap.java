@@ -192,28 +192,44 @@ public class PanelMap extends JPanel
 
 		private JButton creerBoutonEmplacement(String empl)
 		{
-			JButton btn = new JButton(empl);
-			btn.setFocusPainted(false);
-			btn.setMargin(new Insets(4, 4, 4, 4));
-			btn.setOpaque(true);
-			btn.setBorderPainted(false);
-			btn.setContentAreaFilled(true);
-			btn.setHorizontalAlignment(SwingConstants.CENTER);
+			BoutonEmplacement btn =
+				new BoutonEmplacement(empl, getLotsEmplacement(empl));
+
 			btn.addActionListener(e -> {
 				selectionnerEmplacement(empl);
 				updatePlan();
 			});
+
 			styleButton(empl, btn);
+
 			btn.setToolTipText(buildTooltip(empl));
+
 			return btn;
 		}
 
 		private void styleButton(String empl, JButton btn)
 		{
 			List<Lot> lots = getLotsEmplacement(empl);
-			Color bg = empl.equals(emplacementSel) ? new Color(45, 105, 215) : couleurLots(lots);
-			btn.setBackground(bg);
-			btn.setForeground(getTextColor(bg));
+
+			// Mise à jour des couleurs du bouton custom
+			if (btn instanceof BoutonEmplacement b)
+			{
+				b.setLots(lots);
+			}
+
+			// Emplacement sélectionné
+			if (empl.equals(emplacementSel))
+			{
+				btn.setBorder(BorderFactory.createLineBorder(
+					new Color(45, 105, 215), 3));
+			}
+			else
+			{
+				btn.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+			}
+
+			btn.setForeground(Color.BLACK);
+
 			btn.setToolTipText(buildTooltip(empl));
 		}
 
@@ -385,12 +401,16 @@ public class PanelMap extends JPanel
 		});
 
 		listeLots.addListSelectionListener(e -> {
-			if (!e.getValueIsAdjusting()) {
+			if (!e.getValueIsAdjusting())
+			{
 				int idx = listeLots.getSelectedIndex();
-				if (idx >= 0 && idx < lotsCourants.size()) {
+				if (idx >= 0 && idx < lotsCourants.size())
+				{
 					Lot lot = lotsCourants.get(idx);
 					afficherInfoLot(lot);
-				} else {
+				}
+				else
+				{
 					infoLot.setText("");
 				}
 			}

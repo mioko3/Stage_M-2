@@ -277,6 +277,7 @@ public class Controleur
 
 	public Societe getSocieteDuLot(Lot lot) { return metier.getSocieteDuLot(lot); }
 	public Ace     getAceDuLot    (Lot lot) { return metier.getAceDuLot(lot);     }
+	public ArrayList<Ace> getTouteAces() { return metier.getTouteAces(); }
 
 	// ── Fiche de route ────────────────────────────────────────────────────
 

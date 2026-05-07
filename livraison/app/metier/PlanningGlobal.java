@@ -271,4 +271,11 @@ public class PlanningGlobal
 
 	public ArrayList<Societe> getSocietes()       { return societes; }
 	public ArrayList<Lot>     getLots()           { return lots;     }
+	public ArrayList<Ace>     getTouteAces()
+	{
+		ArrayList<Ace> tout = new ArrayList<>();
+		for (Societe s : societes)
+			tout.addAll(s.getAces());
+		return tout;
+	}
 }

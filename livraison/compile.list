@@ -14,6 +14,7 @@ app/ihm/dialogue/DialogEditSociete.java
 
 app/ihm/ficheroute/PanelFicheRoute.java
 app/ihm/map/PanelMap.java
+app/ihm/map/BoutonEmplacement.java
 app/ihm/gestionlot/PanelAffectation.java
 app/ihm/gestionlot/PanelLots.java
 app/ihm/gestionlot/PanelSocietes.java

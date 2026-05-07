@@ -56,9 +56,9 @@ public class FenetrePrincipale extends JFrame
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);
-		onglets.addTab("▤ Sociétés & heures", panelSocietes);
-		onglets.addTab("☰ Liste des lots",    panelLots);
 		onglets.addTab("📋 Fiches de Route",   panelFicheRoute);
+		onglets.addTab("☰ Liste des lots",    panelLots);
+		onglets.addTab("▤ Sociétés & heures", panelSocietes);
 		onglets.addTab("🗺 Carte entrepôt",    panelMap);
 		add(onglets, BorderLayout.CENTER);
 
