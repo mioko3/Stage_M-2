@@ -40,7 +40,7 @@ public class FenetrePrincipale extends JFrame
 		this.ctrl = ctrl;
 		setTitle("Planning Global Futura — PAM S07/2026");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1280, 780);
+		setSize(1380, 790);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		getContentPane().setBackground(IhmUtils.FOND);
