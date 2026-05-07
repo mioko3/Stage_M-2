@@ -505,13 +505,21 @@ public class PanelFicheRoute extends JPanel
 	{
 		if (societeCourante == null || row < 0 || row >= rowToLot_s.size()) return;
 		Lot lot = rowToLot_s.get(row); if (lot == null) return;
+
 		try
 		{
-			String v = modelSoc.getValueAt(row, col) != null ? modelSoc.getValueAt(row, col).toString().trim() : "";
-			if (col == C_METHODE) ctrl.modifierLotMethodeDistribution(lot, v, lot.getLotACharge());
-			else                  ctrl.modifierLotMethodeDistribution(lot, lot.getTypologie(), v);
+			String v = modelSoc.getValueAt(row, col) != null
+				? modelSoc.getValueAt(row, col).toString().trim()
+				: "";
+
+			if (col == C_METHODE)
+				ctrl.modifierLotMethodeDistribution(lot, v, lot.getLotACharge());
+			else
+				ctrl.modifierLotMethodeDistribution(lot, nomMethode(lot), v);
+
 			chargerFicheRouteSociete();
-		} catch (Exception ignored) {}
+		}
+		catch (Exception ignored) {}
 	}
 
 	private void sauvegarderPhase_s(int row, int col)
@@ -795,6 +803,12 @@ public class PanelFicheRoute extends JPanel
 		};
 	}
 
+	private String nomMethode(Lot lot)
+	{
+		if (lot == null || lot.getMethode() == null) return "";
+		return lot.getMethode().getNom();
+	}
+
 	/**
 	 * Remplit le combo ACE en mémorisant l'ACE courante par son nom,
 	 * pour la retrouver après un rafraîchissement.
@@ -883,12 +897,21 @@ public class PanelFicheRoute extends JPanel
 	{
 		if (aceCourante == null || row < 0 || row >= rowToLot_a.size()) return;
 		Lot lot = rowToLot_a.get(row); if (lot == null) return;
-		try {
-			String v = modelAce.getValueAt(row, col) != null ? modelAce.getValueAt(row, col).toString().trim() : "";
-			if (col == C_METHODE) ctrl.modifierLotMethodeDistribution(lot, v, lot.getLotACharge());
-			else                  ctrl.modifierLotMethodeDistribution(lot, lot.getTypologie(), v);
+
+		try
+		{
+			String v = modelAce.getValueAt(row, col) != null
+				? modelAce.getValueAt(row, col).toString().trim()
+				: "";
+
+			if (col == C_METHODE)
+				ctrl.modifierLotMethodeDistribution(lot, v, lot.getLotACharge());
+			else
+				ctrl.modifierLotMethodeDistribution(lot, nomMethode(lot), v);
+
 			chargerFicheRouteAce();
-		} catch (Exception ignored) {}
+		}
+		catch (Exception ignored) {}
 	}
 
 	private void sauvegarderPhase_a(int row, int col)
@@ -925,21 +948,40 @@ public class PanelFicheRoute extends JPanel
 	{
 		int hEtiq  = lot.getSuivieProd().getNbHeureEtiqRestant();
 		int hParts = lot.getSuivieProd().getNbHeureRepartRestant();
+
 		return new Object[]{
-			lot.getPriorite(), lot.getNumCDE(), s(lot.getAffaire()), s(lot.getTypologie()),
+			lot.getPriorite(),
+			lot.getNumCDE(),
+			s(lot.getAffaire()),
+			s(lot.getTypologie()),
 			lot.getValeurVente() > 0 ? String.format("%,d", lot.getValeurVente()) : "—",
 			String.format("%,d", lot.getNbPieces()),
-			lot.getValeurVente()>0 && lot.getNbPieces()>0 ? String.format("%.2f",(double)lot.getValeurVente()/lot.getNbPieces()) : "—",
-			lot.getPhase().isPreTri(), lot.getPhase().isSurPiste(), lot.getPhase().isSortieEtiq(),
-			lot.getPhase().isTri(), lot.getPhase().isFinit(),
-			s(lot.getTypologie()), s(lot.getLotACharge()), s(lot.getEmplacement()),
+			lot.getValeurVente()>0 && lot.getNbPieces()>0
+				? String.format("%.2f",(double)lot.getValeurVente()/lot.getNbPieces())
+				: "—",
+
+			lot.getPhase().isPreTri(),
+			lot.getPhase().isSurPiste(),
+			lot.getPhase().isSortieEtiq(),
+			lot.getPhase().isTri(),
+			lot.getPhase().isFinit(),
+
+			// ✅ FIX ICI
+			nomMethode(lot),
+
+			s(lot.getLotACharge()),
+			s(lot.getEmplacement()),
+
 			String.valueOf(lot.getSuivieProd().getNbPieceEtiq()),
 			String.valueOf(lot.getSuivieProd().getNbPieceRepart()),
 			lot.getSuivieProd().getAvancementEtiqPct(),
 			lot.getSuivieProd().getAvancementPartsPct(),
-			String.valueOf(hEtiq), String.valueOf(hParts), s(lot.getCommentaire())
+			String.valueOf(hEtiq),
+			String.valueOf(hParts),
+			s(lot.getCommentaire())
 		};
 	}
+
 
 	private JLabel creerTuile(String titre, String val, Color couleur)
 	{

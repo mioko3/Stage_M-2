@@ -133,7 +133,7 @@ public class PlanningGlobal
 
 	public void modifierLotMethodeDistribution(Lot lot, String typologie, String lotACharge)
 	{
-		lot.setTypologie (typologie  != null ? typologie  : "");
+		lot.setMethode(typologie  != null ? typologie  : "");
 		lot.setLotACharge(lotACharge != null ? lotACharge : "");
 	}
 
