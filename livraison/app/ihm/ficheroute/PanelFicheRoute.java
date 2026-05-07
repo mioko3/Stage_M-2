@@ -143,11 +143,14 @@ public class PanelFicheRoute extends JPanel
 		btnExport.addActionListener(e -> exporterTexte());
 		JButton btnTerminer = IhmUtils.bouton("✓ Marquer terminé", IhmUtils.VERT, Color.WHITE);
 		btnTerminer.addActionListener(e -> marquerTermine());
+		JButton btnMeth = IhmUtils.bouton("👁 Voir la Méthode", IhmUtils.VERT, Color.WHITE);
+		btnMeth.addActionListener(e -> ouvrirMeth());
 
 		ligneSelect.add(lbl);
 		ligneSelect.add(combSociete);
 		ligneSelect.add(btnExport);
 		ligneSelect.add(btnTerminer);
+		ligneSelect.add(btnMeth);
 
 		JPanel tuiles = new JPanel(new GridLayout(1, 5, 6, 0));
 		tuiles.setBackground(IhmUtils.FOND);
@@ -567,9 +570,60 @@ public class PanelFicheRoute extends JPanel
 		Lot lot = rowToLot_s.get(sel); if (lot == null) return;
 		if (JOptionPane.showConfirmDialog(this, "Marquer le lot \"" + lot.getNumCDE() + "\" comme terminé ?", "Confirmer", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 		{
-			ctrl.marquerLotTermine(lot); chargerFicheRouteSociete();
+			ctrl.marquerLotTermine(lot);
+			chargerFicheRouteSociete();
 			JOptionPane.showMessageDialog(this, "Le lot a été marqué comme terminé.", "Terminé", JOptionPane.INFORMATION_MESSAGE);
 		}
+	}
+
+	private void ouvrirMeth()
+	{
+		int sel = tblSoc.getSelectedRow();
+
+		if (sel < 0)
+		{
+			JOptionPane.showMessageDialog(
+				this,
+				"Sélectionnez un lot.",
+				"Voir Méthode",
+				JOptionPane.WARNING_MESSAGE
+			);
+			return;
+		}
+
+		if (estLigneAce_s(sel))
+		{
+			JOptionPane.showMessageDialog(
+				this,
+				"Sélectionnez un lot (pas un en-tête ACE).",
+				"Voir Méthode",
+				JOptionPane.WARNING_MESSAGE
+			);
+			return;
+		}
+
+		if (societeCourante == null)
+			return;
+
+		Lot lot = rowToLot_s.get(sel);
+
+		if (lot == null)
+			return;
+
+		// ✅ Vérification correcte
+		if (lot.getMethode() == null)
+		{
+			JOptionPane.showMessageDialog(
+				this,
+				"Aucune méthode associée à ce lot.",
+				"Méthode introuvable",
+				JOptionPane.WARNING_MESSAGE
+			);
+			return;
+		}
+
+		// ✅ Ouvrir le PDF
+		lot.getMethode().ouvrir();
 	}
 
 	private void exporterTexte()
@@ -981,7 +1035,6 @@ public class PanelFicheRoute extends JPanel
 			s(lot.getCommentaire())
 		};
 	}
-
 
 	private JLabel creerTuile(String titre, String val, Color couleur)
 	{

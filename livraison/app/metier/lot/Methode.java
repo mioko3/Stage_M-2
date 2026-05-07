@@ -17,7 +17,7 @@ public class Methode {
 	private Methode(String nom)
 	{
 		this.nom = nom;
-		this.lien = LIEN_DOSIER + nom;
+		this.lien = LIEN_DOSIER + nom +".pdf";
 	}
 
 	public static Methode getMetode(String nom)
@@ -32,7 +32,7 @@ public class Methode {
 
 	private static boolean verifExist(String nom)
 	{
-		File fichier = new File(LIEN_DOSIER, nom);
+		File fichier = new File(LIEN_DOSIER, nom + ".pdf");
 
 		if (fichier.exists() && fichier.isFile())
 		{
@@ -47,8 +47,10 @@ public class Methode {
 	// ─────────────────────────────────────────────
 	// Ouvrir le PDF (ou fichier méthode)
 	// ─────────────────────────────────────────────
-	public void ouvrir() {
-		try {
+	public void ouvrir()
+	{
+		try
+		{
 			if (!verifExist(this.nom))
 			{
 				System.out.println("Fichier introuvable : " + this.lien);
