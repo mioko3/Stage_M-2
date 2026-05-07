@@ -56,7 +56,7 @@ public class DonneesSauvegarder
 				pw.println("    \"sp_nbPieceRepart\": " + l.getSuivieProd().getNbPieceRepart() + ",");
 				pw.println("    \"sp_nbHeureEtiqRestant\": " + l.getSuivieProd().getNbHeureEtiqRestant() + ",");
 				pw.println("    \"sp_nbHeureRepartRestant\": " + l.getSuivieProd().getNbHeureRepartRestant() + ",");
-				pw.println("    \"methode\": " + esc(l.getMethode().getNom()) + ",");
+				pw.println("    \"methode\": " + esc("") + ",");
 				pw.println("    \"distribution\": " + esc(l.getDistribution()) + ",");
 				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
 				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");

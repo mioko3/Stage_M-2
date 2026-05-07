@@ -932,7 +932,7 @@ public class PanelFicheRoute extends JPanel
 			lot.getValeurVente()>0 && lot.getNbPieces()>0 ? String.format("%.2f",(double)lot.getValeurVente()/lot.getNbPieces()) : "—",
 			lot.getPhase().isPreTri(), lot.getPhase().isSurPiste(), lot.getPhase().isSortieEtiq(),
 			lot.getPhase().isTri(), lot.getPhase().isFinit(),
-			s(lot.getMethode().getNom()), s(lot.getLotACharge()), s(lot.getEmplacement()),
+			s(lot.getTypologie()), s(lot.getLotACharge()), s(lot.getEmplacement()),
 			String.valueOf(lot.getSuivieProd().getNbPieceEtiq()),
 			String.valueOf(lot.getSuivieProd().getNbPieceRepart()),
 			lot.getSuivieProd().getAvancementEtiqPct(),
