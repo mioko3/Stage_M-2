@@ -1,5 +1,6 @@
 package app.metier.lot;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class Methode {
 			return null;
 		}
 
-		return CACHE.computeIfAbsent(nom, Methode::new);
+		return CACHE.computeIfAbsent(nom,Methode::new);
 	}
 
 	private static boolean verifExist(String nom)
@@ -35,13 +36,33 @@ public class Methode {
 
 		if (fichier.exists() && fichier.isFile())
 		{
-			System.out.println("Le fichier existe !");
 			return true;
 		}
 		else
 		{
-			System.out.println("Le fichier n'existe pas.");
 			return false;
+		}
+	}
+
+	// ─────────────────────────────────────────────
+	// Ouvrir le PDF (ou fichier méthode)
+	// ─────────────────────────────────────────────
+	public void ouvrir() {
+		try {
+			if (!verifExist(this.nom))
+			{
+				System.out.println("Fichier introuvable : " + this.lien);
+				return;
+			}
+
+			if (Desktop.isDesktopSupported())
+			{
+				Desktop.getDesktop().open(new File(this.lien));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

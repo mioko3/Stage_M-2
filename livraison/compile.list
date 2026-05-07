@@ -1,4 +1,5 @@
 app/metier/lot/Lot.java
+app/metier/lot/Methode.java
 app/metier/ficheroute/Phase.java
 app/metier/ficheroute/SuivieProd.java
 app/metier/ficheroute/FicheRoute.java
