@@ -317,6 +317,7 @@ public class ExcelReader
 			lot.setDistribution(getString(obj, "distribution"));
 			lot.setFormatCarton(getString(obj, "formatCarton"));
 			lot.setHeuresAce(getDouble(obj, "heuresAce"));
+			lot.setEstMachine(getBool(obj, "est Machine"));
 
 			liste.add(lot);
 		}

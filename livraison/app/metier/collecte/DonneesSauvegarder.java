@@ -60,6 +60,7 @@ public class DonneesSauvegarder
 				pw.println("    \"distribution\": " + esc(l.getDistribution()) + ",");
 				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
 				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");
+				pw.println("    \"estMachine\": " + l.estMachine());
 				pw.println();
 				pw.print("  }");
 				if (i < lots.size() - 1) pw.print(",");
@@ -197,11 +198,12 @@ public class DonneesSauvegarder
 					
 					ace.setEstMachine(getBool(a, "est Machine"));
 					aces.add(ace);
+
 				}
 			}
 
 			Societe soc = new Societe(getString(obj, "nom"),getString(obj, "ce"),	aces,
-									  getInt(obj, "totalHeuresCE") );
+				getInt(obj, "totalHeuresCE"));
 
 			// Lots affectés à la société
 			String lotsAff = extraireTableauPrimitif(obj, "lotsAffectes");

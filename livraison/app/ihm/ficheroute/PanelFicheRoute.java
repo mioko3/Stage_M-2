@@ -1101,11 +1101,9 @@ public class PanelFicheRoute extends JPanel
 		if (s != null)
 		{
 			societeCourante = s;
-
 			for (int i = 0; i < combSociete.getItemCount(); i++)
 			{
 				String item = combSociete.getItemAt(i);
-
 				if (item != null && item.startsWith(s.getNom()))
 				{
 					combSociete.setSelectedIndex(i);
@@ -1113,27 +1111,22 @@ public class PanelFicheRoute extends JPanel
 				}
 			}
 		}
-			chargerFicheRouteSociete();
-
+		chargerFicheRouteSociete();
 		// ─────────────────────────────────────────────
 		// Restauration ACE
 		// ─────────────────────────────────────────────
 		if (a != null)
 		{
 			aceCourante = a;
-
-
 			for (int i = 0; i < combAce.getItemCount(); i++)
 			{
 				String item = combAce.getItemAt(i);
-
 				if (item != null && item.startsWith(a.getNom()))
 				{
 					combAce.setSelectedIndex(i);
 					break;
 				}
 			}
-
 			chargerFicheRouteAce();
 		}
 	}

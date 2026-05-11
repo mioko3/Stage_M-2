@@ -119,8 +119,6 @@ public class PanelMap extends JPanel
 
 		public void updatePlan()
 		{
-			for (Map.Entry<String, JButton> entry : emplacementButtons.entrySet())
-				styleButton(entry.getKey(), entry.getValue());
 			revalidate();
 			repaint();
 		}
@@ -200,60 +198,11 @@ public class PanelMap extends JPanel
 				updatePlan();
 			});
 
-			styleButton(empl, btn);
-
 			btn.setToolTipText(buildTooltip(empl));
 
 			return btn;
 		}
 
-		private void styleButton(String empl, JButton btn)
-		{
-			List<Lot> lots = getLotsEmplacement(empl);
-
-			// Mise à jour des couleurs du bouton custom
-			if (btn instanceof BoutonEmplacement b)
-			{
-				b.setLots(lots);
-			}
-
-			// Emplacement sélectionné
-			if (empl.equals(emplacementSel))
-			{
-				btn.setBorder(BorderFactory.createLineBorder(
-					new Color(45, 105, 215), 3));
-			}
-			else
-			{
-				btn.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-			}
-
-			btn.setForeground(Color.BLACK);
-
-			btn.setToolTipText(buildTooltip(empl));
-		}
-
-		private Color getTextColor(Color c)
-		{
-			return luminance(c) < 140 ? Color.WHITE : new Color(25, 30, 40);
-		}
-
-		private Color couleurLots(List<Lot> lots)
-		{
-			if (lots.isEmpty()) return new Color(210, 212, 218);
-			if (lots.stream().anyMatch(Lot::isEstSousDouane)) return new Color(170, 85, 195);
-			long bl = lots.stream().filter(l -> s(l.getStatutEchant()).startsWith("BL")).count();
-			long ep = lots.stream().filter(l -> s(l.getStatutEchant()).startsWith("EP")).count();
-			long va = lots.stream().filter(l -> s(l.getStatutEchant()).startsWith("VA")).count();
-			if (bl > 0)  return new Color(205, 55, 55);
-			if (ep > va) return new Color(190, 115, 15);
-			return new Color(50, 150, 60);
-		}
-
-		private int luminance(Color c)
-		{
-			return (int)(0.299 * c.getRed() + 0.587 * c.getGreen() + 0.114 * c.getBlue());
-		}
 	}
 
 	// ── Données ───────────────────────────────────────────────────────────
@@ -388,17 +337,6 @@ public class PanelMap extends JPanel
 		listeLots = new JList<>(listModel);
 		listeLots.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		listeLots.setSelectionBackground(IhmUtils.SEL);
-		listeLots.setCellRenderer(new DefaultListCellRenderer()
-		{
-			public Component getListCellRendererComponent(JList<?> list, Object val,
-					int idx, boolean sel, boolean focus)
-			{
-				JLabel l = (JLabel) super.getListCellRendererComponent(list, val, idx, sel, focus);
-				l.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
-				if (!sel && idx % 2 == 0) l.setBackground(new Color(248, 249, 252));
-				return l;
-			}
-		});
 
 		listeLots.addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting())
@@ -507,6 +445,7 @@ public class PanelMap extends JPanel
 		sb.append("Méthode: ").append(s(lot.getMethode()==null ? "":lot.getMethode().getNom())).append("\n");
 		sb.append("Distribution: ").append(s(lot.getDistribution())).append("\n");
 		sb.append("Format carton: ").append(s(lot.getFormatCarton())).append("\n");
+		sb.append("Machine: ").append(lot.estMachine() ? "Oui" : "Non").append("\n");
 		Societe soc = ctrl.getSocieteDuLot(lot);
 		sb.append("Société: ").append(soc != null ? soc.getNom() : "—").append("\n");
 		infoLot.setText(sb.toString());
