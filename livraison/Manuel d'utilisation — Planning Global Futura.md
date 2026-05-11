@@ -261,7 +261,7 @@ Améliorer le système de recherche actuel :
 
 ---
 
-## 4. Export PDF de la fiche de route (oui)
+## 4. Export PDF/excel de la fiche de route (oui)
 
 - Générer un export PDF de la **FicheRoute** existante.
 - Utiliser une bibliothèque comme :

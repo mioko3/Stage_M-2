@@ -12,6 +12,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 import javax.swing.*;
 
@@ -315,30 +317,83 @@ public class PanelFicheRoute extends JPanel
 		// ── Ligne 4 : Avancement ──
 		JPanel l4 = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
 		l4.setBackground(bg);
-		info(l4, "Pces Étiq.",    fmt(lot.getSuivieProd().getNbPieceEtiq()),  bg);
+		l4.add(champEditableInt("Pces Étiq.", lot.getSuivieProd().getNbPieceEtiq(),
+				bg, v -> lot.getSuivieProd().setNbPieceEtiq(v) ));
 		info(l4, "Av. Étiq %",    lot.getSuivieProd().getAvancementEtiqPct(), bg);
 		info(l4, "H Étiq rest.",  lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
 		JLabel sep = new JLabel("|"); sep.setForeground(new Color(190,190,190)); l4.add(sep);
-		info(l4, "Pces Parts",    fmt(lot.getSuivieProd().getNbPieceRepart()),   bg);
+		l4.add(champEditableInt("Pces Parts",lot.getSuivieProd().getNbPieceRepart(),
+				bg, v -> lot.getSuivieProd().setNbPieceRepart(v) ));
 		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(),   bg);
 		info(l4, "H Parts rest.", lot.getSuivieProd().getNbHeureRepartRestant() + " h", bg);
 		corps.add(l4);
 
 		// ── Ligne 5 : Logistique / Méthode ──
 		corps.add(separateur(bg));
-		JPanel l5 = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+
+		JPanel l5 = new JPanel(new GridLayout(2,4));
 		l5.setBackground(bg);
-		if (!s(lot.getEmplacement()).isEmpty())       info(l5, "Emplacement",  lot.getEmplacement(),  bg);
-		if (!s(lot.getLotACharge()).isEmpty())        info(l5, "Distribution", lot.getLotACharge(),   bg);
-		if (!s(lot.getDistribution()).isEmpty())      info(l5, "Lot à charge", lot.getDistribution(), bg);
-		if (lot.getMethode() != null)                info(l5, "Méthode",      lot.getMethode().getNom(), bg);
-		if (!lot.getFormatCarton().isEmpty())         info(l5, "Format carton", lot.getFormatCarton(), bg);
-		if (lot.getNbPalettes()  > 0)  info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),  bg);
-		if (lot.getNbColisPrevue() > 0) info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
-		if (lot.getNbColisRecup() > 0)  info(l5, "Colis récup.", String.valueOf(lot.getNbColisRecup()), bg);
-		//if (!lot.getPoucentrecupCartonFour().isEmpty()) info(l5, "% récup.", lot.getPoucentrecupCartonFour(), bg);
+
+		l5.add(champEditableTexte(
+			"Emplacement",
+			s(lot.getEmplacement()),
+			bg,
+			v -> lot.setEmplacement(v)
+		));
+
+		l5.add(champEditableTexte(
+			"Distribution",
+			s(lot.getLotACharge()),
+			bg,
+			v -> lot.setLotACharge(v)
+		));
+
+		l5.add(champEditableTexte(
+			"Lot à charge",
+			s(lot.getDistribution()),
+			bg,
+			v -> lot.setDistribution(v)
+		));
+
+		l5.add(champEditableTexte(
+			"Format carton",
+			s(lot.getFormatCarton()),
+			bg,
+			v -> lot.setFormatCarton(v)
+		));
+
+		l5.add(champEditableInt(
+			"Palettes",
+			lot.getNbPalettes(),
+			bg,
+			v -> lot.setNbPalettes(v)
+		));
+
+		l5.add(champEditableInt(
+			"Colis prévus",
+			lot.getNbColisPrevue(),
+			bg,
+			v -> lot.setNbColisPrevue(v)
+		));
+
+		l5.add(champEditableInt(
+			"Colis récup.",
+			lot.getNbColisRecup(),
+			bg,
+			v -> lot.setNbColisRecup(v)
+		));
+
+		if (lot.getMethode() != null)
+		{
+			l5.add(champEditableTexte(
+				"Méthode",
+				lot.getMethode().getNom(),
+				bg,
+				v -> lot.setMethode(v)
+			));
+		}
+
 		corps.add(l5);
-		
 
 		// ── Commentaire ──
 		corps.add(separateur(bg));
@@ -407,7 +462,8 @@ public class PanelFicheRoute extends JPanel
 	private JPanel barreProg(int val, int max, int w)
 	{
 		JPanel p = new JPanel(null) {
-			@Override protected void paintComponent(Graphics g) {
+			@Override protected void paintComponent(Graphics g)
+			{
 				super.paintComponent(g);
 				Graphics2D g2 = (Graphics2D) g;
 				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -444,6 +500,58 @@ public class PanelFicheRoute extends JPanel
 		sep.setForeground(new Color(220, 225, 232));
 		sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
 		return sep;
+	}
+	private JPanel champEditableTexte(String label, String valeur, Color bg, Consumer<String> setter)
+	{
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+		p.setBackground(bg);
+
+		JLabel l = new JLabel(label + " :");
+		l.setFont(new Font("SansSerif", Font.BOLD, 11));
+		l.setForeground(new Color(90, 90, 90));
+
+		JTextField tf = new JTextField(valeur, 10);
+		tf.setFont(new Font("SansSerif", Font.PLAIN, 12));
+
+		tf.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusLost(FocusEvent e)
+			{
+				setter.accept(tf.getText().trim());
+			}
+		});
+
+		p.add(l);
+		p.add(tf);
+
+		return p;
+	}
+
+	private JPanel champEditableInt(String label, int valeur, Color bg, IntConsumer setter)
+	{
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+		p.setBackground(bg);
+
+		JLabel l = new JLabel(label + " :");
+		l.setFont(new Font("SansSerif", Font.BOLD, 11));
+		l.setForeground(new Color(90, 90, 90));
+
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(valeur, 0, Integer.MAX_VALUE, 1));
+
+		JComponent editor = spinner.getEditor();
+		JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
+		tf.setColumns(5);
+
+		spinner.addChangeListener(e ->
+		{
+			setter.accept((Integer) spinner.getValue());
+		});
+
+		p.add(l);
+		p.add(spinner);
+
+		return p;
 	}
 
 	private String fmt(int n) { return String.format("%,d", n); }
