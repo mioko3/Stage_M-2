@@ -2,6 +2,7 @@ package app.metier.lot;
 
 import app.metier.ficheroute.Phase;
 import app.metier.ficheroute.SuivieProd;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -15,6 +16,7 @@ import java.util.UUID;
  */
 public class Lot
 {
+	private static ArrayList<String> tabId;
 	// ── Identité ──────────────────────────────────────────────────────────
 	private String  id;      // clé technique unique (UUID), persistée en JSON
 	private int     numCDE;  // numéro affiché à l'utilisateur — pas unique
@@ -53,7 +55,8 @@ public class Lot
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
 			   int valeurVente, String statut, String statutEchant)
 	{
-		this.id          = UUID.randomUUID().toString(); // probas est trop faible pour avoir des collisions
+		String uuid = UUID.randomUUID().toString();
+		this.id          = verifUUID(uuid); // probas est trop faible pour avoir des collisions
 		this.numCDE      = numCDE;
 		this.nbPieces    = nbPieces;
 		this.cadence     = cadence;
@@ -78,6 +81,20 @@ public class Lot
 		this.estMachine   = false;  // Par défaut, lot à la main
 	}
 
+	private String verifUUID(String uuid)
+	{
+		if (tabId == null) tabId = new ArrayList<>();
+		for (String s : tabId)
+		{
+			if (uuid.equals(s))
+			{
+				String uuid2 = UUID.randomUUID().toString();
+				return verifUUID(uuid2);
+			}
+		}
+		return uuid;
+	}
+
 	// ── Recalcul des heures ───────────────────────────────────────────────
 	/** Recalcule les heures après modification de nbPieces ou cadence. */
 	public void recalculerHeures()
@@ -85,7 +102,7 @@ public class Lot
 		this.heures = (this.cadence > 0) ? this.nbPieces / this.cadence : 0.0;
 	}
 
-	public double calculerPU()
+	private double calculerPU()
 	{
 		double pu = 0.0;
 		if (this.nbPieces > 0)
