@@ -504,7 +504,7 @@ public class PanelMap extends JPanel
 		sb.append("Date paiement: ").append(s(lot.getDatePaiement())).append("\n");
 		sb.append("Commentaire: ").append(s(lot.getCommentaire())).append("\n");
 		sb.append("Emplacement: ").append(s(lot.getEmplacement())).append("\n");
-		sb.append("Méthode: ").append(s(lot.getMethode().getNom())).append("\n");
+		sb.append("Méthode: ").append(s(lot.getMethode()==null ? "":lot.getMethode().getNom())).append("\n");
 		sb.append("Distribution: ").append(s(lot.getDistribution())).append("\n");
 		sb.append("Format carton: ").append(s(lot.getFormatCarton())).append("\n");
 		sb.append("Machine: ").append(lot.isEstMachine() ? "Oui" : "Non").append("\n");
