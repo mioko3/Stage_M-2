@@ -60,7 +60,6 @@ public class DonneesSauvegarder
 				pw.println("    \"distribution\": " + esc(l.getDistribution()) + ",");
 				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
 				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");
-				pw.println("    \"estMachine\": " + l.isEstMachine());
 				pw.println();
 				pw.print("  }");
 				if (i < lots.size() - 1) pw.print(",");
@@ -108,7 +107,7 @@ public class DonneesSauvegarder
 						+ ", \"nbPers\": " + a.getNbPers()
 						+ ", \"totalHeures\": " + a.getTotalHeures()
 						+ ", \"effectifActuel\": " + a.getEffectifActuel()
-						+ ", \"hasMachine\": " + a.isHasMachine()
+						+ ", \"est Machine\": " + a.estMachine()
 						+ ", \"lotsACE\": " + lotsAce + " }");
 					if (j < aces.size() - 1) pw.print(",");
 					pw.println();
@@ -190,20 +189,19 @@ public class DonneesSauvegarder
 			ArrayList<Ace> aces = new ArrayList<>();
 			String blocAces = extraireBloc(obj, "\"aces\"");
 			if (blocAces != null)
+			{
 				for (String a : extraireObjets(blocAces))
-					aces.add(new Ace(
-						getString(a, "nom"),
-						getInt(a, "nbPers"),
-						getInt(a, "totalHeures"),
-						getInt(a, "effectifActuel")
-					));
+				{
+					Ace ace = new Ace(getString(a, "nom"), getInt(a, "nbPers"),
+					            getInt(a, "totalHeures"), getInt(a, "effectifActuel"));
+					
+					ace.setEstMachine(getBool(a, "est Machine"));
+					aces.add(ace);
+				}
+			}
 
-			Societe soc = new Societe(
-				getString(obj, "nom"),
-				getString(obj, "ce"),
-				aces,
-				getInt(obj, "totalHeuresCE")
-			);
+			Societe soc = new Societe(getString(obj, "nom"),getString(obj, "ce"),	aces,
+									  getInt(obj, "totalHeuresCE") );
 
 			// Lots affectés à la société
 			String lotsAff = extraireTableauPrimitif(obj, "lotsAffectes");

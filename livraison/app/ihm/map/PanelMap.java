@@ -507,7 +507,6 @@ public class PanelMap extends JPanel
 		sb.append("Méthode: ").append(s(lot.getMethode()==null ? "":lot.getMethode().getNom())).append("\n");
 		sb.append("Distribution: ").append(s(lot.getDistribution())).append("\n");
 		sb.append("Format carton: ").append(s(lot.getFormatCarton())).append("\n");
-		sb.append("Machine: ").append(lot.isEstMachine() ? "Oui" : "Non").append("\n");
 		Societe soc = ctrl.getSocieteDuLot(lot);
 		sb.append("Société: ").append(soc != null ? soc.getNom() : "—").append("\n");
 		infoLot.setText(sb.toString());

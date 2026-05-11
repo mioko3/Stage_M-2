@@ -239,6 +239,7 @@ public class ExcelReader
 							getInt(a, "totalHeures"),
 							getInt(a, "effectifActuel")
 						);
+						ace.setEstMachine(getBool(a, "est Machine"));
 						aces.add(ace);
 						String blocLotsAce = extraireBloc(a, "\"lotsACE\"");
 						if (blocLotsAce != null)
@@ -316,7 +317,6 @@ public class ExcelReader
 			lot.setDistribution(getString(obj, "distribution"));
 			lot.setFormatCarton(getString(obj, "formatCarton"));
 			lot.setHeuresAce(getDouble(obj, "heuresAce"));
-			lot.setEstMachine(getBool(obj, "estMachine"));
 
 			liste.add(lot);
 		}

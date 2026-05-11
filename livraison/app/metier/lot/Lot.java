@@ -45,7 +45,6 @@ public class Lot
 	private int    nbPalettes,nbColisPrevue, nbColisRecup;
 	private String  distribution, poucentrecupCartonFour;
 	private String formatCarton, dateDebut, finTheorique;
-	private boolean estMachine;  // ← Ajouté : indique si le lot est produit à la machine
 
 	// ── position ───────────────────────────────────────────
 	private int posX, posY;
@@ -75,7 +74,6 @@ public class Lot
 		this.suivieProd   = new SuivieProd();
 		this.suivieProd.setLot(this);
 		this.phase        = new Phase();
-		this.estMachine   = false;  // Par défaut, lot à la main
 	}
 
 	// ── Recalcul des heures ───────────────────────────────────────────────
@@ -122,7 +120,7 @@ public class Lot
 	public String getDistribution()     {return distribution;}
 	public String getFormatCarton()     {return formatCarton;}
 	public double getHeuresAce()        {return heuresAce;   }
-	public boolean isEstMachine()       {return estMachine;  }
+
 
 	// ── Setters ───────────────────────────────────────────────────────────
 	/** Utilisé UNIQUEMENT au chargement JSON pour restaurer l'UUID persisté. */
@@ -152,7 +150,7 @@ public class Lot
 	public void setDistribution(String distribution) {this.distribution = distribution; }
 	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton; }
 	public void setHeuresAce(double heuresAce)       {this.heuresAce = heuresAce;       }
-	public void setEstMachine(boolean estMachine)    {this.estMachine = estMachine;     }
+
 
 	// ── position ───────────────────────────────────────────────────────────
 	public int  getPosX()      { return posX;   }

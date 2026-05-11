@@ -16,7 +16,7 @@ public class Ace
 	private int            nbPers;
 	private int            totalHeures;      // ← Ajouté : heures théoriques de l'ACE
 	private int            effectifActuel;
-	private boolean        hasMachine;      // ← Ajouté : indique si l'ACE a une machine
+	private boolean        estMachine;      // ← Ajouté : indique si l'ACE a une machine
 	private ArrayList<Lot> lots;
 
 	public Ace(String nom, int nbPers, int effectifActuel)
@@ -25,7 +25,7 @@ public class Ace
 		this.nbPers         = nbPers;
 		this.totalHeures    = 0;  // Par défaut, sera mis à jour si nécessaire
 		this.effectifActuel = effectifActuel;
-		this.hasMachine     = false;  // Par défaut, pas de machine
+		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
 	}
 
@@ -36,7 +36,7 @@ public class Ace
 		this.nbPers         = nbPers;
 		this.totalHeures    = totalHeures;
 		this.effectifActuel = effectifActuel;
-		this.hasMachine     = false;  // Par défaut, pas de machine
+		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
 	}
 
@@ -60,50 +60,17 @@ public class Ace
 		this.lots.remove(lot);
 	}
 
-	/**
-	 * Retourne les lots produits à la MACHINE pour cet ACE.
-	 * Ne s'applique que si l'ACE a une machine.
-	 */
-	public ArrayList<Lot> getLotsJMachine()
-	{
-		ArrayList<Lot> lotsJMachine = new ArrayList<>();
-		if (this.hasMachine)
-		{
-			for (Lot lot : this.lots)
-			{
-				if (lot.isEstMachine())
-					lotsJMachine.add(lot);
-			}
-		}
-		return lotsJMachine;
-	}
-
-	/**
-	 * Retourne les lots produits À LA MAIN pour cet ACE.
-	 */
-	public ArrayList<Lot> getLotsJMain()
-	{
-		ArrayList<Lot> lotsJMain = new ArrayList<>();
-		for (Lot lot : this.lots)
-		{
-			if (!lot.isEstMachine())
-				lotsJMain.add(lot);
-		}
-		return lotsJMain;
-	}
-
 	public String         getNom()            { return nom;            }
 	public int            getNbPers()         { return nbPers;         }
 	public int            getTotalHeures()    { return totalHeures;    }
 	public int            getEffectifActuel() { return effectifActuel; }
-	public boolean        hasMachine()        { return hasMachine;     }
-	public boolean        isHasMachine()      { return hasMachine;     }
+	public boolean        estMachine()        { return estMachine;     }
 	public ArrayList<Lot> getLots()           { return lots;           }
 
 	public void setNom(String v)              { this.nom            = v; }
 	public void setNbPers(int v)              { this.nbPers         = v; }
 	public void setTotalHeures(int v)         { this.totalHeures    = v; }
-	public void setHasMachine(boolean v)      { this.hasMachine     = v; }
+	public void setEstMachine(boolean v)      { this.estMachine     = v; }
 	public void setEffectifActuel(int v) 
 	{ 
 		this.effectifActuel = v; 
