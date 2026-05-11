@@ -319,11 +319,13 @@ public class PanelFicheRoute extends JPanel
 		l4.setBackground(bg);
 		l4.add(champEditableInt("Pces Étiq.", lot.getSuivieProd().getNbPieceEtiq(),
 				bg, v -> lot.getSuivieProd().setNbPieceEtiq(v) ));
+
 		info(l4, "Av. Étiq %",    lot.getSuivieProd().getAvancementEtiqPct(), bg);
 		info(l4, "H Étiq rest.",  lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
 		JLabel sep = new JLabel("|"); sep.setForeground(new Color(190,190,190)); l4.add(sep);
 		l4.add(champEditableInt("Pces Parts",lot.getSuivieProd().getNbPieceRepart(),
 				bg, v -> lot.getSuivieProd().setNbPieceRepart(v) ));
+				
 		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(),   bg);
 		info(l4, "H Parts rest.", lot.getSuivieProd().getNbHeureRepartRestant() + " h", bg);
 		corps.add(l4);
@@ -334,64 +336,29 @@ public class PanelFicheRoute extends JPanel
 		JPanel l5 = new JPanel(new GridLayout(2,4));
 		l5.setBackground(bg);
 
-		l5.add(champEditableTexte(
-			"Emplacement",
-			s(lot.getEmplacement()),
-			bg,
-			v -> lot.setEmplacement(v)
-		));
+		l5.add(champEditableTexte("Emplacement", s(lot.getEmplacement()),
+									bg, v -> lot.setEmplacement(v) ));
 
-		l5.add(champEditableTexte(
-			"Distribution",
-			s(lot.getLotACharge()),
-			bg,
-			v -> lot.setLotACharge(v)
-		));
+		l5.add(champEditableTexte("Distribution", s(lot.getLotACharge()),
+									bg, v -> lot.setLotACharge(v) ));
 
-		l5.add(champEditableTexte(
-			"Lot à charge",
-			s(lot.getDistribution()),
-			bg,
-			v -> lot.setDistribution(v)
-		));
+		l5.add(champEditableTexte("Lot à charge", s(lot.getDistribution()),
+									bg, v -> lot.setDistribution(v) ));
 
-		l5.add(champEditableTexte(
-			"Format carton",
-			s(lot.getFormatCarton()),
-			bg,
-			v -> lot.setFormatCarton(v)
-		));
+		l5.add(champEditableTexte("Format carton", s(lot.getFormatCarton()),
+									bg, v -> lot.setFormatCarton(v) ));
 
-		l5.add(champEditableInt(
-			"Palettes",
-			lot.getNbPalettes(),
-			bg,
-			v -> lot.setNbPalettes(v)
-		));
+		l5.add(champEditableInt("Palettes",lot.getNbPalettes(),
+								bg, v -> lot.setNbPalettes(v) ));
 
-		l5.add(champEditableInt(
-			"Colis prévus",
-			lot.getNbColisPrevue(),
-			bg,
-			v -> lot.setNbColisPrevue(v)
-		));
+		l5.add(champEditableInt("Colis prévus", lot.getNbColisPrevue(),
+								bg, v -> lot.setNbColisPrevue(v) ));
 
-		l5.add(champEditableInt(
-			"Colis récup.",
-			lot.getNbColisRecup(),
-			bg,
-			v -> lot.setNbColisRecup(v)
-		));
+		l5.add(champEditableInt("Colis récup.", lot.getNbColisRecup(),
+								bg, v -> lot.setNbColisRecup(v) ));
 
-		if (lot.getMethode() != null)
-		{
-			l5.add(champEditableTexte(
-				"Méthode",
-				lot.getMethode().getNom(),
-				bg,
-				v -> lot.setMethode(v)
-			));
-		}
+		l5.add(champEditableTexte("Méthode", lot.getMethode()== null ? "": lot.getMethode().getNom(),
+								bg, v -> lot.setMethode(v) ));
 
 		corps.add(l5);
 
@@ -454,7 +421,6 @@ public class PanelFicheRoute extends JPanel
 				case "FINI":     fi = v; break;
 			}
 			ctrl.modifierPhase(lot, pt, sp, se, tr, fi);
-			rafraichir();
 		});
 		return cb;
 	}
