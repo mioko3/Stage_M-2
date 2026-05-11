@@ -139,6 +139,12 @@ public class Lot
 	public String getDistribution()     {return distribution;}
 	public String getFormatCarton()     {return formatCarton;}
 	public double getHeuresAce()        {return heuresAce;   }
+	public int getNbPalettes() {return nbPalettes;}
+	public int getNbColisPrevue() {return nbColisPrevue;}
+	public int getNbColisRecup() {return nbColisRecup;}
+	public String getPoucentrecupCartonFour() {return poucentrecupCartonFour;}
+	public String getDateDebut() {return dateDebut;}
+	public String getFinTheorique() {return finTheorique;}
 	public boolean estMachine()       {return estMachine;  }
 
 	// ── Setters ───────────────────────────────────────────────────────────
@@ -169,6 +175,13 @@ public class Lot
 	public void setDistribution(String distribution) {this.distribution = distribution; }
 	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton; }
 	public void setHeuresAce(double heuresAce)       {this.heuresAce = heuresAce;       }
+		public void setNbPalettes(int nbPalettes) {this.nbPalettes = nbPalettes;}
+	public void setNbColisPrevue(int nbColisPrevue) {this.nbColisPrevue = nbColisPrevue;}
+	public void setNbColisRecup(int nbColisRecup) {this.nbColisRecup = nbColisRecup;}
+	public void setPoucentrecupCartonFour(String poucentrecupCartonFour) 
+	{this.poucentrecupCartonFour = poucentrecupCartonFour;}
+	public void setDateDebut(String dateDebut) {this.dateDebut = dateDebut;}
+	public void setFinTheorique(String finTheorique) {this.finTheorique = finTheorique;}
 	public void setEstMachine(boolean estMachine)    {this.estMachine = estMachine;     }
 
 	// ── position ───────────────────────────────────────────────────────────

@@ -14,11 +14,6 @@ public class FicheRoute
 	private double prixUntaireMoy;
 	private int effectif;
 
-	// referenciel
-	private int objProd;
-	private int objVVS;
-
-
 	public FicheRoute(Societe societe)
 	{
 		this.societe = societe;
@@ -33,7 +28,7 @@ public class FicheRoute
 	}
 
 	// calcule
-	public int calculSommeVVS()
+	private int calculSommeVVS()
 	{
 		for(Lot l : this.societe.getLots())
 		{
@@ -41,7 +36,7 @@ public class FicheRoute
 		}
 		return sommeVVS;
 	}
-	public int caculSommePieces()
+	private int caculSommePieces()
 	{
 		for(Lot l : this.societe.getLots())
 		{
@@ -49,7 +44,7 @@ public class FicheRoute
 		}
 		return sommePieces;
 	}
-	public double calculPrixUnit()
+	private double calculPrixUnit()
 	{
 		int cpt = 0;
 		double moyPrixUnit = 0.0;
