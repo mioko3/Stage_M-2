@@ -85,7 +85,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": Infinity,
+    "heuresAce": 0,
     "estMachine": false
 
   },
@@ -115,7 +115,7 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "heuresAce": Infinity,
+    "heuresAce": 0,
     "estMachine": false
 
   },

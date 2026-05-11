@@ -116,13 +116,13 @@ public class Lot
 	public String  getCommentaire()    { return commentaire;   }
 	public String  getEmplacement()    { return emplacement;   }
 	// fiche de route
-	public SuivieProd   getSuivieProd()    { return suivieProd;   }
-	public Phase        getPhase()         { return phase;        }
-	public Methode getMethode() {return methode;}
-	public String getDistribution() {return distribution;}
-	public String getFormatCarton() {return formatCarton;}
-	public double getHeuresAce() {return heuresAce;}
-	public boolean isEstMachine() {return estMachine;}
+	public SuivieProd   getSuivieProd() { return suivieProd; }
+	public Phase        getPhase()      { return phase;      }
+	public Methode getMethode()         {return methode;     }
+	public String getDistribution()     {return distribution;}
+	public String getFormatCarton()     {return formatCarton;}
+	public double getHeuresAce()        {return heuresAce;   }
+	public boolean isEstMachine()       {return estMachine;  }
 
 	// ── Setters ───────────────────────────────────────────────────────────
 	/** Utilisé UNIQUEMENT au chargement JSON pour restaurer l'UUID persisté. */
@@ -148,15 +148,15 @@ public class Lot
 	// fiche de route
 	public void setSuivieProd(SuivieProd v)  { this.suivieProd = v; this.suivieProd.setLot(this);}
 	public void setPhase(Phase v)            { this.phase      = v; }
-	public void setMethode(String methode) {this.methode = Methode.getMetode(methode);}
-	public void setDistribution(String distribution) {this.distribution = distribution;}
-	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton;}
-	public void setHeuresAce(double heuresAce) {this.heuresAce = heuresAce;}
-	public void setEstMachine(boolean estMachine) {this.estMachine = estMachine;}
+	public void setMethode(String methode)   {this.methode = Methode.getMetode(methode);}
+	public void setDistribution(String distribution) {this.distribution = distribution; }
+	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton; }
+	public void setHeuresAce(double heuresAce)       {this.heuresAce = heuresAce;       }
+	public void setEstMachine(boolean estMachine)    {this.estMachine = estMachine;     }
 
 	// ── position ───────────────────────────────────────────────────────────
-	public int getPosX() { return posX; }
-	public int getPosY() { return posY; }
+	public int  getPosX()      { return posX;   }
+	public int  getPosY()      { return posY;   }
 	public void setPosX(int x) { this.posX = x; }
 	public void setPosY(int y) { this.posY = y; }
 }
