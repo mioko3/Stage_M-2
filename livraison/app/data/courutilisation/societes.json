@@ -15,7 +15,7 @@
     "ce": "LAETITIA",
     "totalHeuresCE": 54,
     "aces": [
-      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 15, "est Machine": false, "lotsACE": ["6897f116-82db-47c3-9f47-838b9023e5e9","424d8b0f-76a5-42c2-bb64-8443422efa0c","262e163c-1e83-467a-8775-5ed148077fcd","fbb35de8-9e38-4273-8b65-f00e09e587ba","4ee6fa18-eca8-4529-b525-70481b530856","3b21330e-dc26-4a64-9e60-1febe29b5673"] },
+      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 15, "est Machine": true, "lotsACE": ["6897f116-82db-47c3-9f47-838b9023e5e9","424d8b0f-76a5-42c2-bb64-8443422efa0c","262e163c-1e83-467a-8775-5ed148077fcd","fbb35de8-9e38-4273-8b65-f00e09e587ba","4ee6fa18-eca8-4529-b525-70481b530856","3b21330e-dc26-4a64-9e60-1febe29b5673"] },
       { "nom": "CAMILLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 15, "est Machine": false, "lotsACE": ["fd2224ce-103a-44ba-a37a-160bb2fbfcab","d8c8f593-d818-42da-8d31-57b4275968d8","5d732fab-6f12-402c-818b-1be9208c1f89","04365d11-9d44-4ea5-b7d9-b94f2b65e15b"] }
     ],
     "lotsAffectes": ["6897f116-82db-47c3-9f47-838b9023e5e9","424d8b0f-76a5-42c2-bb64-8443422efa0c","262e163c-1e83-467a-8775-5ed148077fcd","fbb35de8-9e38-4273-8b65-f00e09e587ba","4ee6fa18-eca8-4529-b525-70481b530856","3b21330e-dc26-4a64-9e60-1febe29b5673","fd2224ce-103a-44ba-a37a-160bb2fbfcab","d8c8f593-d818-42da-8d31-57b4275968d8","5d732fab-6f12-402c-818b-1be9208c1f89","04365d11-9d44-4ea5-b7d9-b94f2b65e15b"]

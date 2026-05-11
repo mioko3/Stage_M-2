@@ -18,6 +18,7 @@ public class Ace
 	private int            effectifActuel;
 	private boolean        estMachine;      // ← Ajouté : indique si l'ACE a une machine
 	private ArrayList<Lot> lots;
+	private ArrayList<Lot> lotsM;
 
 	public Ace(String nom, int nbPers, int effectifActuel)
 	{
@@ -70,7 +71,14 @@ public class Ace
 	public void setNom(String v)              { this.nom            = v; }
 	public void setNbPers(int v)              { this.nbPers         = v; }
 	public void setTotalHeures(int v)         { this.totalHeures    = v; }
-	public void setEstMachine(boolean v)      { this.estMachine     = v; }
+	
+	public void setEstMachine(boolean v)
+	{
+		this.estMachine = v;
+		if(estMachine)
+			this.lotsM = new ArrayList<>();
+	}
+
 	public void setEffectifActuel(int v) 
 	{ 
 		this.effectifActuel = v; 

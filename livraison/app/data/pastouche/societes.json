@@ -15,7 +15,7 @@
     "ce": "LAETITIA",
     "totalHeuresCE": 200,
     "aces": [
-      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0,"est Machine": false, "lotsACE": [] },
+      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0,"est Machine": true, "lotsACE": [] },
       { "nom": "CAMILLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 0,"est Machine": false, "lotsACE": [] }
     ],
     "lotsAffectes": []
