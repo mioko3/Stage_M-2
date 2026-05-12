@@ -15,10 +15,11 @@ import javax.swing.*;
 public class CarteLot extends JPanel implements ActionListener
 {
 	// ── Couleurs d'état ────────────────────────────────────────────────
-	static final Color BG_FINI    = new Color(220, 250, 220);
-	static final Color BG_DOUANE  = new Color(238, 224, 255);
-	static final Color BG_URGENCE = new Color(255, 232, 232);
-	static final Color BG_NORMAL  = Color.WHITE;
+	static final Color BG_FINI      = new Color(220, 250, 220);
+	static final Color BG_DOUANE    = new Color(238, 224, 255);
+	static final Color BG_URGENCE   = new Color(255, 232, 232);
+	static final Color BG_COMMENCER = new Color(100, 100, 255);
+	static final Color BG_NORMAL    = Color.WHITE;
 
 	/** Marqueur pour exclure un composant du recoloriage de fond */
 	private static final String PRESERVE_BG = "preserve_bg";
@@ -549,8 +550,9 @@ public class CarteLot extends JPanel implements ActionListener
 	static Color bgPourLot(Lot lot)
 	{
 		if (lot.getPhase().isFinit()) return BG_FINI;
-		if (lot.isEstSousDouane())    return BG_DOUANE;
-		if (lot.getPriorite() >= 8)   return BG_URGENCE;
+		if (lot.isEstSousDouane()   ) return BG_DOUANE;
+		if (lot.getPriorite() >= 8  ) return BG_URGENCE;
+		if (estcommencer            ) return BG_COMMENCER;
 		return BG_NORMAL;
 	}
 

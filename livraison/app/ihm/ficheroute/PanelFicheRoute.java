@@ -8,12 +8,9 @@ import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 import javax.swing.*;
 
@@ -99,12 +96,10 @@ public class PanelFicheRoute extends JPanel
 		combSociete.addActionListener(e -> changerSociete());
 		JButton btnExport   = IhmUtils.bouton("\uD83D\uDDB8 Aperçu / Export", IhmUtils.BLEU, Color.WHITE);
 		btnExport.addActionListener(e -> exporterTexte());
-		JButton btnTerminer = IhmUtils.bouton("✓ Marquer terminé", IhmUtils.VERT, Color.WHITE);
-		btnTerminer.addActionListener(e -> marquerTermine_s());
 		JButton btnMeth = IhmUtils.bouton("\uD83D\uDC41 Voir la Méthode", IhmUtils.VERT, Color.WHITE);
 		btnMeth.addActionListener(e -> ouvrirMeth_s());
 		ligneSelect.add(lbl); ligneSelect.add(combSociete);
-		ligneSelect.add(btnExport); ligneSelect.add(btnTerminer); ligneSelect.add(btnMeth);
+		ligneSelect.add(btnExport); ligneSelect.add(btnMeth);
 
 		// Tuiles stats globales
 		JPanel tuiles = new JPanel(new GridLayout(1, 5, 6, 0));
@@ -182,9 +177,10 @@ public class PanelFicheRoute extends JPanel
 		lblVVS_a    = creerTuile("VVS",          "—", IhmUtils.VERT);
 		lblPieces_a = creerTuile("Pièces",       "—", new Color(0, 80, 140));
 		lblPU_a     = creerTuile("PU Moyen",     "—", IhmUtils.AMBER);
-		lblHeures_a = creerTuile("H restantes",  "—", IhmUtils.ROUGE);
+		lblHeures_a = creerTuile("H restantes Piste",  "—", IhmUtils.ROUGE);
 		tuiles.add(lblNbLots_a); tuiles.add(lblVVS_a); tuiles.add(lblPieces_a);
-		tuiles.add(lblPU_a); tuiles.add(lblHeures_a);
+		tuiles.add(lblPU_a);
+		tuiles.add(lblHeures_a);
 
 		JPanel nord = new JPanel();
 		nord.setLayout(new BoxLayout(nord, BoxLayout.Y_AXIS));
@@ -195,134 +191,6 @@ public class PanelFicheRoute extends JPanel
 		p.add(nord, BorderLayout.NORTH);
 		return p;
 	}
-
-	// ── Helpers de carte ────────────────────────────────────────────────
-
-	private JLabel badge(String txt, Color col)
-	{
-		JLabel l = new JLabel(txt);
-		l.setFont(new Font("SansSerif", Font.BOLD, 10));
-		l.setOpaque(true); l.setBackground(col); l.setForeground(Color.WHITE);
-		l.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-		return l;
-	}
-
-	private JCheckBox checkPhase(String label, boolean etat, Lot lot, String code, Color accent)
-	{
-		JCheckBox cb = new JCheckBox(label, etat);
-		cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		cb.setOpaque(false);
-		cb.setForeground(etat ? IhmUtils.VERT : new Color(100, 100, 100));
-		cb.addActionListener(e -> {
-			boolean v = cb.isSelected();
-			boolean pt = lot.getPhase().isPreTri(), sp = lot.getPhase().isSurPiste(),
-			        se = lot.getPhase().isSortieEtiq(), tr = lot.getPhase().isTri(), fi = lot.getPhase().isFinit();
-			switch (code) {
-				case "PRETRI":   pt = v; break; case "SURPISTE": sp = v; break;
-				case "SORETIQ":  se = v; break; case "TRI":      tr = v; break;
-				case "FINI":     fi = v; break;
-			}
-			ctrl.modifierPhase(lot, pt, sp, se, tr, fi);
-		});
-		return cb;
-	}
-
-	private JPanel barreProg(int val, int max, int w)
-	{
-		JPanel p = new JPanel(null) {
-			@Override protected void paintComponent(Graphics g)
-			{
-				super.paintComponent(g);
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				int W = getWidth(), H = getHeight();
-				g2.setColor(new Color(215, 220, 228)); g2.fillRoundRect(0, 0, W, H, H, H);
-				int fill = max > 0 ? (int)(W * val / (double) max) : 0;
-				Color c = val == max ? IhmUtils.VERT : val > 0 ? IhmUtils.AMBER : new Color(200, 200, 200);
-				if (fill > 0) { g2.setColor(c); g2.fillRoundRect(0, 0, fill, H, H, H); }
-			}
-		};
-		p.setPreferredSize(new Dimension(w, 10));
-		p.setOpaque(false);
-		return p;
-	}
-
-	private void info(JPanel p, String label, String val, Color bg)
-	{
-		JPanel bloc = new JPanel(new BorderLayout(0, 0));
-		bloc.setBackground(bg);
-		JLabel l = new JLabel(label);
-		l.setFont(new Font("SansSerif", Font.PLAIN, 10));
-		l.setForeground(new Color(130, 130, 130));
-		JLabel v = new JLabel(val);
-		v.setFont(new Font("SansSerif", Font.BOLD, 12));
-		v.setForeground(Color.DARK_GRAY);
-		bloc.add(l, BorderLayout.NORTH);
-		bloc.add(v, BorderLayout.CENTER);
-		p.add(bloc);
-	}
-
-	private JSeparator separateur(Color bg)
-	{
-		JSeparator sep = new JSeparator(SwingConstants.HORIZONTAL);
-		sep.setForeground(new Color(220, 225, 232));
-		sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
-		return sep;
-	}
-	private JPanel champEditableTexte(String label, String valeur, Color bg, Consumer<String> setter)
-	{
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
-		p.setBackground(bg);
-
-		JLabel l = new JLabel(label + " :");
-		l.setFont(new Font("SansSerif", Font.BOLD, 11));
-		l.setForeground(new Color(90, 90, 90));
-
-		JTextField tf = new JTextField(valeur, 10);
-		tf.setFont(new Font("SansSerif", Font.PLAIN, 12));
-
-		tf.addFocusListener(new FocusAdapter()
-		{
-			@Override
-			public void focusLost(FocusEvent e)
-			{
-				setter.accept(tf.getText().trim());
-			}
-		});
-
-		p.add(l);
-		p.add(tf);
-
-		return p;
-	}
-
-	private JPanel champEditableInt(String label, int valeur, Color bg, IntConsumer setter)
-	{
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
-		p.setBackground(bg);
-
-		JLabel l = new JLabel(label + " :");
-		l.setFont(new Font("SansSerif", Font.BOLD, 11));
-		l.setForeground(new Color(90, 90, 90));
-
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(valeur, 0, Integer.MAX_VALUE, 1));
-
-		JComponent editor = spinner.getEditor();
-		JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
-		tf.setColumns(5);
-
-		spinner.addChangeListener(e ->
-		{
-			setter.accept((Integer) spinner.getValue());
-		});
-
-		p.add(l);
-		p.add(spinner);
-
-		return p;
-	}
-
-	private String fmt(int n) { return String.format("%,d", n); }
 
 	// ── En-têtes de section ─────────────────────────────────────────────
 
@@ -377,8 +245,13 @@ public class PanelFicheRoute extends JPanel
 		int idx = combSociete.getSelectedIndex() - 1;
 		if (idx < 0 || idx >= ctrl.getSocietes().size()) {
 			societeCourante = null; viderRecap_s();
-			panelCartes_s.removeAll(); panelCartes_s.revalidate(); panelCartes_s.repaint();
-			panelRecapAce_s.removeAll(); panelRecapAce_s.revalidate(); panelRecapAce_s.repaint();
+			panelCartes_s.removeAll();
+			panelCartes_s.revalidate();
+			panelCartes_s.repaint();
+
+			panelRecapAce_s.removeAll();
+			panelRecapAce_s.revalidate();
+			panelRecapAce_s.repaint();
 			return;
 		}
 		societeCourante = ctrl.getSocietes().get(idx);
@@ -391,7 +264,8 @@ public class PanelFicheRoute extends JPanel
 		FicheRoute fdr = ctrl.genererFicheRoute(societeCourante);
 
 		int vvs = 0, pcs = 0, cntPU = 0; double sumPU = 0;
-		for (Lot lot : societeCourante.getLots()) {
+		for (Lot lot : societeCourante.getLots())
+		{
 			vvs += lot.getValeurVente(); pcs += lot.getNbPieces();
 			if (lot.getNbPieces() > 0) { sumPU += lot.getPrixUnitaire(); cntPU++; }
 		}
@@ -400,7 +274,7 @@ public class PanelFicheRoute extends JPanel
 		majTuile(lblVVS_s,    "VVS Total",       vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
 		majTuile(lblPieces_s, "Nb Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
 		majTuile(lblPU_s,     "PU Moyen",        puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_s, "H CE restantes",  societeCourante.getTotalHeuresCE() + "h", IhmUtils.ROUGE);
+		majTuile(lblHeures_s, "H CE restantes",  "-", IhmUtils.ROUGE);
 
 		reconstruireRecapAce_s(fdr);
 
@@ -481,7 +355,7 @@ public class PanelFicheRoute extends JPanel
 		majTuile(lblVVS_a,    "VVS",          vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
 		majTuile(lblPieces_a, "Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
 		majTuile(lblPU_a,     "PU Moyen",     puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_a, "H restantes",  "—", IhmUtils.ROUGE);
+		majTuile(lblHeures_a, "H restantes", "-", IhmUtils.ROUGE);
 
 		panelCartes_a.removeAll();
 		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", aceCourante.getColor()));
@@ -498,33 +372,41 @@ public class PanelFicheRoute extends JPanel
 	{
 		panelRecapAce_s.removeAll();
 		if (societeCourante == null || societeCourante.getAces() == null || societeCourante.getAces().isEmpty())
-		{ panelRecapAce_s.revalidate(); panelRecapAce_s.repaint(); return; }
+		{ 
+			panelRecapAce_s.revalidate();
+			panelRecapAce_s.repaint();
+			return;
+		}
 		List<Ace> aces = societeCourante.getAces();
-		for (int i = 0; i < aces.size(); i++) {
+		for (int i = 0; i < aces.size(); i++)
+		{
 			Ace ace = aces.get(i);
 			List<Lot> lots = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
-			int vvs = 0, pcs = 0, cnt = 0, etiq = 0; double puSum = 0;
-			for (Lot l : lots) {
-				vvs += l.getValeurVente(); pcs += l.getNbPieces();
-				if (l.getNbPieces() > 0) { puSum += l.getPrixUnitaire(); cnt++; }
+			int vvs = 0, pcs = 0, pcsT = 0, etiq = 0;
+			for (Lot l : lots)
+			{
+				vvs += l.getSuivieProd().getNbPieceEtiq() * l.getPrixUnitaire();
+				pcs += l.getSuivieProd().getNbPieceEtiq();
+				pcsT += l.getNbPieces();
 				if (l.getNbPieces() > 0 && l.getSuivieProd() != null) etiq += l.getSuivieProd().getNbPieceEtiq();
 			}
-			double puMoy  = cnt > 0 ? puSum / cnt : 0;
-			double av     = pcs > 0 ? 100.0 * etiq / pcs : 0;
+			double puMoy  = pcs != 0 ? vvs/pcs : 0;
+			double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
 			Color col     = ace.getColor();
 			JPanel grp = new JPanel(new BorderLayout(0, 2));
 			grp.setBackground(IhmUtils.FOND);
 			grp.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(col, 2),
 				BorderFactory.createEmptyBorder(2, 4, 2, 4)));
+
 			JLabel titLbl = new JLabel(" " + ace.getNom(), JLabel.LEFT);
 			titLbl.setFont(new Font("SansSerif", Font.BOLD, 11));
 			titLbl.setForeground(Color.WHITE); titLbl.setOpaque(true); titLbl.setBackground(col);
 			titLbl.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
 			JPanel t3 = new JPanel(new GridLayout(1, 4, 4, 0)); t3.setBackground(IhmUtils.FOND);
-			t3.add(creerTuileMini("VVS",     vvs > 0 ? String.format("%,d €", vvs) : "—", col));
-			t3.add(creerTuileMini("Pièces",  String.format("%,d", pcs), col));
-			t3.add(creerTuileMini("PU Moy.", puMoy > 0 ? String.format("%.2f €", puMoy) : "—", col));
+			t3.add(creerTuileMini("VVS étiq",     vvs > 0 ? String.format("%,d €", vvs) : "—", col));
+			t3.add(creerTuileMini("Pièces étiq",  String.format("%,d", pcs), col));
+			t3.add(creerTuileMini("PU Moy étiq.", puMoy > 0 ? String.format("%.2f €", puMoy) : "—", col));
 			t3.add(creerTuileMini("Av.",     av > 0 ? String.format("%.1f %%", av) : "—", col));
 			grp.add(titLbl, BorderLayout.NORTH); grp.add(t3, BorderLayout.CENTER);
 			panelRecapAce_s.add(grp);
@@ -535,23 +417,6 @@ public class PanelFicheRoute extends JPanel
 	// ══════════════════════════════════════════════════════════════════
 	// ACTIONS BOUTONS
 	// ══════════════════════════════════════════════════════════════════
-
-	private void marquerTermine_s()
-	{
-		if (societeCourante == null) return;
-		List<Lot> lots = societeCourante.getLots();
-		if (lots.isEmpty()) { JOptionPane.showMessageDialog(this, "Aucun lot.", "Info", JOptionPane.INFORMATION_MESSAGE); return; }
-		String[] opts = lots.stream().map(l -> "N°" + l.getNumCDE() + " — " + s(l.getAffaire())).toArray(String[]::new);
-		String choix = (String) JOptionPane.showInputDialog(this, "Choisir le lot à terminer :", "Marquer terminé",
-			JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-		if (choix == null) return;
-		Lot lot = lots.get(Arrays.asList(opts).indexOf(choix));
-		if (JOptionPane.showConfirmDialog(this, "Marquer le lot \"" + lot.getNumCDE() + "\" comme terminé ?",
-			"Confirmer", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			ctrl.marquerLotTermine(lot); chargerFicheRouteSociete();
-			JOptionPane.showMessageDialog(this, "Lot marqué comme terminé.", "Terminé", JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
 
 	private void ouvrirMeth_s()
 	{
@@ -643,17 +508,21 @@ public class PanelFicheRoute extends JPanel
 		Ace     av = aceCourante;
 		remplirComboSocietes();
 		remplirComboAces();
-		if (sv != null) {
+		if (sv != null)
+		{
 			societeCourante = sv;
-			for (int i = 0; i < combSociete.getItemCount(); i++) {
+			for (int i = 0; i < combSociete.getItemCount(); i++)
+			{
 				String item = combSociete.getItemAt(i);
 				if (item != null && item.startsWith(sv.getNom())) { combSociete.setSelectedIndex(i); break; }
 			}
 		}
 		chargerFicheRouteSociete();
-		if (av != null) {
+		if (av != null)
+		{
 			aceCourante = av;
-			for (int i = 0; i < combAce.getItemCount(); i++) {
+			for (int i = 0; i < combAce.getItemCount(); i++)
+			{
 				String item = combAce.getItemAt(i);
 				if (item != null && item.startsWith(av.getNom())) { combAce.setSelectedIndex(i); break; }
 			}
