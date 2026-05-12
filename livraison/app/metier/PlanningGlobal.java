@@ -7,6 +7,8 @@ import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -146,6 +148,15 @@ public class PlanningGlobal
 		phase.setSortieEtiq  (sortieEtiq);
 		phase.setTri         (tri);
 		phase.setFinit       (finit);
+		if (finit)
+		{
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter formatter =
+				DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			String formatted = now.format(formatter);
+			lot.setdateFin(formatted);
+		}
+		else { lot.setdateFin("");}
 	}
 
 	public void marquerLotTermine(Lot lot)
@@ -169,6 +180,15 @@ public class PlanningGlobal
 		ace.setNom           (nom);
 		ace.setNbPers        (nbPers);
 		ace.setEffectifActuel(effectif);
+	}
+
+	public void commencerLot(Lot l)
+	{
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter =
+			DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String formatted = now.format(formatter);
+		l.setDateDebut(formatted);
 	}
 
 	// ── Recherche ─────────────────────────────────────────────────────────

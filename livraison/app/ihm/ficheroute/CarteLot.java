@@ -22,12 +22,15 @@ public class CarteLot extends JPanel implements ActionListener
 
 	/** Marqueur pour exclure un composant du recoloriage de fond */
 	private static final String PRESERVE_BG = "preserve_bg";
+	
+	private static boolean estcommencer;
 
 	private final Lot            lot;
 	private final Controleur     ctrl;
 	private final PanelFicheRoute m;
 
 	// ── Champs éditables (références pour ActionListener) ──────────────
+	private JButton    btncommencer;
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
 	private JTextField textDistri;
@@ -49,6 +52,7 @@ public class CarteLot extends JPanel implements ActionListener
 		this.lot  = lot;
 		this.ctrl = ctrl;
 		this.m    = m;
+		estcommencer = !lot.getDateDebut().equals("");
 
 		Color bg     = bgPourLot(lot);
 		Color accent = couleurAce != null ? couleurAce : IhmUtils.BLEU;
@@ -74,6 +78,8 @@ public class CarteLot extends JPanel implements ActionListener
 		corps.add(Box.createVerticalStrut(5));
 		corps.add(separateur());
 		corps.add(construireLigne2(bg));
+		corps.add(separateur());
+		corps.add(construireLigne2Bis(bg));
 		corps.add(separateur());
 		corps.add(construireLigne3Phases(bg, accent));
 		corps.add(separateur());
@@ -155,6 +161,28 @@ public class CarteLot extends JPanel implements ActionListener
 		if (!s(lot.getDateReception()).isEmpty()) info(l2, "Réception", lot.getDateReception(), bg);
 		if (!s(lot.getDatePaiement()).isEmpty())  info(l2, "Paiement",  lot.getDatePaiement(),  bg);
 		return l2;
+	}
+
+	private JPanel construireLigne2Bis(Color bg)
+	{
+		JPanel l2Bis = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		l2Bis.setBackground(bg);
+		if (!estcommencer)
+		{
+			this.btncommencer = new JButton("Commencer");
+			this.btncommencer.addActionListener(e -> commencer());
+			l2Bis.add(this.btncommencer);
+		}
+
+		l2Bis.add(new JLabel("Date de Debut : " + lot.getDateDebut()));
+		l2Bis.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
+		return l2Bis;
+	}
+	private void commencer()
+	{
+		estcommencer = true;
+		this.ctrl.commencerLot(lot);
+		this.m.rafraichir();
 	}
 
 	private JPanel construireLigne3Phases(Color bg, Color accent)
@@ -296,6 +324,7 @@ public class CarteLot extends JPanel implements ActionListener
 
 			// Recoloriage fond carte
 			recolorierCarte();
+			this.m.rafraichir();
 		});
 		return cb;
 	}

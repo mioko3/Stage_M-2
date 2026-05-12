@@ -309,6 +309,8 @@ public class ExcelReader
 			lot.setMethode      (getString(obj, "methode"));
 			lot.setDistribution (getString(obj, "distribution"));
 			lot.setFormatCarton (getString(obj, "formatCarton"));
+			lot.setDateDebut    (getString(obj, "dateDebut"));
+			lot.setdateFin      (getString(obj, "dateFin"));
 			lot.setHeuresAce    (getDouble(obj, "heuresAce"));
 			lot.setCollisage    (getInt   (obj, "collisage"));
 			lot.setEstMachine   (getBool  (obj, "estMachine"));

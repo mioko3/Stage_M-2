@@ -56,6 +56,8 @@ public class DonneesSauvegarder
 				pw.println("    \"methode\": "                  + esc(l.getMethode() == null ? "" : l.getMethode().getNom()) + ",");
 				pw.println("    \"distribution\": "             + esc(l.getDistribution())                            + ",");
 				pw.println("    \"formatCarton\": "             + esc(l.getFormatCarton())                            + ",");
+				pw.println("    \"dateDebut\": "                + esc(l.getDateDebut())                               + ",");
+				pw.println("    \"dateFin\": "                  + esc(l.getdateFin())                                 + ",");
 				pw.println("    \"heuresAce\": "                + l.getHeuresAce()                                    + ",");
 				pw.println("    \"collisage\": "                + l.getCollisage()                                    + ",");
 				pw.println("    \"estMachine\": "               + l.estMachine()                                      + ",");

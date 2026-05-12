@@ -48,7 +48,7 @@ public class Lot
 	private Methode     methode; // une class pour stoker le lien des méthodes
 	private int    nbPalettes,nbColisPrevue, nbColisRecup, collisage;
 	private String  distribution, poucentrecupCartonFour;
-	private String formatCarton, dateDebut, finTheorique;
+	private String formatCarton, dateDebut, dateFin;
 	private boolean estMachine;  // ← Ajouté : indique si le lot est produit à la machine
 
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
@@ -74,6 +74,8 @@ public class Lot
 		this.datePaiement = "";
 		this.commentaire  = "";
 		this.emplacement  = "";
+		this.dateDebut    = "";
+		this.dateFin      = "";
 		this.suivieProd   = new SuivieProd();
 		this.suivieProd.setLot(this);
 		this.phase        = new Phase();
@@ -189,7 +191,7 @@ public class Lot
 	public int        getCollisage    () {return collisage;}
 	public String     getPoucentrecupCartonFour() {return poucentrecupCartonFour;}
 	public String     getDateDebut    () {return dateDebut;}
-	public String     getFinTheorique () {return finTheorique;}
+	public String     getdateFin      () {return dateFin;}
 	public boolean    estMachine      () {return estMachine;  }
 
 	// ── Setters ───────────────────────────────────────────────────────────
@@ -226,6 +228,6 @@ public class Lot
 	public void setCollisage(int v)         {this.collisage = v;recalculNbPalette();}
 	public void setPoucentrecupCartonFour(String v) {this.poucentrecupCartonFour = v;}
 	public void setDateDebut(String v)      {this.dateDebut = v;}
-	public void setFinTheorique(String v)   {this.finTheorique = v;}
+	public void setdateFin(String v)   {this.dateFin = v;}
 	public void setEstMachine(boolean v)    {this.estMachine = v; }
 }

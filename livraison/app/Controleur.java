@@ -206,6 +206,11 @@ public class Controleur
 	public void marquerLotTermine(Lot lot)
 	{ metier.marquerLotTermine(lot); autoSauvegarderLots(); }
 
+	public void commencerLot(Lot l)
+	{
+		this.metier.commencerLot(l);
+	}
+
 	// ── Modification sociétés ─────────────────────────────────────────────
 
 	public void modifierSociete(Societe soc, String nom, String ce, int totalHeuresCE, int effectif)
