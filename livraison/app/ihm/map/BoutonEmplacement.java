@@ -1,21 +1,21 @@
 package app.ihm.map;
 
 import app.metier.lot.Lot;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import javax.swing.*;
 
 public class BoutonEmplacement extends JButton
 {
 	private List<Lot> lots;
+	private boolean choisie;
 
 	public BoutonEmplacement(String text, List<Lot> lots)
 	{
 		super(text);
 
 		this.lots = lots;
-
+		this.choisie = false;
 		setFocusPainted(false);
 		setBorderPainted(false);
 		setContentAreaFilled(false);
@@ -80,6 +80,7 @@ public class BoutonEmplacement extends JButton
 
 	private Color couleurLot(Lot l)
 	{
+		if (choisie) return new Color(0,255,255);
 		if (l.isEstSousDouane())
 			return new Color(170, 85, 195);
 
@@ -99,4 +100,7 @@ public class BoutonEmplacement extends JButton
 
 		return new Color(120, 120, 120);
 	}
+
+	public String getText() {return super.getText();}
+	public void  estChoisie(boolean c) {this.choisie = c;}
 }

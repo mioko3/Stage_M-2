@@ -199,6 +199,7 @@ public class PanelMap extends JPanel
 			});
 
 			btn.setToolTipText(buildTooltip(empl));
+			btn.setBorderPainted(true);
 
 			return btn;
 		}
@@ -240,6 +241,7 @@ public class PanelMap extends JPanel
 	private void selectionnerEmplacement(String empl)
 	{
 		emplacementSel = empl;
+	
 		List<Lot> lots = getLotsEmplacement(empl);
 		lotsCourants = lots;
 		planPanel.updatePlan();
