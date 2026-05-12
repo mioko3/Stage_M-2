@@ -384,16 +384,20 @@ public class CarteLot extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		String cmd = e.getActionCommand();
-		try {
-			switch (cmd) {
-				case "PCS_ETIQ": {
+		try
+		{
+			switch (cmd)
+			{
+				case "PCS_ETIQ":
+				{
 					int v = Integer.parseInt(textPcsEtiq.getText().trim());
 					if (v < 0 || v > lot.getNbPieces()) throw new NumberFormatException();
 					lot.getSuivieProd().setNbPieceEtiq(v);
 					textPcsEtiq.setBackground(Color.WHITE);
 					break;
 				}
-				case "PCS_PART": {
+				case "PCS_PART":
+				{
 					int v = Integer.parseInt(textPcsPart.getText().trim());
 					if (v < 0 || v > lot.getNbPieces()) throw new NumberFormatException();
 					lot.getSuivieProd().setNbPieceRepart(v);
@@ -410,13 +414,15 @@ public class CarteLot extends JPanel implements ActionListener
 					if (Arrays.asList(Lot.F_CARTON).contains(textFormCart.getText().trim()))
 						lot.setFormatCarton(textFormCart.getText().trim());
 					break;
-				case "COLLISAGES": {
+				case "COLLISAGES":
+				{
 					int v = Integer.parseInt(textCollisage.getText().trim());
 					if (v < 0) throw new NumberFormatException();
 					lot.setCollisage(v);
 					break;
 				}
-				case "COLIS_RECUP": {
+				case "COLIS_RECUP":
+				{
 					int v = Integer.parseInt(textColisRecup.getText().trim());
 					if (v < 0) throw new NumberFormatException();
 					lot.setNbColisRecup(v);
@@ -428,6 +434,7 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 			}
 			this.m.rafraichir();
+			this.ctrl.autoSauvegarde();
 		} catch (NumberFormatException ex) {
 			((JTextField) e.getSource()).setBackground(new Color(255, 220, 220));
 		}

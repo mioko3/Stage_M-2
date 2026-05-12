@@ -221,13 +221,13 @@ public class Lot
 	public void setMethode(String methode)  {this.methode = Methode.getMetode(methode);}
 	public void setDistribution(String v)   {this.distribution = v; }
 	public void setFormatCarton(String v)   {this.formatCarton = v;recalculNbPalette();}
-	public void setHeuresAce(double v)      {this.heuresAce = v;       }
-		public void setNbPalettes(int v)    {this.nbPalettes = v;}
+	public void setHeuresAce(double v)      {this.heuresAce = v;    }
+	public void setNbPalettes(int v)        {this.nbPalettes = v;   }
 	public void setNbColisPrevue(int v)     {this.nbColisPrevue = v;}
-	public void setNbColisRecup(int v)      {this.nbColisRecup = v;}
+	public void setNbColisRecup(int v)      {this.nbColisRecup = v; }
 	public void setCollisage(int v)         {this.collisage = v;recalculNbPalette();}
 	public void setPoucentrecupCartonFour(String v) {this.poucentrecupCartonFour = v;}
-	public void setDateDebut(String v)      {this.dateDebut = v;}
-	public void setdateFin(String v)   {this.dateFin = v;}
-	public void setEstMachine(boolean v)    {this.estMachine = v; }
+	public void setDateDebut(String v)      {this.dateDebut = v;    }
+	public void setdateFin(String v)        {this.dateFin = v;      }
+	public void setEstMachine(boolean v)    {this.estMachine = v;   }
 }

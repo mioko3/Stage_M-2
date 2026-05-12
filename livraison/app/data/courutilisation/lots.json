@@ -440,7 +440,7 @@
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 1,
     "sp_nbHeureRepartRestant": 40,
-    "methode": "null",
+    "methode": "5D",
     "distribution": "",
     "formatCarton": "1/4",
     "dateDebut": "12/05/2026 14:59:25",

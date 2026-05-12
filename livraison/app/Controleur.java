@@ -330,6 +330,11 @@ public class Controleur
 	}
 
 	// ── Auto-sauvegarde ───────────────────────────────────────────────────
+	public void autoSauvegarde()
+	{
+		autoSauvegarderLots();
+		autoSauvegarderSocietes();
+	}
 
 	private void autoSauvegarderLots()
 	{
