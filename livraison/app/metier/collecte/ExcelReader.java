@@ -318,6 +318,8 @@ public class ExcelReader
 			lot.setFormatCarton(getString(obj, "formatCarton"));
 			lot.setHeuresAce(getDouble(obj, "heuresAce"));
 			lot.setEstMachine(getBool(obj, "est Machine"));
+			lot.setCollisage(getInt(obj, "Collisage"));
+
 
 			liste.add(lot);
 		}

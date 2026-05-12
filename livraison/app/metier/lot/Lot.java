@@ -16,6 +16,8 @@ import java.util.UUID;
  */
 public class Lot
 {
+	public static final String[] F_CARTON = new String[]{"1/16","1/8","1/4","1/2","box"};
+
 	private static ArrayList<String> tabId;
 	// ── Identité ──────────────────────────────────────────────────────────
 	private String  id;      // clé technique unique (UUID), persistée en JSON
@@ -44,13 +46,10 @@ public class Lot
 	private SuivieProd suivieProd;
 	private Phase      phase;
 	private Methode     methode; // une class pour stoker le lien des méthodes
-	private int    nbPalettes,nbColisPrevue, nbColisRecup;
+	private int    nbPalettes,nbColisPrevue, nbColisRecup, collisage;
 	private String  distribution, poucentrecupCartonFour;
 	private String formatCarton, dateDebut, finTheorique;
 	private boolean estMachine;  // ← Ajouté : indique si le lot est produit à la machine
-
-	// ── position ───────────────────────────────────────────
-	private int posX, posY;
 
 	public Lot(int numCDE, int nbPieces, double cadence, double heures,
 			   int valeurVente, String statut, String statutEchant)
@@ -95,7 +94,7 @@ public class Lot
 		return uuid;
 	}
 
-	// ── Recalcul des heures ───────────────────────────────────────────────
+	// ── Recalcul ───────────────────────────────────────────────
 	/** Recalcule les heures après modification de nbPieces ou cadence. */
 	public void recalculerHeures()
 	{
@@ -110,6 +109,51 @@ public class Lot
 			pu = Math.round(((double) this.valeurVente / this.nbPieces)*100.0) / 100.0;
 		}
 		return pu;
+	}
+
+	public void recalculNbPalette()
+	{
+		if (collisage <= 0 || formatCarton == null) return;
+
+		int nbcarton = (int) Math.ceil(this.nbPieces / (double) this.collisage);
+		this.nbColisPrevue = nbcarton;
+		switch (formatCarton)
+		{
+			// 64 carton par palette
+			case "1/16":
+			{
+				this.nbPalettes = (int) Math.ceil(nbcarton / 64);
+				break;
+			}
+			// 32 par palette
+			case "1/8":
+			{
+				this.nbPalettes = (int) Math.ceil(nbcarton / 32);
+				break;
+			}
+			// 16 par palette
+			case "1/4":
+			{
+				this.nbPalettes = (int) Math.ceil(nbcarton / 16);
+				break;
+			}
+			// 8 par palette
+			case "1/2":
+			{
+				this.nbPalettes = (int) Math.ceil(nbcarton / 8);
+				break;
+			}
+			// 1 par palette
+			case "box":
+			{
+				this.nbPalettes = (int) Math.ceil(nbcarton);
+				break;
+			}
+				
+			default:
+				throw new AssertionError();
+		}
+
 	}
 
 	// ── Getters ───────────────────────────────────────────────────────────
@@ -133,19 +177,20 @@ public class Lot
 	public String  getCommentaire()    { return commentaire;   }
 	public String  getEmplacement()    { return emplacement;   }
 	// fiche de route
-	public SuivieProd   getSuivieProd() { return suivieProd; }
-	public Phase        getPhase()      { return phase;      }
-	public Methode getMethode()         {return methode;     }
-	public String getDistribution()     {return distribution;}
-	public String getFormatCarton()     {return formatCarton;}
-	public double getHeuresAce()        {return heuresAce;   }
-	public int getNbPalettes() {return nbPalettes;}
-	public int getNbColisPrevue() {return nbColisPrevue;}
-	public int getNbColisRecup() {return nbColisRecup;}
-	public String getPoucentrecupCartonFour() {return poucentrecupCartonFour;}
-	public String getDateDebut() {return dateDebut;}
-	public String getFinTheorique() {return finTheorique;}
-	public boolean estMachine()       {return estMachine;  }
+	public SuivieProd getSuivieProd   () { return suivieProd; }
+	public Phase      getPhase        () { return phase;      }
+	public Methode    getMethode      () {return methode;     }
+	public String     getDistribution () {return distribution;}
+	public String     getFormatCarton () {return formatCarton;}
+	public double     getHeuresAce    () {return heuresAce;   }
+	public int        getNbPalettes   () {return nbPalettes;}
+	public int        getNbColisPrevue() {return nbColisPrevue;}
+	public int        getNbColisRecup () {return nbColisRecup;}
+	public int        getCollisage    () {return collisage;}
+	public String     getPoucentrecupCartonFour() {return poucentrecupCartonFour;}
+	public String     getDateDebut    () {return dateDebut;}
+	public String     getFinTheorique () {return finTheorique;}
+	public boolean    estMachine      () {return estMachine;  }
 
 	// ── Setters ───────────────────────────────────────────────────────────
 	/** Utilisé UNIQUEMENT au chargement JSON pour restaurer l'UUID persisté. */
@@ -169,24 +214,18 @@ public class Lot
 	public void setCommentaire(String v)   { this.commentaire  = v; }
 	public void setEmplacement(String v)   { this.emplacement  = v; }
 	// fiche de route
-	public void setSuivieProd(SuivieProd v)  { this.suivieProd = v; this.suivieProd.setLot(this);}
-	public void setPhase(Phase v)            { this.phase      = v; }
-	public void setMethode(String methode)   {this.methode = Methode.getMetode(methode);}
-	public void setDistribution(String distribution) {this.distribution = distribution; }
-	public void setFormatCarton(String formatCarton) {this.formatCarton = formatCarton; }
-	public void setHeuresAce(double heuresAce)       {this.heuresAce = heuresAce;       }
-		public void setNbPalettes(int nbPalettes) {this.nbPalettes = nbPalettes;}
-	public void setNbColisPrevue(int nbColisPrevue) {this.nbColisPrevue = nbColisPrevue;}
-	public void setNbColisRecup(int nbColisRecup) {this.nbColisRecup = nbColisRecup;}
-	public void setPoucentrecupCartonFour(String poucentrecupCartonFour) 
-	{this.poucentrecupCartonFour = poucentrecupCartonFour;}
-	public void setDateDebut(String dateDebut) {this.dateDebut = dateDebut;}
-	public void setFinTheorique(String finTheorique) {this.finTheorique = finTheorique;}
-	public void setEstMachine(boolean estMachine)    {this.estMachine = estMachine;     }
-
-	// ── position ───────────────────────────────────────────────────────────
-	public int  getPosX()      { return posX;   }
-	public int  getPosY()      { return posY;   }
-	public void setPosX(int x) { this.posX = x; }
-	public void setPosY(int y) { this.posY = y; }
+	public void setSuivieProd(SuivieProd v) { this.suivieProd = v; this.suivieProd.setLot(this);}
+	public void setPhase(Phase v)           { this.phase      = v; }
+	public void setMethode(String methode)  {this.methode = Methode.getMetode(methode);}
+	public void setDistribution(String v)   {this.distribution = v; }
+	public void setFormatCarton(String v)   {this.formatCarton = v;recalculNbPalette();}
+	public void setHeuresAce(double v)      {this.heuresAce = v;       }
+		public void setNbPalettes(int v)    {this.nbPalettes = v;}
+	public void setNbColisPrevue(int v)     {this.nbColisPrevue = v;}
+	public void setNbColisRecup(int v)      {this.nbColisRecup = v;}
+	public void setCollisage(int v)         {this.collisage = v;recalculNbPalette();}
+	public void setPoucentrecupCartonFour(String v) {this.poucentrecupCartonFour = v;}
+	public void setDateDebut(String v)      {this.dateDebut = v;}
+	public void setFinTheorique(String v)   {this.finTheorique = v;}
+	public void setEstMachine(boolean v)    {this.estMachine = v; }
 }

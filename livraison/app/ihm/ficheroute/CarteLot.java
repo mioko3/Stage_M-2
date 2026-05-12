@@ -5,6 +5,8 @@ import app.ihm.IhmUtils;
 import app.metier.lot.Lot;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 /**
@@ -26,12 +28,11 @@ public class CarteLot extends JPanel implements ActionListener
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
 
-	private JTextField textEmplac;
+	
 	private JTextField textDistri;
 	private JTextField textLotCharge;
 	private JTextField textFormCart;
-	private JTextField textPalettes;
-	private JTextField textColisPrevu;
+	private JTextField textCollisage;
 	private JTextField textColisRecup;
 	private JTextField textMethode;
 
@@ -135,7 +136,7 @@ public class CarteLot extends JPanel implements ActionListener
 		info(l2, "PU",       lot.getPrixUnitaire() > 0 ? String.format("%.2f €", lot.getPrixUnitaire()) : "—", bg);
 		info(l2, "Cadence",  lot.getCadence() > 0 ? String.format("%.0f p/h", lot.getCadence()) : "—", bg);
 		info(l2, "H. Total", lot.getHeures() > 0 ? String.format("%.1f h", lot.getHeures()) : "—", bg);
-		info(l2, "H. ACE",   lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
+		info(l2, "H. sur piste",   lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
 		if (!s(lot.getDateReception()).isEmpty()) info(l2, "Réception", lot.getDateReception(), bg);
 		if (!s(lot.getDatePaiement()).isEmpty())  info(l2, "Paiement",  lot.getDatePaiement(),  bg);
 		return l2;
@@ -193,20 +194,20 @@ public class CarteLot extends JPanel implements ActionListener
 		JPanel l5 = new JPanel(new GridLayout(2, 4, 4, 2));
 		l5.setBackground(bg);
 
-		this.textDistri = new JTextField(s(lot.getLotACharge()), 10);
-		this.textLotCharge = new JTextField(s(lot.getDistribution()), 10);
-		this.textFormCart = new JTextField(s(lot.getFormatCarton()), 10);
-		this.textPalettes = new JTextField(String.valueOf(lot.getNbPalettes()), 6);
-		this.textColisPrevu = new JTextField(String.valueOf(lot.getNbColisPrevue()), 6);
+		this.textDistri     = new JTextField(s(lot.getLotACharge()), 10);
+		this.textLotCharge  = new JTextField(s(lot.getDistribution()), 10);
+		this.textFormCart   = new JTextField(s(lot.getFormatCarton()), 10);
+		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()),10);
 		this.textColisRecup = new JTextField(String.valueOf(lot.getNbColisRecup()), 6);
-		this.textMethode = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
+		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
 
 		info(l5, "Emplacement", s(lot.getEmplacement()) , bg);
 		l5.add(champEditable("Distribution" , this.textDistri    , bg, "DISTRI"      , this));
 		l5.add(champEditable("Lot à charge" , this.textLotCharge , bg, "LOT_CHARGE"  , this));
 		l5.add(champEditable("Format carton", this.textFormCart  , bg, "FORM_CART"   , this));
-		l5.add(champEditable("Palettes"     , this.textPalettes  , bg, "PALETTES"    , this));
-		l5.add(champEditable("Colis prévus" , this.textColisPrevu, bg, "COLIS_PREVU" , this));
+		l5.add(champEditable("Collisage",this.textCollisage,bg,"COLLISAGES",this));
+		info(l5, "Palettes", String.valueOf(lot.getNbPalettes()), bg);
+		info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
 		l5.add(champEditable("Colis récup." , this.textColisRecup, bg, "COLIS_RECUP" , this));
 		l5.add(champEditable("Méthode"      , this.textMethode   , bg, "METHODE"     , this));
 		return l5;
@@ -411,31 +412,18 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 
 				case "FORM_CART":
-					lot.setFormatCarton(textFormCart.getText().trim());
+					if (Arrays.asList(Lot.F_CARTON).contains(textFormCart.getText().trim()))
+						lot.setFormatCarton(textFormCart.getText().trim());
 					break;
-
-				case "PALETTES":
+				
+				case "COLLISAGES":
 				{
-					int v = Integer.parseInt(textPalettes.getText().trim());
+					int v = Integer.parseInt(textCollisage.getText().trim());
 
 					if (v < 0)
 						throw new NumberFormatException();
 
-					lot.setNbPalettes(v);
-					textPalettes.setBackground(Color.WHITE);
-					break;
-				}
-
-				case "COLIS_PREVU":
-				{
-					int v = Integer.parseInt(textColisPrevu.getText().trim());
-
-					if (v < 0)
-						throw new NumberFormatException();
-
-					lot.setNbColisPrevue(v);
-					textColisPrevu.setBackground(Color.WHITE);
-					break;
+					lot.setCollisage(v);
 				}
 
 				case "COLIS_RECUP":

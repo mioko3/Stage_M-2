@@ -61,6 +61,8 @@ public class DonneesSauvegarder
 				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
 				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");
 				pw.println("    \"estMachine\": " + l.estMachine());
+				pw.println("    \"Collisage\": " + l.getCollisage());
+
 				pw.println();
 				pw.print("  }");
 				if (i < lots.size() - 1) pw.print(",");
