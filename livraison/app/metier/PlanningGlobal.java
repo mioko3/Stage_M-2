@@ -275,7 +275,8 @@ public class PlanningGlobal
 	{
 		ArrayList<Ace> tout = new ArrayList<>();
 		for (Societe s : societes)
-			tout.addAll(s.getAces());
+			for (Ace a : s.getAces())
+				tout.add(a);
 		return tout;
 	}
 }

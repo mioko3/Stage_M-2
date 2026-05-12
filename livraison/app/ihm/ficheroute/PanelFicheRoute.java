@@ -27,13 +27,6 @@ public class PanelFicheRoute extends JPanel
 	private final Controleur        ctrl;
 	private final FenetrePrincipale fenetre;
 
-	private static final Color[] ACE_BG = {
-		new Color(13, 71, 161),
-		new Color(27, 94, 32),
-		new Color(130, 0, 0),
-		new Color(100, 50, 0),
-	};
-
 	// ── Sous-onglet "Par Société" ──────────────────────────────────────
 	private JComboBox<String> combSociete;
 	private JLabel  lblVVS_s, lblPieces_s, lblPU_s, lblHeures_s, lblNbLots_s;
@@ -203,197 +196,6 @@ public class PanelFicheRoute extends JPanel
 		return p;
 	}
 
-	// ══════════════════════════════════════════════════════════════════
-	// CARTE LOT
-	// ══════════════════════════════════════════════════════════════════
-
-	private JPanel creerCarteLot(Lot lot, Color couleurAce)
-	{
-		Color bg;
-		if      (lot.getPhase().isFinit())    bg = new Color(232, 255, 232);
-		else if (lot.isEstSousDouane())        bg = new Color(240, 228, 255);
-		else if (lot.getPriorite() >= 8)       bg = new Color(255, 235, 235);
-		else                                   bg = Color.WHITE;
-
-		Color accent = couleurAce != null ? couleurAce : IhmUtils.BLEU;
-
-		JPanel card = new JPanel(new BorderLayout(0, 0));
-		card.setBackground(bg);
-		card.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createEmptyBorder(3, 8, 3, 8),
-			BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 5, 0, 0, accent),
-				BorderFactory.createCompoundBorder(
-					BorderFactory.createLineBorder(new Color(215, 220, 228)),
-					BorderFactory.createEmptyBorder(7, 10, 7, 10)
-				)
-			)
-		));
-
-		JPanel corps = new JPanel();
-		corps.setLayout(new BoxLayout(corps, BoxLayout.Y_AXIS));
-		corps.setBackground(bg);
-
-		// ── Ligne 1 : Identité ──
-		JPanel l1 = new JPanel(new BorderLayout(6, 0));
-		l1.setBackground(bg);
-
-		JPanel l1g = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
-		l1g.setBackground(bg);
-
-		int prio = lot.getPriorite();
-		Color prioBg = prio >= 8 ? IhmUtils.ROUGE : prio >= 5 ? IhmUtils.AMBER : new Color(80, 130, 80);
-		l1g.add(badge(" P" + prio + " ", prioBg));
-		JLabel num = new JLabel("N° " + lot.getNumCDE());
-		num.setFont(new Font("SansSerif", Font.BOLD, 14));
-		num.setForeground(new Color(20, 55, 120));
-		l1g.add(num);
-
-		String desig = s(lot.getAffaire());
-		String typo  = s(lot.getTypologie());
-		String affDesig = desig.isEmpty() ? typo : (typo.isEmpty() ? desig : desig + "  —  " + typo);
-		JLabel lblDes = new JLabel(affDesig.isEmpty() ? "(sans désignation)" : affDesig);
-		lblDes.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		l1g.add(lblDes);
-
-		if (!s(lot.getSemaine()).isEmpty()) {
-			JLabel sem = new JLabel("  S" + lot.getSemaine());
-			sem.setFont(new Font("SansSerif", Font.PLAIN, 11));
-			sem.setForeground(new Color(120, 120, 120));
-			l1g.add(sem);
-		}
-
-		JPanel l1d = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 0));
-		l1d.setBackground(bg);
-		if (lot.isEstSousDouane())        l1d.add(badge("DOUANE", new Color(120, 40, 180)));
-		if (lot.getPhase().isFinit())      l1d.add(badge("✓ TERMINÉ", new Color(30, 130, 50)));
-		if (lot.estMachine())              l1d.add(badge("MACHINE", new Color(0, 100, 160)));
-		if (!s(lot.getStatut()).isEmpty()) l1d.add(badge(lot.getStatut(), new Color(70, 70, 70)));
-		if (!s(lot.getStatutEchant()).isEmpty()) l1d.add(badge("Éch: " + lot.getStatutEchant(), new Color(50, 90, 160)));
-
-		l1.add(l1g, BorderLayout.CENTER);
-		l1.add(l1d, BorderLayout.EAST);
-		corps.add(l1);
-		corps.add(Box.createVerticalStrut(5));
-
-		// ── Séparateur + ligne chiffres ──
-		corps.add(separateur(bg));
-
-		// ── Ligne 2 : Données chiffrées ──
-		JPanel l2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
-		l2.setBackground(bg);
-		info(l2, "VVS",       lot.getValeurVente() > 0 ? fmt(lot.getValeurVente()) + " €" : "—", bg);
-		info(l2, "Pièces",    fmt(lot.getNbPieces()), bg);
-		info(l2, "PU",        lot.getPrixUnitaire() > 0 ? String.format("%.2f €", lot.getPrixUnitaire()) : "—", bg);
-		info(l2, "Cadence",   lot.getCadence() > 0 ? String.format("%.0f p/h", lot.getCadence()) : "—", bg);
-		info(l2, "H. Total",  lot.getHeures() > 0 ? String.format("%.1f h", lot.getHeures()) : "—", bg);
-		info(l2, "H. ACE",    lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
-		if (!s(lot.getDateReception()).isEmpty())  info(l2, "Réception",   lot.getDateReception(), bg);
-		if (!s(lot.getDatePaiement()).isEmpty())   info(l2, "Paiement",    lot.getDatePaiement(), bg);
-		//if (!lot.getDateDebut().isEmpty())    info(l2, "Début",     lot.getDateDebut(),    bg);
-		//if (!lot.getFinTheorique().isEmpty()) info(l2, "Fin théo.", lot.getFinTheorique(), bg);
-		corps.add(l2);
-		corps.add(separateur(bg));
-
-		// ── Ligne 3 : Phases ──
-		JPanel l3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 2));
-		l3.setBackground(bg);
-		JLabel titPhases = new JLabel("Phases :");
-		titPhases.setFont(new Font("SansSerif", Font.BOLD, 11));
-		titPhases.setForeground(Color.GRAY);
-		l3.add(titPhases);
-		l3.add(checkPhase("PRÉ TRI",     lot.getPhase().isPreTri(),     lot, "PRETRI",   accent));
-		l3.add(checkPhase("SUR PISTE",   lot.getPhase().isSurPiste(),   lot, "SURPISTE", accent));
-		l3.add(checkPhase("SORTIE ÉTIQ", lot.getPhase().isSortieEtiq(), lot, "SORETIQ",  accent));
-		l3.add(checkPhase("TRI",         lot.getPhase().isTri(),        lot, "TRI",      accent));
-		l3.add(checkPhase("FINI",        lot.getPhase().isFinit(),      lot, "FINI",     accent));
-		l3.add(Box.createHorizontalStrut(6));
-		int nb = (lot.getPhase().isPreTri()?1:0)+(lot.getPhase().isSurPiste()?1:0)
-		        +(lot.getPhase().isSortieEtiq()?1:0)+(lot.getPhase().isTri()?1:0)+(lot.getPhase().isFinit()?1:0);
-		l3.add(barreProg(nb, 5, 80));
-		corps.add(l3);
-		corps.add(separateur(bg));
-
-		// ── Ligne 4 : Avancement ──
-		JPanel l4 = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
-		l4.setBackground(bg);
-		l4.add(champEditableInt("Pces Étiq.", lot.getSuivieProd().getNbPieceEtiq(),
-				bg, v -> lot.getSuivieProd().setNbPieceEtiq(v) ));
-
-		info(l4, "Av. Étiq %",    lot.getSuivieProd().getAvancementEtiqPct(), bg);
-		info(l4, "H Étiq rest.",  lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
-		JLabel sep = new JLabel("|"); sep.setForeground(new Color(190,190,190)); l4.add(sep);
-		l4.add(champEditableInt("Pces Parts",lot.getSuivieProd().getNbPieceRepart(),
-				bg, v -> lot.getSuivieProd().setNbPieceRepart(v) ));
-				
-		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(),   bg);
-		info(l4, "H Parts rest.", lot.getSuivieProd().getNbHeureRepartRestant() + " h", bg);
-		corps.add(l4);
-
-		// ── Ligne 5 : Logistique / Méthode ──
-		corps.add(separateur(bg));
-
-		JPanel l5 = new JPanel(new GridLayout(2,4));
-		l5.setBackground(bg);
-
-		l5.add(champEditableTexte("Emplacement", s(lot.getEmplacement()),
-									bg, v -> lot.setEmplacement(v) ));
-
-		l5.add(champEditableTexte("Distribution", s(lot.getLotACharge()),
-									bg, v -> lot.setLotACharge(v) ));
-
-		l5.add(champEditableTexte("Lot à charge", s(lot.getDistribution()),
-									bg, v -> lot.setDistribution(v) ));
-
-		l5.add(champEditableTexte("Format carton", s(lot.getFormatCarton()),
-									bg, v -> lot.setFormatCarton(v) ));
-
-		l5.add(champEditableInt("Palettes",lot.getNbPalettes(),
-								bg, v -> lot.setNbPalettes(v) ));
-
-		l5.add(champEditableInt("Colis prévus", lot.getNbColisPrevue(),
-								bg, v -> lot.setNbColisPrevue(v) ));
-
-		l5.add(champEditableInt("Colis récup.", lot.getNbColisRecup(),
-								bg, v -> lot.setNbColisRecup(v) ));
-
-		l5.add(champEditableTexte("Méthode", lot.getMethode()== null ? "": lot.getMethode().getNom(),
-								bg, v -> lot.setMethode(v) ));
-
-		corps.add(l5);
-
-		// ── Commentaire ──
-		corps.add(separateur(bg));
-		JPanel lCom = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 1));
-		lCom.setBackground(bg);
-		JLabel icoComment = new JLabel("\uD83D\uDCAC");
-		icoComment.setFont(new Font("SansSerif", Font.PLAIN, 12));
-		JTextField tf = new JTextField(s(lot.getCommentaire()).isEmpty() ? "" : lot.getCommentaire(), 42);
-		tf.setFont(new Font("SansSerif", Font.ITALIC, 12));
-		tf.setForeground(s(lot.getCommentaire()).isEmpty() ? Color.LIGHT_GRAY : Color.DARK_GRAY);
-		if (s(lot.getCommentaire()).isEmpty()) tf.setText("Commentaire...");
-		tf.addFocusListener(new FocusAdapter() {
-			@Override public void focusGained(FocusEvent e) {
-				if (tf.getText().equals("Commentaire...")) { tf.setText(""); tf.setForeground(Color.DARK_GRAY); }
-			}
-			@Override public void focusLost(FocusEvent e) {
-				String v = tf.getText().trim();
-				if (v.isEmpty()) { tf.setText("Commentaire..."); tf.setForeground(Color.LIGHT_GRAY); }
-				lot.setCommentaire(v.equals("Commentaire...") ? "" : v);
-			}
-		});
-		tf.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createLineBorder(new Color(200, 210, 220)),
-			BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		lCom.add(icoComment);
-		lCom.add(tf);
-		corps.add(lCom);
-
-		card.add(corps, BorderLayout.CENTER);
-		card.setMaximumSize(new Dimension(Integer.MAX_VALUE, card.getPreferredSize().height + 16));
-		return card;
-	}
-
 	// ── Helpers de carte ────────────────────────────────────────────────
 
 	private JLabel badge(String txt, Color col)
@@ -526,9 +328,8 @@ public class PanelFicheRoute extends JPanel
 
 	private JPanel creerEnteteAce(Ace ace, int idx, List<Lot> lots)
 	{
-		Color c = ACE_BG[idx % ACE_BG.length];
 		JPanel p = new JPanel(new BorderLayout(8, 0));
-		p.setBackground(c);
+		p.setBackground(ace.getColor());
 		p.setBorder(BorderFactory.createEmptyBorder(7, 14, 7, 14));
 		p.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
 		JLabel titre = new JLabel("▶  " + ace.getNom() + "   (" + lots.size() + " lot(s))");
@@ -605,24 +406,29 @@ public class PanelFicheRoute extends JPanel
 
 		panelCartes_s.removeAll();
 		List<Ace> aces = societeCourante.getAces();
-		if (aces == null || aces.isEmpty()) {
+		if (aces == null || aces.isEmpty())
+		{
 			for (Lot lot : societeCourante.getLots())
-				panelCartes_s.add(creerCarteLot(lot, IhmUtils.BLEU));
-		} else {
+				panelCartes_s.add(new CarteLot(lot, IhmUtils.BLEU,this.ctrl,this));
+		}
+		else
+		{
 			java.util.Set<Lot> dansAce = new java.util.HashSet<>();
 			for (Ace ace : aces) if (ace.getLots() != null) dansAce.addAll(ace.getLots());
-			for (int i = 0; i < aces.size(); i++) {
+			for (int i = 0; i < aces.size(); i++)
+			{
 				Ace ace = aces.get(i);
 				List<Lot> lotsAce = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
 				panelCartes_s.add(creerEnteteAce(ace, i, lotsAce));
 				for (Lot lot : lotsAce)
-					panelCartes_s.add(creerCarteLot(lot, ACE_BG[i % ACE_BG.length]));
+					panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
 			}
 			List<Lot> sans = new ArrayList<>();
 			for (Lot lot : societeCourante.getLots()) if (!dansAce.contains(lot)) sans.add(lot);
-			if (!sans.isEmpty()) {
+			if (!sans.isEmpty())
+			{
 				panelCartes_s.add(creerEnteteSection("Sans ACE (" + sans.size() + " lot(s))", new Color(80, 80, 80)));
-				for (Lot lot : sans) panelCartes_s.add(creerCarteLot(lot, new Color(80, 80, 80)));
+				for (Lot lot : sans) panelCartes_s.add(new CarteLot(lot, new Color(80, 80, 80),this.ctrl,this));
 			}
 		}
 		panelCartes_s.add(Box.createVerticalGlue());
@@ -678,9 +484,8 @@ public class PanelFicheRoute extends JPanel
 		majTuile(lblHeures_a, "H restantes",  "—", IhmUtils.ROUGE);
 
 		panelCartes_a.removeAll();
-		Color c = ACE_BG[0];
-		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", c));
-		for (Lot lot : lots) panelCartes_a.add(creerCarteLot(lot, c));
+		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", aceCourante.getColor()));
+		for (Lot lot : lots) panelCartes_a.add(new CarteLot(lot, this.ctrl.getAceDuLot(lot).getColor(),this.ctrl,this));
 		panelCartes_a.add(Box.createVerticalGlue());
 		panelCartes_a.revalidate(); panelCartes_a.repaint();
 	}
@@ -706,7 +511,7 @@ public class PanelFicheRoute extends JPanel
 			}
 			double puMoy  = cnt > 0 ? puSum / cnt : 0;
 			double av     = pcs > 0 ? 100.0 * etiq / pcs : 0;
-			Color col     = ACE_BG[i % ACE_BG.length];
+			Color col     = ace.getColor();
 			JPanel grp = new JPanel(new BorderLayout(0, 2));
 			grp.setBackground(IhmUtils.FOND);
 			grp.setBorder(BorderFactory.createCompoundBorder(

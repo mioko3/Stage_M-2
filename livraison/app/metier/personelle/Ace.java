@@ -1,6 +1,7 @@
 package app.metier.personelle;
 
 import app.metier.lot.Lot;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +18,7 @@ public class Ace
 	private int            totalHeures;      // ← Ajouté : heures théoriques de l'ACE
 	private int            effectifActuel;
 	private boolean        estMachine;      // ← Ajouté : indique si l'ACE a une machine
+	private Color          col;
 	private ArrayList<Lot> lots;
 	private ArrayList<Lot> lotsM;
 
@@ -28,6 +30,7 @@ public class Ace
 		this.effectifActuel = effectifActuel;
 		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
+		this.col            = trouverColor();
 	}
 
 	// ← Constructeur alternatif avec totalHeures
@@ -39,6 +42,19 @@ public class Ace
 		this.effectifActuel = effectifActuel;
 		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
+		this.col            = trouverColor();
+	}
+
+	private Color trouverColor()
+	{
+		Color colr;
+		int a = this.nom.length() * 20;
+		int b = (int)this.nom.charAt(0) * 2;
+		int c = 0;
+		for (int cpt=0;cpt<this.nom.length();cpt++) 
+			c = (int)this.nom.charAt(cpt);
+		colr = new Color(a,b,c*(3/2));
+		return colr;
 	}
 
 
@@ -66,11 +82,13 @@ public class Ace
 	public int            getTotalHeures()    { return totalHeures;    }
 	public int            getEffectifActuel() { return effectifActuel; }
 	public boolean        estMachine()        { return estMachine;     }
+	public Color          getColor()          { return col;            }
 	public ArrayList<Lot> getLots()           { return lots;           }
 
-	public void setNom(String v)              { this.nom            = v; }
-	public void setNbPers(int v)              { this.nbPers         = v; }
-	public void setTotalHeures(int v)         { this.totalHeures    = v; }
+	public void setNom(String v)              { this.nom         = v; }
+	public void setNbPers(int v)              { this.nbPers      = v; }
+	public void setTotalHeures(int v)         { this.totalHeures = v; }
+	public void setColor(Color c)             { this.col         = c; }
 	
 	public void setEstMachine(boolean v)
 	{
