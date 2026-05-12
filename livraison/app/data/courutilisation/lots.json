@@ -17,7 +17,7 @@
     "dateReception": "2025-02-04",
     "datePaiement": "202506",
     "commentaire": "*PERM",
-	"emplacement": "HD",
+    "emplacement": "HD",
     "sp_nbPieceEtiq": 5625,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -26,7 +26,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.964617987031294,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -47,7 +53,7 @@
     "dateReception": "2025-02-11",
     "datePaiement": "202511",
     "commentaire": "*PERM",
-	"emplacement": "HD",
+    "emplacement": "HD",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 43,
@@ -56,7 +62,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.267892317793828,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -77,7 +89,7 @@
     "dateReception": "2025-03-21",
     "datePaiement": "202512",
     "commentaire": "*HIV2026 S49",
-	"emplacement": "LTS",
+    "emplacement": "LTS",
     "sp_nbPieceEtiq": 116,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -86,7 +98,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.08352534562211981,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -107,7 +125,7 @@
     "dateReception": "2025-06-25",
     "datePaiement": "202526",
     "commentaire": "*RFIPERM",
-	"emplacement": "LTS",
+    "emplacement": "LTS",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 45,
@@ -116,7 +134,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 9.011358855700461,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -137,7 +161,7 @@
     "dateReception": "2025-06-25",
     "datePaiement": "202526",
     "commentaire": "*RFIPERM",
-	"emplacement": "A6",
+    "emplacement": "A6",
     "sp_nbPieceEtiq": 1,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -146,7 +170,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.004674426214182209,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -167,7 +197,7 @@
     "dateReception": "2025-08-26",
     "datePaiement": "202535",
     "commentaire": "*TEPRI2026 S20",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -176,7 +206,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -197,7 +233,7 @@
     "dateReception": "2025-08-28",
     "datePaiement": "202535",
     "commentaire": "*TEPRI2026 S19",
-	"emplacement": "C12",
+    "emplacement": "C12",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 78,
@@ -206,7 +242,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 7.79591836734694,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -227,7 +269,7 @@
     "dateReception": "2025-10-15",
     "datePaiement": "202546",
     "commentaire": "*PRI2026 S20",
-	"emplacement": "C10",
+    "emplacement": "C10",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 54,
@@ -236,7 +278,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.1475748194014446,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -257,7 +305,7 @@
     "dateReception": "2025-10-23",
     "datePaiement": "202547",
     "commentaire": "*TEPRI2026 S17",
-	"emplacement": "C9",
+    "emplacement": "C9",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 21,
@@ -266,7 +314,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 1.25823359380198,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -287,7 +341,7 @@
     "dateReception": "2025-11-04",
     "datePaiement": "202549",
     "commentaire": "*PERM",
-	"emplacement": "B2",
+    "emplacement": "B2",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 79,
@@ -296,7 +350,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.660027680564422,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -317,7 +377,7 @@
     "dateReception": "2025-12-03",
     "datePaiement": "202601",
     "commentaire": "*PERM",
-	"emplacement": "B9",
+    "emplacement": "B9",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 4,
@@ -326,7 +386,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.233933389564334,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -347,16 +413,22 @@
     "dateReception": "2025-12-05",
     "datePaiement": "202601",
     "commentaire": "*PERM",
-	"emplacement": "LTS",
+    "emplacement": "LTS",
     "sp_nbPieceEtiq": 13000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 1,
     "sp_nbHeureRepartRestant": 40,
     "methode": "null",
     "distribution": "",
-    "formatCarton": "",
+    "formatCarton": "1/4",
     "heuresAce": 3.9770882193757893,
-    "estMachine": false
+    "collisage": 25,
+    "estMachine": false,
+    "phase_preTri": true,
+    "phase_surPiste": true,
+    "phase_sortieEtiq": true,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -377,7 +449,7 @@
     "dateReception": "2025-12-17",
     "datePaiement": "202551",
     "commentaire": "*ETE2026+NOEL2026 S27",
-	"emplacement": "D5",
+    "emplacement": "D5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 271,
@@ -386,7 +458,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -407,7 +485,7 @@
     "dateReception": "2025-12-17",
     "datePaiement": "202551",
     "commentaire": "*ETE2026+NOEL2026 S27",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 86,
@@ -416,7 +494,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -437,7 +521,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*PERM+ETE2026 S26",
-	"emplacement": "B5",
+    "emplacement": "B5",
     "sp_nbPieceEtiq": 10000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 48,
@@ -446,7 +530,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 7.394099294344285,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -467,7 +557,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*PERM+ETE2026 S26",
-	"emplacement": "C9",
+    "emplacement": "C9",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 94,
@@ -476,7 +566,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 5.505814361676577,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -497,7 +593,7 @@
     "dateReception": "2025-12-18",
     "datePaiement": "202551",
     "commentaire": "*TEPRI2026+TEETE2026+TEAUT2026 S20+S34+S40",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 42,
@@ -506,7 +602,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 8.312453942520266,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -527,7 +629,7 @@
     "dateReception": "2025-12-29",
     "datePaiement": "202605",
     "commentaire": "*PERM",
-	"emplacement": "",
+    "emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 16,
@@ -536,7 +638,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -557,7 +665,7 @@
     "dateReception": "2025-12-29",
     "datePaiement": "202605",
     "commentaire": "*PERM",
-	"emplacement": "",
+    "emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 156,
@@ -566,7 +674,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -587,7 +701,7 @@
     "dateReception": "2026-01-12",
     "datePaiement": "202607",
     "commentaire": "*PERM+R",
-	"emplacement": "",
+    "emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -596,7 +710,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -617,7 +737,7 @@
     "dateReception": "2026-01-29",
     "datePaiement": "202609",
     "commentaire": "*PERM",
-	"emplacement": "D5",
+    "emplacement": "D5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 134,
@@ -626,7 +746,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 13.372546665866395,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -647,7 +773,7 @@
     "dateReception": "2026-02-03",
     "datePaiement": "202606",
     "commentaire": "*TEPRI2026 S19",
-	"emplacement": "A3",
+    "emplacement": "A3",
     "sp_nbPieceEtiq": 3845,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -656,7 +782,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.368374945247482,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -677,7 +809,7 @@
     "dateReception": "2026-02-04",
     "datePaiement": "202606",
     "commentaire": "*PERM",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 78,
@@ -686,7 +818,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -707,7 +845,7 @@
     "dateReception": "2026-02-09",
     "datePaiement": "202611",
     "commentaire": "*PERM+R",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 187,
@@ -716,7 +854,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -737,7 +881,7 @@
     "dateReception": "2026-02-09",
     "datePaiement": "202611",
     "commentaire": "*PERM+R",
-	"emplacement": "A2",
+    "emplacement": "A2",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 197,
@@ -746,7 +890,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -767,7 +917,7 @@
     "dateReception": "2026-02-17",
     "datePaiement": "202612",
     "commentaire": "*PRI2026 S20",
-	"emplacement": "C8",
+    "emplacement": "C8",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 79,
@@ -776,7 +926,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 5.262809917355372,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -797,7 +953,7 @@
     "dateReception": "2026-02-17",
     "datePaiement": "202612",
     "commentaire": "*PLAIR2026 S18",
-	"emplacement": "C7",
+    "emplacement": "C7",
     "sp_nbPieceEtiq": 4994,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 0,
@@ -806,7 +962,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.063991655929812,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -827,7 +989,7 @@
     "dateReception": "2026-02-19",
     "datePaiement": "202612",
     "commentaire": "*HIV2026+R S42+S49",
-	"emplacement": "C8",
+    "emplacement": "C8",
     "sp_nbPieceEtiq": 6000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 1,
@@ -836,7 +998,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.907251476687194,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -857,7 +1025,7 @@
     "dateReception": "2026-02-19",
     "datePaiement": "202612",
     "commentaire": "*HIV2026+R S42+S49",
-	"emplacement": "C20",
+    "emplacement": "C20",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 31,
@@ -866,7 +1034,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.1211511876335303,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -887,7 +1061,7 @@
     "dateReception": "2026-02-25",
     "datePaiement": "202609",
     "commentaire": "*PRI2026 S17",
-	"emplacement": "C17",
+    "emplacement": "C17",
     "sp_nbPieceEtiq": 74000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 1,
@@ -896,7 +1070,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 23.603061695389954,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -917,7 +1097,7 @@
     "dateReception": "2026-03-04",
     "datePaiement": "202610",
     "commentaire": "*TEHIV2026 S44",
-	"emplacement": "",
+    "emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 14,
@@ -926,7 +1106,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -947,7 +1133,7 @@
     "dateReception": "2026-03-09",
     "datePaiement": "202611",
     "commentaire": "*PERM",
-	"emplacement": "",
+    "emplacement": "",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 422,
@@ -956,7 +1142,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -977,7 +1169,7 @@
     "dateReception": "2026-03-10",
     "datePaiement": "202611",
     "commentaire": "*PERM",
-	"emplacement": "A1",
+    "emplacement": "A1",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 423,
@@ -986,7 +1178,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1007,7 +1205,7 @@
     "dateReception": "2026-03-12",
     "datePaiement": "202615",
     "commentaire": "*PERM",
-	"emplacement": "C21",
+    "emplacement": "C21",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 40,
@@ -1016,7 +1214,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.033867553674025,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1037,7 +1241,7 @@
     "dateReception": "2026-03-20",
     "datePaiement": "202612",
     "commentaire": "*TEAUT2026 S39",
-	"emplacement": "C22",
+    "emplacement": "C22",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 92,
@@ -1046,7 +1250,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 18.427465338214994,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1067,7 +1277,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "C23",
+    "emplacement": "C23",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 573,
@@ -1076,7 +1286,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 57.265216193885976,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1097,7 +1313,7 @@
     "dateReception": "2026-03-23",
     "datePaiement": "202613",
     "commentaire": "*PRI2026+R S18+S22",
-	"emplacement": "C0",
+    "emplacement": "C0",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 85,
@@ -1106,7 +1322,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 5.0188734265394395,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1127,7 +1349,7 @@
     "dateReception": "2026-03-24",
     "datePaiement": "202617",
     "commentaire": "*PERM",
-	"emplacement": "C1",
+    "emplacement": "C1",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 135,
@@ -1136,7 +1358,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 7.929059715708378,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1157,7 +1385,7 @@
     "dateReception": "2026-03-27",
     "datePaiement": "202613",
     "commentaire": "*NOEL2026 S44",
-	"emplacement": "C2",
+    "emplacement": "C2",
     "sp_nbPieceEtiq": 10000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 12,
@@ -1166,7 +1394,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.27530768377869,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1187,7 +1421,7 @@
     "dateReception": "2026-03-27",
     "datePaiement": "202613",
     "commentaire": "*PERM",
-	"emplacement": "C3",
+    "emplacement": "C3",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 5,
@@ -1196,7 +1430,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.29776298788014405,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1217,7 +1457,7 @@
     "dateReception": "2026-03-30",
     "datePaiement": "202614",
     "commentaire": "PERM",
-	"emplacement": "A1",
+    "emplacement": "A1",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 173,
@@ -1226,7 +1466,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1247,7 +1493,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*PERM",
-	"emplacement": "C4",
+    "emplacement": "C4",
     "sp_nbPieceEtiq": 10000,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 76,
@@ -1256,7 +1502,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 8.006722285577096,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1277,7 +1529,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*NOEL2026 S48",
-	"emplacement": "C5",
+    "emplacement": "C5",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 26,
@@ -1286,7 +1538,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 5.201439684198305,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1307,7 +1565,7 @@
     "dateReception": "2026-04-02",
     "datePaiement": "202614",
     "commentaire": "*NOEL2026 S48",
-	"emplacement": "C6",
+    "emplacement": "C6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 136,
@@ -1316,7 +1574,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 8.02935826600465,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1337,7 +1601,7 @@
     "dateReception": "2026-04-07",
     "datePaiement": "202619",
     "commentaire": "*PRI2026 S18",
-	"emplacement": "C11",
+    "emplacement": "C11",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 36,
@@ -1346,7 +1610,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 7.286067815742629,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1367,7 +1637,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*TEETE2026+R S22+S27",
-	"emplacement": "C13",
+    "emplacement": "C13",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 81,
@@ -1376,7 +1646,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 8.085519922254615,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1397,7 +1673,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*TEETE2026+R S22+S27",
-	"emplacement": "C14",
+    "emplacement": "C14",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 26,
@@ -1406,7 +1682,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 1.5308980735151203,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1427,7 +1709,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202619",
     "commentaire": "*AUT2026 S36",
-	"emplacement": "C15",
+    "emplacement": "C15",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 64,
@@ -1436,7 +1718,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.260548373348487,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1457,7 +1745,7 @@
     "dateReception": "2026-04-08",
     "datePaiement": "202615",
     "commentaire": "*ETE2026 S29",
-	"emplacement": "C16",
+    "emplacement": "C16",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 87,
@@ -1466,7 +1754,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 8.710478881473183,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1487,7 +1781,7 @@
     "dateReception": "2026-04-09",
     "datePaiement": "202615",
     "commentaire": "*PERM",
-	"emplacement": "C18",
+    "emplacement": "C18",
     "sp_nbPieceEtiq": 28119,
     "sp_nbPieceRepart": 28119,
     "sp_nbHeureEtiqRestant": 0,
@@ -1496,7 +1790,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1517,7 +1817,7 @@
     "dateReception": "2026-04-09",
     "datePaiement": "202615",
     "commentaire": "PERM",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 117,
@@ -1526,7 +1826,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1547,7 +1853,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202619",
     "commentaire": "*PRI2026 S19",
-	"emplacement": "C19",
+    "emplacement": "C19",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 42,
@@ -1556,7 +1862,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.150889133873365,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1577,7 +1889,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202615",
     "commentaire": "*PERM+ETE2026 S23",
-	"emplacement": "C24",
+    "emplacement": "C24",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 63,
@@ -1586,7 +1898,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 4.819947165963757,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1607,7 +1925,7 @@
     "dateReception": "2026-04-10",
     "datePaiement": "202615",
     "commentaire": "*PERM+ETE2026 S23",
-	"emplacement": "C25",
+    "emplacement": "C25",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 62,
@@ -1616,7 +1934,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 2.765199327170271,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1637,7 +1961,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "C26",
+    "emplacement": "C26",
     "sp_nbPieceEtiq": 100,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 4,
@@ -1646,7 +1970,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.26002166847237274,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1667,7 +1997,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "C27",
+    "emplacement": "C27",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 34,
@@ -1676,7 +2006,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 3.440953412784399,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1697,7 +2033,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "PERM",
-	"emplacement": "A2",
+    "emplacement": "A2",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 106,
@@ -1706,7 +2042,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 0.0,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1727,7 +2069,7 @@
     "dateReception": "2026-04-13",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "C28",
+    "emplacement": "C28",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 36,
@@ -1736,7 +2078,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 2.0968079344564834,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1757,7 +2105,7 @@
     "dateReception": "2026-04-14",
     "datePaiement": "202616",
     "commentaire": "",
-	"emplacement": "C29",
+    "emplacement": "C29",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 443,
@@ -1766,7 +2114,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 29.54509177972865,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   },
   {
@@ -1787,7 +2141,7 @@
     "dateReception": "2026-04-15",
     "datePaiement": "202616",
     "commentaire": "*PERM",
-	"emplacement": "B6",
+    "emplacement": "B6",
     "sp_nbPieceEtiq": 0,
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 28,
@@ -1796,7 +2150,13 @@
     "distribution": "",
     "formatCarton": "",
     "heuresAce": 2.7810585164479162,
-    "estMachine": false
+    "collisage": 0,
+    "estMachine": false,
+    "phase_preTri": false,
+    "phase_surPiste": false,
+    "phase_sortieEtiq": false,
+    "phase_tri": false,
+    "phase_finit": false
 
   }
 ]

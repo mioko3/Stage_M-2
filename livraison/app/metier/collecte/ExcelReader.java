@@ -1,6 +1,7 @@
 package app.metier.collecte;
 
 import app.metier.lot.Lot;
+import app.metier.ficheroute.Phase;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
 import app.metier.PlanningGlobal;
@@ -27,10 +28,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  * Lit des données depuis Excel via Apache POI ou depuis le JSON existant.
- *
- * Format Excel :
- *   - Sociétés : feuille "Equipe" dans le fichier XLSM.
- *   - Lots : première feuille du fichier XLSX.
  */
 public class ExcelReader
 {
@@ -117,7 +114,6 @@ public class ExcelReader
 		}
 	}
 
-	// Map nom société -> ligne Excel (1-indexed) dans la feuille TDB V2
 	private static final Map<String, Integer> SOCIETE_ROW = Map.of(
 		"PROD", 7,
 		"PA",   14,
@@ -128,12 +124,6 @@ public class ExcelReader
 	public static void ajouterHeuresDepuisExcel(String exportPath, ArrayList<Societe> societes, int semaine)
 	throws IOException
 	{
-		// TDB V2 — colonnes (0-indexed):
-		// S01 => colStart=5, S2 => colStart=12, S3 => 19, ... (pas de 7)
-		// colStart+0 : Eff.
-		// colStart+1 : H besoin
-		// colStart+3 : H aff.
-
 		try (FileInputStream fis = new FileInputStream(exportPath);
 			Workbook wb = WorkbookFactory.create(fis))
 		{
@@ -142,22 +132,21 @@ public class ExcelReader
 			if (sh == null)
 				throw new IOException("Feuille Excel introuvable : TDB V2");
 
-			int colStart = 5 + (semaine - 1) * 7; // 0-indexed
+			int colStart = 5 + (semaine - 1) * 7;
 
 			for (Societe soc : societes)
 			{
 				Integer rowIdx = SOCIETE_ROW.get(soc.getNom());
 				if (rowIdx == null) continue;
 
-				Row row = sh.getRow(rowIdx - 1); // getRow() est 0-indexed
+				Row row = sh.getRow(rowIdx - 1);
 				if (row == null) continue;
 
-				int    effectif  = (int) Math.round(numSafe(getCell(row, colStart),     evaluator));
-				int    hBesoin   = (int) Math.round(numSafe(getCell(row, colStart + 1), evaluator));
-				int    hAff      = (int) Math.round(numSafe(getCell(row, colStart + 3), evaluator));
+				int effectif = (int) Math.round(numSafe(getCell(row, colStart),     evaluator));
+				int hBesoin  = (int) Math.round(numSafe(getCell(row, colStart + 1), evaluator));
+				int hAff     = (int) Math.round(numSafe(getCell(row, colStart + 3), evaluator));
 
 				soc.setEffectifTotal(effectif);
-				// affecter les effectif au ace
 				for (Ace ace : soc.getAces())
 				{
 					int part = effectif / soc.getAces().size();
@@ -215,51 +204,54 @@ public class ExcelReader
 		return value.isEmpty() ? "" : value;
 	}
 
+	// ── Lecture JSON ──────────────────────────────────────────────────────
+
 	private static ArrayList<Societe> lireSocietesJson(String cheminJson) throws IOException
 	{
 		String json = lireFichier(cheminJson);
 		ArrayList<Societe> liste = new ArrayList<>();
 
-			for (String obj : extraireObjets(json))
-			{
-				String nom    = getString(obj, "nom");
-				String ce     = getString(obj, "ce");
-				int    hTotal = getInt(obj, "totalHeuresCE");
+		for (String obj : extraireObjets(json))
+		{
+			String nom    = getString(obj, "nom");
+			String ce     = getString(obj, "ce");
+			int    hTotal = getInt(obj, "totalHeuresCE");
 
-				ArrayList<Ace> aces = new ArrayList<>();
-				String blocAces = extraireBloc(obj, "\"aces\"");
-				Societe soc = new Societe(nom, ce, aces, hTotal);
-				if (blocAces != null)
+			ArrayList<Ace> aces = new ArrayList<>();
+			String blocAces = extraireBloc(obj, "\"aces\"");
+			Societe soc = new Societe(nom, ce, aces, hTotal);
+			if (blocAces != null)
+			{
+				for (String a : extraireObjets(blocAces))
 				{
-					for (String a : extraireObjets(blocAces))
+					Ace ace = new Ace(
+						getString(a, "nom"),
+						getInt(a, "nbPers"),
+						getInt(a, "totalHeures"),
+						getInt(a, "effectifActuel")
+					);
+					// clé unifiée "estMachine" (sans espace)
+					ace.setEstMachine(getBool(a, "estMachine"));
+					aces.add(ace);
+					String blocLotsAce = extraireBloc(a, "\"lotsACE\"");
+					if (blocLotsAce != null)
 					{
-						Ace ace = new Ace(
-							getString(a, "nom"),
-							getInt(a, "nbPers"),
-							getInt(a, "totalHeures"),
-							getInt(a, "effectifActuel")
-						);
-						ace.setEstMachine(getBool(a, "est Machine"));
-						aces.add(ace);
-						String blocLotsAce = extraireBloc(a, "\"lotsACE\"");
-						if (blocLotsAce != null)
+						for (String id : parseIdList(blocLotsAce))
 						{
-							for (String id : parseIdList(blocLotsAce))
+							Lot lot = trouverLotParId(id);
+							if (lot != null && !ace.getLots().contains(lot))
 							{
-								Lot lot = trouverLotParId(id);
-								if (lot != null && !ace.getLots().contains(lot))
-								{
-									soc.ajouterLotSansHeures(lot, ace);
-								}
-								else if (lot == null)
-								{
-									System.err.println("[ERREUR] Lot non trouvé (ID: " + id + ") pour l'ACE " + ace.getNom() + " de " + soc.getNom());
-								}
+								soc.ajouterLotSansHeures(lot, ace);
+							}
+							else if (lot == null)
+							{
+								System.err.println("[ERREUR] Lot non trouvé (ID: " + id + ") pour l'ACE " + ace.getNom() + " de " + soc.getNom());
 							}
 						}
 					}
 				}
-				String lotsAffectes = extraireBloc(obj, "\"lotsAffectes\"");
+			}
+			String lotsAffectes = extraireBloc(obj, "\"lotsAffectes\"");
 			if (lotsAffectes != null)
 			{
 				for (String id : parseIdList(lotsAffectes))
@@ -272,8 +264,8 @@ public class ExcelReader
 				}
 			}
 			liste.add(soc);
-			}
-			return liste;
+		}
+		return liste;
 	}
 
 	private static Lot trouverLotParId(String id)
@@ -291,40 +283,51 @@ public class ExcelReader
 		for (String obj : extraireObjets(json))
 		{
 			Lot lot = new Lot(
-				getInt(obj, "numCDE"),
-				getInt(obj, "nbPieces"),
+				getInt   (obj, "numCDE"),
+				getInt   (obj, "nbPieces"),
 				getDouble(obj, "cadence"),
 				getDouble(obj, "heures"),
-				getInt(obj, "valeurVente"),
+				getInt   (obj, "valeurVente"),
 				getString(obj, "statut"),
 				getString(obj, "statutEchant")
 			);
-		lot.setId(getString(obj, "id"));			lot.setTypologie(getString(obj, "typologie"));
-			lot.setAffaire(getString(obj, "affaire"));
-			lot.setSemaine(getString(obj, "semaine"));
-			lot.setPriorite(getInt(obj, "priorite"));
-			lot.setLotACharge(getString(obj, "lotACharge"));
-			lot.setEstSousDouane(getBool(obj, "estSousDouane"));
+			lot.setId           (getString(obj, "id"));
+			lot.setTypologie    (getString(obj, "typologie"));
+			lot.setAffaire      (getString(obj, "affaire"));
+			lot.setSemaine      (getString(obj, "semaine"));
+			lot.setPriorite     (getInt   (obj, "priorite"));
+			lot.setLotACharge   (getString(obj, "lotACharge"));
+			lot.setEstSousDouane(getBool  (obj, "estSousDouane"));
 			lot.setDateReception(getString(obj, "dateReception"));
-			lot.setDatePaiement(getString(obj, "datePaiement"));
-			lot.setCommentaire(getString(obj, "commentaire"));
-			lot.setEmplacement(getString(obj, "emplacement"));
-			lot.getSuivieProd().setNbPieceEtiq(getInt(obj, "sp_nbPieceEtiq"));
-			lot.getSuivieProd().setNbPieceRepart(getInt(obj, "sp_nbPieceRepart"));
-			lot.getSuivieProd().setNbHeureEtiqRestant(getInt(obj, "sp_nbHeureEtiqRestant"));
-			lot.getSuivieProd().setNbHeureRepartRestant(getInt(obj, "sp_nbHeureRepartRestant"));
-			lot.setMethode(getString(obj, "methode"));
-			lot.setDistribution(getString(obj, "distribution"));
-			lot.setFormatCarton(getString(obj, "formatCarton"));
-			lot.setHeuresAce(getDouble(obj, "heuresAce"));
-			lot.setEstMachine(getBool(obj, "est Machine"));
-			lot.setCollisage(getInt(obj, "Collisage"));
+			lot.setDatePaiement (getString(obj, "datePaiement"));
+			lot.setCommentaire  (getString(obj, "commentaire"));
+			lot.setEmplacement  (getString(obj, "emplacement"));
+			lot.getSuivieProd().setNbPieceEtiq         (getInt(obj, "sp_nbPieceEtiq"));
+			lot.getSuivieProd().setNbPieceRepart        (getInt(obj, "sp_nbPieceRepart"));
+			lot.getSuivieProd().setNbHeureEtiqRestant   (getInt(obj, "sp_nbHeureEtiqRestant"));
+			lot.getSuivieProd().setNbHeureRepartRestant (getInt(obj, "sp_nbHeureRepartRestant"));
+			lot.setMethode      (getString(obj, "methode"));
+			lot.setDistribution (getString(obj, "distribution"));
+			lot.setFormatCarton (getString(obj, "formatCarton"));
+			lot.setHeuresAce    (getDouble(obj, "heuresAce"));
+			lot.setCollisage    (getInt   (obj, "collisage"));
+			lot.setEstMachine   (getBool  (obj, "estMachine"));
 
+			// Phase
+			Phase phase = new Phase();
+			phase.setPreTri     (getBool(obj, "phase_preTri"));
+			phase.setSurPiste   (getBool(obj, "phase_surPiste"));
+			phase.setSortieEtiq (getBool(obj, "phase_sortieEtiq"));
+			phase.setTri        (getBool(obj, "phase_tri"));
+			phase.setFinit      (getBool(obj, "phase_finit"));
+			lot.setPhase(phase);
 
 			liste.add(lot);
 		}
 		return liste;
 	}
+
+	// ── Helpers JSON ──────────────────────────────────────────────────────
 
 	private static String lireFichier(String cheminJson) throws IOException
 	{
@@ -407,7 +410,6 @@ public class ExcelReader
 		catch (NumberFormatException e) { return 0; }
 	}
 
-	// CORRIGÉ : pattern était "\"" + cle + "\"\":" (double guillemet avant :)
 	private static double getDouble(String obj, String cle)
 	{
 		String pattern = "\"" + cle + "\":";
@@ -421,7 +423,6 @@ public class ExcelReader
 		catch (NumberFormatException e) { return 0.0; }
 	}
 
-	// CORRIGÉ : pattern était "\"" + cle + "\"\":" (double guillemet avant :)
 	private static boolean getBool(String obj, String cle)
 	{
 		String pattern = "\"" + cle + "\":";

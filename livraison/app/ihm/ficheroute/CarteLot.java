@@ -6,7 +6,6 @@ import app.metier.lot.Lot;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
-
 import javax.swing.*;
 
 /**
@@ -21,14 +20,16 @@ public class CarteLot extends JPanel implements ActionListener
 	static final Color BG_URGENCE = new Color(255, 232, 232);
 	static final Color BG_NORMAL  = Color.WHITE;
 
-	private final Lot        lot;
-	private final Controleur ctrl;
+	/** Marqueur pour exclure un composant du recoloriage de fond */
+	private static final String PRESERVE_BG = "preserve_bg";
+
+	private final Lot            lot;
+	private final Controleur     ctrl;
 	private final PanelFicheRoute m;
 
+	// ── Champs éditables (références pour ActionListener) ──────────────
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
-
-	
 	private JTextField textDistri;
 	private JTextField textLotCharge;
 	private JTextField textFormCart;
@@ -36,7 +37,14 @@ public class CarteLot extends JPanel implements ActionListener
 	private JTextField textColisRecup;
 	private JTextField textMethode;
 
-	public CarteLot(Lot lot, Color couleurAce, Controleur ctrl,PanelFicheRoute m)
+	// ── Barre de progression (mise à jour à la volée) ───────────────────
+	private BarreProgression barrePhasesWidget;
+
+	// ── Panel ligne 1 droite (badges état) — reconstruit au recoloriage ─
+	private JPanel  panelBadgesEtat;
+	private JPanel  ligne1;
+
+	public CarteLot(Lot lot, Color couleurAce, Controleur ctrl, PanelFicheRoute m)
 	{
 		this.lot  = lot;
 		this.ctrl = ctrl;
@@ -85,8 +93,8 @@ public class CarteLot extends JPanel implements ActionListener
 
 	private JPanel construireLigne1(Color bg, Color accent)
 	{
-		JPanel l1 = new JPanel(new BorderLayout(6, 0));
-		l1.setBackground(bg);
+		ligne1 = new JPanel(new BorderLayout(6, 0));
+		ligne1.setBackground(bg);
 
 		JPanel gauche = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
 		gauche.setBackground(bg);
@@ -114,6 +122,16 @@ public class CarteLot extends JPanel implements ActionListener
 			gauche.add(sem);
 		}
 
+		panelBadgesEtat = construireBadgesEtat(bg);
+
+		ligne1.add(gauche,          BorderLayout.CENTER);
+		ligne1.add(panelBadgesEtat, BorderLayout.EAST);
+		return ligne1;
+	}
+
+	/** Construit le panel des badges d'état à droite (DOUANE, TERMINÉ, etc.) */
+	private JPanel construireBadgesEtat(Color bg)
+	{
 		JPanel droite = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 0));
 		droite.setBackground(bg);
 		if (lot.isEstSousDouane())              droite.add(badge("DOUANE",    new Color(120, 40, 180)));
@@ -121,22 +139,19 @@ public class CarteLot extends JPanel implements ActionListener
 		if (lot.estMachine())                   droite.add(badge("MACHINE",   new Color(0, 100, 160)));
 		if (!s(lot.getStatut()).isEmpty())       droite.add(badge(lot.getStatut(), new Color(70, 70, 70)));
 		if (!s(lot.getStatutEchant()).isEmpty()) droite.add(badge("Éch: " + lot.getStatutEchant(), new Color(50, 90, 160)));
-
-		l1.add(gauche, BorderLayout.CENTER);
-		l1.add(droite, BorderLayout.EAST);
-		return l1;
+		return droite;
 	}
 
 	private JPanel construireLigne2(Color bg)
 	{
 		JPanel l2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
 		l2.setBackground(bg);
-		info(l2, "VVS",      lot.getValeurVente() > 0 ? fmt(lot.getValeurVente()) + " €" : "—", bg);
-		info(l2, "Pièces",   fmt(lot.getNbPieces()), bg);
-		info(l2, "PU",       lot.getPrixUnitaire() > 0 ? String.format("%.2f €", lot.getPrixUnitaire()) : "—", bg);
-		info(l2, "Cadence",  lot.getCadence() > 0 ? String.format("%.0f p/h", lot.getCadence()) : "—", bg);
-		info(l2, "H. Total", lot.getHeures() > 0 ? String.format("%.1f h", lot.getHeures()) : "—", bg);
-		info(l2, "H. sur piste",   lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
+		info(l2, "VVS",           lot.getValeurVente() > 0 ? fmt(lot.getValeurVente()) + " €" : "—", bg);
+		info(l2, "Pièces",        fmt(lot.getNbPieces()), bg);
+		info(l2, "PU",            lot.getPrixUnitaire() > 0 ? String.format("%.2f €", lot.getPrixUnitaire()) : "—", bg);
+		info(l2, "Cadence",       lot.getCadence() > 0 ? String.format("%.0f p/h", lot.getCadence()) : "—", bg);
+		info(l2, "H. Total",      lot.getHeures() > 0 ? String.format("%.1f h", lot.getHeures()) : "—", bg);
+		info(l2, "H. sur piste",  lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
 		if (!s(lot.getDateReception()).isEmpty()) info(l2, "Réception", lot.getDateReception(), bg);
 		if (!s(lot.getDatePaiement()).isEmpty())  info(l2, "Paiement",  lot.getDatePaiement(),  bg);
 		return l2;
@@ -159,12 +174,14 @@ public class CarteLot extends JPanel implements ActionListener
 		l3.add(checkPhase("FINI",        lot.getPhase().isFinit(),      "FINI",     accent, bg));
 
 		l3.add(Box.createHorizontalStrut(6));
-		int nb = (lot.getPhase().isPreTri()     ? 1 : 0)
-		       + (lot.getPhase().isSurPiste()   ? 1 : 0)
-		       + (lot.getPhase().isSortieEtiq() ? 1 : 0)
-		       + (lot.getPhase().isTri()         ? 1 : 0)
-		       + (lot.getPhase().isFinit()        ? 1 : 0);
-		l3.add(barreProg(nb, 5, 80));
+
+		// Barre de progression dynamique — garde une référence pour la mettre à jour
+		barrePhasesWidget = new BarreProgression(5);
+		barrePhasesWidget.setPreferredSize(new Dimension(80, 10));
+		barrePhasesWidget.setOpaque(false);
+		barrePhasesWidget.mettreAJour(nbPhasesCoches());
+		l3.add(barrePhasesWidget);
+
 		return l3;
 	}
 
@@ -174,7 +191,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l4.setBackground(bg);
 
 		this.textPcsEtiq = new JTextField(String.valueOf(lot.getSuivieProd().getNbPieceEtiq()), 6);
-		l4.add(champEditable("Pces Étiq.",this.textPcsEtiq,bg,"PCS_ETIQ",this));
+		l4.add(champEditable("Pces Étiq.", this.textPcsEtiq, bg, "PCS_ETIQ", this));
 		info(l4, "Av. Étiq %",   lot.getSuivieProd().getAvancementEtiqPct(), bg);
 		info(l4, "H Étiq rest.", lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
 
@@ -183,8 +200,8 @@ public class CarteLot extends JPanel implements ActionListener
 		l4.add(sep);
 
 		this.textPcsPart = new JTextField(String.valueOf(lot.getSuivieProd().getNbPieceRepart()), 6);
-		l4.add(champEditable("Pces Parts",this.textPcsPart,bg,"PCS_PART",this));
-		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(),   bg);
+		l4.add(champEditable("Pces Parts", this.textPcsPart, bg, "PCS_PART", this));
+		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(), bg);
 		info(l4, "H Parts rest.", lot.getSuivieProd().getNbHeureRepartRestant() + " h", bg);
 		return l4;
 	}
@@ -197,19 +214,19 @@ public class CarteLot extends JPanel implements ActionListener
 		this.textDistri     = new JTextField(s(lot.getLotACharge()), 10);
 		this.textLotCharge  = new JTextField(s(lot.getDistribution()), 10);
 		this.textFormCart   = new JTextField(s(lot.getFormatCarton()), 10);
-		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()),10);
+		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
 		this.textColisRecup = new JTextField(String.valueOf(lot.getNbColisRecup()), 6);
 		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
 
-		info(l5, "Emplacement", s(lot.getEmplacement()) , bg);
-		l5.add(champEditable("Distribution" , this.textDistri    , bg, "DISTRI"      , this));
-		l5.add(champEditable("Lot à charge" , this.textLotCharge , bg, "LOT_CHARGE"  , this));
-		l5.add(champEditable("Format carton", this.textFormCart  , bg, "FORM_CART"   , this));
-		l5.add(champEditable("Collisage",this.textCollisage,bg,"COLLISAGES",this));
-		info(l5, "Palettes", String.valueOf(lot.getNbPalettes()), bg);
+		info(l5, "Emplacement", s(lot.getEmplacement()), bg);
+		l5.add(champEditable("Distribution",  this.textDistri,     bg, "DISTRI",      this));
+		l5.add(champEditable("Lot à charge",  this.textLotCharge,  bg, "LOT_CHARGE",  this));
+		l5.add(champEditable("Format carton", this.textFormCart,   bg, "FORM_CART",   this));
+		l5.add(champEditable("Collisage",     this.textCollisage,  bg, "COLLISAGES",  this));
+		info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),   bg);
 		info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
-		l5.add(champEditable("Colis récup." , this.textColisRecup, bg, "COLIS_RECUP" , this));
-		l5.add(champEditable("Méthode"      , this.textMethode   , bg, "METHODE"     , this));
+		l5.add(champEditable("Colis récup.", this.textColisRecup, bg, "COLIS_RECUP", this));
+		l5.add(champEditable("Méthode",      this.textMethode,   bg, "METHODE",     this));
 		return l5;
 	}
 
@@ -245,7 +262,7 @@ public class CarteLot extends JPanel implements ActionListener
 	}
 
 	// ══════════════════════════════════════════════════════════════════
-	// Widgets internes
+	// Phases
 	// ══════════════════════════════════════════════════════════════════
 
 	private JCheckBox checkPhase(String label, boolean etat, String code, Color accent, Color bg)
@@ -267,15 +284,35 @@ public class CarteLot extends JPanel implements ActionListener
 				case "FINI":     fi = v; break;
 			}
 			ctrl.modifierPhase(lot, pt, sp, se, tr, fi);
+
+			// Mise à jour couleur du label de la checkbox
+			cb.setForeground(cb.isSelected() ? new Color(20, 120, 20) : new Color(100, 100, 100));
+
+			// Mise à jour barre de progression
+			barrePhasesWidget.mettreAJour(nbPhasesCoches());
+
+			// Mise à jour badges d'état (TERMINÉ apparaît/disparaît)
+			mettreAJourBadgesEtat();
+
+			// Recoloriage fond carte
 			recolorierCarte();
 		});
 		return cb;
 	}
 
-	/**
-	 * Met à jour la couleur de fond de toute la carte quand l'état change
-	 * (ex : cochage de FINI → fond devient vert).
-	 */
+	private int nbPhasesCoches()
+	{
+		return (lot.getPhase().isPreTri()     ? 1 : 0)
+		     + (lot.getPhase().isSurPiste()   ? 1 : 0)
+		     + (lot.getPhase().isSortieEtiq() ? 1 : 0)
+		     + (lot.getPhase().isTri()        ? 1 : 0)
+		     + (lot.getPhase().isFinit()       ? 1 : 0);
+	}
+
+	// ══════════════════════════════════════════════════════════════════
+	// Recoloriage carte
+	// ══════════════════════════════════════════════════════════════════
+
 	private void recolorierCarte()
 	{
 		Color nouvBg = bgPourLot(lot);
@@ -284,15 +321,96 @@ public class CarteLot extends JPanel implements ActionListener
 		repaint();
 	}
 
+	/**
+	 * Applique le fond bg à tous les composants sauf ceux marqués PRESERVE_BG
+	 * (badges colorés, barre de progression).
+	 */
 	private void appliquerFond(Container c, Color bg)
 	{
+		// Ne pas écraser les composants marqués comme "preserve_bg"
+		if (c instanceof JComponent && Boolean.TRUE.equals(((JComponent) c).getClientProperty(PRESERVE_BG)))
+			return;
+
 		c.setBackground(bg);
 		for (Component child : c.getComponents())
 			if (child instanceof Container) appliquerFond((Container) child, bg);
 	}
 
-	// ── Helpers visuels ─────────────────────────────────────────────────
+	/** Reconstruit le panel des badges d'état après un changement de phase */
+	private void mettreAJourBadgesEtat()
+	{
+		Color bg = bgPourLot(lot);
+		ligne1.remove(panelBadgesEtat);
+		panelBadgesEtat = construireBadgesEtat(bg);
+		ligne1.add(panelBadgesEtat, BorderLayout.EAST);
+		ligne1.revalidate();
+		ligne1.repaint();
+	}
 
+	// ══════════════════════════════════════════════════════════════════
+	// ActionListener (champs éditables)
+	// ══════════════════════════════════════════════════════════════════
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		String cmd = e.getActionCommand();
+		try {
+			switch (cmd) {
+				case "PCS_ETIQ": {
+					int v = Integer.parseInt(textPcsEtiq.getText().trim());
+					if (v < 0 || v > lot.getNbPieces()) throw new NumberFormatException();
+					lot.getSuivieProd().setNbPieceEtiq(v);
+					textPcsEtiq.setBackground(Color.WHITE);
+					break;
+				}
+				case "PCS_PART": {
+					int v = Integer.parseInt(textPcsPart.getText().trim());
+					if (v < 0 || v > lot.getNbPieces()) throw new NumberFormatException();
+					lot.getSuivieProd().setNbPieceRepart(v);
+					textPcsPart.setBackground(Color.WHITE);
+					break;
+				}
+				case "DISTRI":
+					lot.setLotACharge(textDistri.getText().trim());
+					break;
+				case "LOT_CHARGE":
+					lot.setDistribution(textLotCharge.getText().trim());
+					break;
+				case "FORM_CART":
+					if (Arrays.asList(Lot.F_CARTON).contains(textFormCart.getText().trim()))
+						lot.setFormatCarton(textFormCart.getText().trim());
+					break;
+				case "COLLISAGES": {
+					int v = Integer.parseInt(textCollisage.getText().trim());
+					if (v < 0) throw new NumberFormatException();
+					lot.setCollisage(v);
+					break;
+				}
+				case "COLIS_RECUP": {
+					int v = Integer.parseInt(textColisRecup.getText().trim());
+					if (v < 0) throw new NumberFormatException();
+					lot.setNbColisRecup(v);
+					textColisRecup.setBackground(Color.WHITE);
+					break;
+				}
+				case "METHODE":
+					lot.setMethode(textMethode.getText().trim());
+					break;
+			}
+			this.m.rafraichir();
+		} catch (NumberFormatException ex) {
+			((JTextField) e.getSource()).setBackground(new Color(255, 220, 220));
+		}
+	}
+
+	// ══════════════════════════════════════════════════════════════════
+	// Helpers visuels statiques
+	// ══════════════════════════════════════════════════════════════════
+
+	/**
+	 * Badge coloré. Marqué PRESERVE_BG pour ne pas être recolorié par appliquerFond.
+	 */
 	static JLabel badge(String txt, Color col)
 	{
 		JLabel l = new JLabel(txt);
@@ -301,29 +419,8 @@ public class CarteLot extends JPanel implements ActionListener
 		l.setBackground(col);
 		l.setForeground(Color.WHITE);
 		l.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+		l.putClientProperty(PRESERVE_BG, Boolean.TRUE);  // ← protégé du recoloriage
 		return l;
-	}
-
-	static JPanel barreProg(int val, int max, int w)
-	{
-		JPanel p = new JPanel(null)
-		{
-			@Override protected void paintComponent(Graphics g)
-			{
-				super.paintComponent(g);
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				int W = getWidth(), H = getHeight();
-				g2.setColor(new Color(215, 220, 228));
-				g2.fillRoundRect(0, 0, W, H, H, H);
-				int fill = max > 0 ? (int)(W * val / (double) max) : 0;
-				Color c = val == max ? IhmUtils.VERT : val > 0 ? IhmUtils.AMBER : new Color(200, 200, 200);
-				if (fill > 0) { g2.setColor(c); g2.fillRoundRect(0, 0, fill, H, H, H); }
-			}
-		};
-		p.setPreferredSize(new Dimension(w, 10));
-		p.setOpaque(false);
-		return p;
 	}
 
 	static void info(JPanel p, String label, String val, Color bg)
@@ -353,105 +450,65 @@ public class CarteLot extends JPanel implements ActionListener
 	{
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
 		p.setBackground(bg);
-
 		JLabel l = new JLabel(label + " :");
 		l.setFont(new Font("SansSerif", Font.BOLD, 11));
 		l.setForeground(new Color(90, 90, 90));
-
 		t.setFont(new Font("SansSerif", Font.PLAIN, 12));
-
 		t.setActionCommand(action);
 		t.addActionListener(listener);
-
 		p.add(l);
 		p.add(t);
-
 		return p;
 	}
 
-	// ----- Action Listner ----------
+	// ══════════════════════════════════════════════════════════════════
+	// Barre de progression dynamique (inner class)
+	// ══════════════════════════════════════════════════════════════════
 
-	public void actionPerformed(ActionEvent e)
+	/**
+	 * Barre de progression qui se redessine dynamiquement.
+	 * On stocke la valeur courante dans un tableau pour la modifier depuis l'extérieur.
+	 */
+	private static class BarreProgression extends JPanel
 	{
-		String cmd = e.getActionCommand();
+		private final int   max;
+		private       int   valeur;
 
-		try
+		BarreProgression(int max)
 		{
-			switch (cmd)
-			{
-				case "PCS_ETIQ":
-				{
-					int v = Integer.parseInt(textPcsEtiq.getText().trim());
-
-					if (v < 0 || v > lot.getNbPieces())
-						throw new NumberFormatException();
-
-					lot.getSuivieProd().setNbPieceEtiq(v);
-					textPcsEtiq.setBackground(Color.WHITE);
-					break;
-				}
-
-				case "PCS_PART":
-				{
-					int v = Integer.parseInt(textPcsPart.getText().trim());
-
-					if (v < 0 || v > lot.getNbPieces())
-						throw new NumberFormatException();
-
-					lot.getSuivieProd().setNbPieceRepart(v);
-					textPcsPart.setBackground(Color.WHITE);
-					break;
-				}
-
-				case "DISTRI":
-					lot.setLotACharge(textDistri.getText().trim());
-					break;
-
-				case "LOT_CHARGE":
-					lot.setDistribution(textLotCharge.getText().trim());
-					break;
-
-				case "FORM_CART":
-					if (Arrays.asList(Lot.F_CARTON).contains(textFormCart.getText().trim()))
-						lot.setFormatCarton(textFormCart.getText().trim());
-					break;
-				
-				case "COLLISAGES":
-				{
-					int v = Integer.parseInt(textCollisage.getText().trim());
-
-					if (v < 0)
-						throw new NumberFormatException();
-
-					lot.setCollisage(v);
-				}
-
-				case "COLIS_RECUP":
-				{
-					int v = Integer.parseInt(textColisRecup.getText().trim());
-
-					if (v < 0)
-						throw new NumberFormatException();
-
-					lot.setNbColisRecup(v);
-					textColisRecup.setBackground(Color.WHITE);
-					break;
-				}
-
-				case "METHODE":
-					lot.setMethode(textMethode.getText().trim());
-					break;
-			}
-			this.m.rafraichir();
+			super(null);
+			this.max    = max;
+			this.valeur = 0;
+			setOpaque(false);
 		}
-		catch (NumberFormatException ex)
+
+		void mettreAJour(int nouvValeur)
 		{
-			JTextField tf = (JTextField)e.getSource();
-			tf.setBackground(new Color(255, 220, 220));
+			this.valeur = nouvValeur;
+			repaint();
+		}
+
+		@Override
+		protected void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			int W = getWidth(), H = getHeight();
+			g2.setColor(new Color(215, 220, 228));
+			g2.fillRoundRect(0, 0, W, H, H, H);
+			int fill = max > 0 ? (int)(W * valeur / (double) max) : 0;
+			if (fill > 0) {
+				Color c = valeur == max ? IhmUtils.VERT : IhmUtils.AMBER;
+				g2.setColor(c);
+				g2.fillRoundRect(0, 0, fill, H, H, H);
+			}
 		}
 	}
 
-	// ── Utilitaires statiques ────────────────────────────────────────────
+	// ══════════════════════════════════════════════════════════════════
+	// Utilitaires
+	// ══════════════════════════════════════════════════════════════════
 
 	static Color bgPourLot(Lot lot)
 	{

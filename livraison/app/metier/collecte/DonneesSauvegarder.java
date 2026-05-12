@@ -1,6 +1,7 @@
 package app.metier.collecte;
 
 import app.metier.PlanningGlobal;
+import app.metier.ficheroute.Phase;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
@@ -13,16 +14,11 @@ public class DonneesSauvegarder
 {
 	private static final int VERSION = 2;
 
-	// Noms de fichiers fixes à l'intérieur d'un dossier de sauvegarde
 	private static final String FICHIER_LOTS     = "lots.json";
 	private static final String FICHIER_SOCIETES = "societes.json";
 
 	// ── Sauvegarde ────────────────────────────────────────────────────────
 
-	/**
-	 * Sauvegarde UNIQUEMENT les lots dans le fichier JSON spécifié.
-	 * Format : tableau JSON simple [{ lot1 }, { lot2 }, ...]
-	 */
 	public void sauvegarderLots(ArrayList<Lot> lots, String cheminFichier)
 	{
 		String chemin = cheminFichier.endsWith(".json") ? cheminFichier : cheminFichier + ".json";
@@ -33,36 +29,42 @@ public class DonneesSauvegarder
 			for (int i = 0; i < lots.size(); i++)
 			{
 				Lot l = lots.get(i);
+				Phase p = l.getPhase();
 				pw.println("  {");
-				pw.println("    \"id\": " + esc(l.getId()) + ",");
-				pw.println("    \"numCDE\": " + l.getNumCDE() + ",");
-				pw.println("    \"semaine\": " + esc(l.getSemaine()) + ",");
-				pw.println("    \"priorite\": " + l.getPriorite() + ",");
-				pw.println("    \"typologie\": " + esc(l.getTypologie()) + ",");
-				pw.println("    \"affaire\": " + esc(l.getAffaire()) + ",");
-				pw.println("    \"valeurVente\": " + l.getValeurVente() + ",");
-				pw.println("    \"nbPieces\": " + l.getNbPieces() + ",");
-				pw.println("    \"cadence\": " + l.getCadence() + ",");
-				pw.println("    \"heures\": " + l.getHeures() + ",");
-				pw.println("    \"statut\": " + esc(l.getStatut()) + ",");
-				pw.println("    \"statutEchant\": " + esc(l.getStatutEchant()) + ",");
-				pw.println("    \"lotACharge\": " + esc(l.getLotACharge()) + ",");
-				pw.println("    \"estSousDouane\": " + l.isEstSousDouane() + ",");
-				pw.println("    \"dateReception\": " + esc(l.getDateReception()) + ",");
-				pw.println("    \"datePaiement\": " + esc(l.getDatePaiement()) + ",");
-				pw.println("    \"commentaire\": " + esc(l.getCommentaire()) + ",");
-				pw.println("	\"emplacement\": " + esc(l.getEmplacement()) + ",");
-				pw.println("    \"sp_nbPieceEtiq\": " + l.getSuivieProd().getNbPieceEtiq() + ",");
-				pw.println("    \"sp_nbPieceRepart\": " + l.getSuivieProd().getNbPieceRepart() + ",");
-				pw.println("    \"sp_nbHeureEtiqRestant\": " + l.getSuivieProd().getNbHeureEtiqRestant() + ",");
-				pw.println("    \"sp_nbHeureRepartRestant\": " + l.getSuivieProd().getNbHeureRepartRestant() + ",");
-				pw.println("    \"methode\": " + esc(l.getMethode()== null ? "": l.getMethode().getNom()) + ",");
-				pw.println("    \"distribution\": " + esc(l.getDistribution()) + ",");
-				pw.println("    \"formatCarton\": " + esc(l.getFormatCarton()) + ",");
-				pw.println("    \"heuresAce\": " + l.getHeuresAce() + ",");
-				pw.println("    \"estMachine\": " + l.estMachine());
-				pw.println("    \"Collisage\": " + l.getCollisage());
-
+				pw.println("    \"id\": "                       + esc(l.getId())                                      + ",");
+				pw.println("    \"numCDE\": "                   + l.getNumCDE()                                       + ",");
+				pw.println("    \"semaine\": "                  + esc(l.getSemaine())                                 + ",");
+				pw.println("    \"priorite\": "                 + l.getPriorite()                                     + ",");
+				pw.println("    \"typologie\": "                + esc(l.getTypologie())                               + ",");
+				pw.println("    \"affaire\": "                  + esc(l.getAffaire())                                 + ",");
+				pw.println("    \"valeurVente\": "              + l.getValeurVente()                                  + ",");
+				pw.println("    \"nbPieces\": "                 + l.getNbPieces()                                     + ",");
+				pw.println("    \"cadence\": "                  + l.getCadence()                                      + ",");
+				pw.println("    \"heures\": "                   + l.getHeures()                                       + ",");
+				pw.println("    \"statut\": "                   + esc(l.getStatut())                                  + ",");
+				pw.println("    \"statutEchant\": "             + esc(l.getStatutEchant())                            + ",");
+				pw.println("    \"lotACharge\": "               + esc(l.getLotACharge())                              + ",");
+				pw.println("    \"estSousDouane\": "            + l.isEstSousDouane()                                 + ",");
+				pw.println("    \"dateReception\": "            + esc(l.getDateReception())                           + ",");
+				pw.println("    \"datePaiement\": "             + esc(l.getDatePaiement())                            + ",");
+				pw.println("    \"commentaire\": "              + esc(l.getCommentaire())                             + ",");
+				pw.println("    \"emplacement\": "              + esc(l.getEmplacement())                             + ",");
+				pw.println("    \"sp_nbPieceEtiq\": "           + l.getSuivieProd().getNbPieceEtiq()                  + ",");
+				pw.println("    \"sp_nbPieceRepart\": "         + l.getSuivieProd().getNbPieceRepart()                + ",");
+				pw.println("    \"sp_nbHeureEtiqRestant\": "    + l.getSuivieProd().getNbHeureEtiqRestant()           + ",");
+				pw.println("    \"sp_nbHeureRepartRestant\": "  + l.getSuivieProd().getNbHeureRepartRestant()         + ",");
+				pw.println("    \"methode\": "                  + esc(l.getMethode() == null ? "" : l.getMethode().getNom()) + ",");
+				pw.println("    \"distribution\": "             + esc(l.getDistribution())                            + ",");
+				pw.println("    \"formatCarton\": "             + esc(l.getFormatCarton())                            + ",");
+				pw.println("    \"heuresAce\": "                + l.getHeuresAce()                                    + ",");
+				pw.println("    \"collisage\": "                + l.getCollisage()                                    + ",");
+				pw.println("    \"estMachine\": "               + l.estMachine()                                      + ",");
+				// Phase
+				pw.println("    \"phase_preTri\": "             + (p != null && p.isPreTri())                         + ",");
+				pw.println("    \"phase_surPiste\": "           + (p != null && p.isSurPiste())                       + ",");
+				pw.println("    \"phase_sortieEtiq\": "         + (p != null && p.isSortieEtiq())                     + ",");
+				pw.println("    \"phase_tri\": "                + (p != null && p.isTri())                            + ",");
+				pw.println("    \"phase_finit\": "              + (p != null && p.isFinit()));
 				pw.println();
 				pw.print("  }");
 				if (i < lots.size() - 1) pw.print(",");
@@ -76,10 +78,6 @@ public class DonneesSauvegarder
 		}
 	}
 
-	/**
-	 * Sauvegarde UNIQUEMENT les sociétés dans le fichier JSON spécifié.
-	 * Format : tableau JSON simple [{ societe1 }, { societe2 }, ...]
-	 */
 	public void sauvegarderSocietes(ArrayList<Societe> societes, ArrayList<Lot> lots, String cheminFichier)
 	{
 		String chemin = cheminFichier.endsWith(".json") ? cheminFichier : cheminFichier + ".json";
@@ -91,9 +89,9 @@ public class DonneesSauvegarder
 			{
 				Societe s = societes.get(i);
 				pw.println("  {");
-				pw.println("    \"nom\": " + esc(s.getNom()) + ",");
-				pw.println("    \"ce\": " + esc(s.getCe()) + ",");
-				pw.println("    \"totalHeuresCE\": " + s.getTotalHeuresCE() + ",");
+				pw.println("    \"nom\": "          + esc(s.getNom())         + ",");
+				pw.println("    \"ce\": "           + esc(s.getCe())          + ",");
+				pw.println("    \"totalHeuresCE\": " + s.getTotalHeuresCE()   + ",");
 				pw.println("    \"aces\": [");
 				ArrayList<Ace> aces = s.getAces();
 				for (int j = 0; j < aces.size(); j++)
@@ -107,11 +105,11 @@ public class DonneesSauvegarder
 					}
 					lotsAce.append("]");
 					pw.print("      { \"nom\": " + esc(a.getNom())
-						+ ", \"nbPers\": " + a.getNbPers()
-						+ ", \"totalHeures\": " + a.getTotalHeures()
+						+ ", \"nbPers\": "         + a.getNbPers()
+						+ ", \"totalHeures\": "    + a.getTotalHeures()
 						+ ", \"effectifActuel\": " + a.getEffectifActuel()
-						+ ", \"est Machine\": " + a.estMachine()
-						+ ", \"lotsACE\": " + lotsAce + " }");
+						+ ", \"estMachine\": "     + a.estMachine()
+						+ ", \"lotsACE\": "        + lotsAce + " }");
 					if (j < aces.size() - 1) pw.print(",");
 					pw.println();
 				}
@@ -136,13 +134,6 @@ public class DonneesSauvegarder
 		}
 	}
 
-	/**
-	 * Sauvegarde lots ET sociétés dans un dossier.
-	 * Crée le dossier si nécessaire, puis écrit lots.json et societes.json dedans.
-	 *
-	 * @param metier        le planning à sauvegarder
-	 * @param cheminDossier chemin du dossier cible (ex: "app/data/saves/semaine07")
-	 */
 	public void sauvegarder(PlanningGlobal metier, String cheminDossier) throws IOException
 	{
 		File dossier = new File(cheminDossier);
@@ -161,12 +152,6 @@ public class DonneesSauvegarder
 
 	// ── Chargement ────────────────────────────────────────────────────────
 
-	/**
-	 * Charge lots ET sociétés depuis un dossier contenant lots.json et societes.json.
-	 *
-	 * @param metier        le planning à remplir
-	 * @param cheminDossier chemin du dossier (ex: "app/data/saves/semaine07")
-	 */
 	public void charger(PlanningGlobal metier, String cheminDossier) throws IOException
 	{
 		String cheminLots     = Paths.get(cheminDossier, FICHIER_LOTS).toString();
@@ -180,12 +165,10 @@ public class DonneesSauvegarder
 		metier.getSocietes().clear();
 		metier.getLots().clear();
 
-		// 1. Lire les lots EN PREMIER (les sociétés y font référence par numCDE)
 		String jsonLots = lireFichier(cheminLots);
 		for (String obj : extraireObjets(jsonLots))
 			metier.getLots().add(parseLot(obj));
 
-		// 2. Lire les sociétés + reconstruire les affectations
 		String jsonSocietes = lireFichier(cheminSocietes);
 		for (String obj : extraireObjets(jsonSocietes))
 		{
@@ -197,17 +180,15 @@ public class DonneesSauvegarder
 				{
 					Ace ace = new Ace(getString(a, "nom"), getInt(a, "nbPers"),
 					            getInt(a, "totalHeures"), getInt(a, "effectifActuel"));
-					
-					ace.setEstMachine(getBool(a, "est Machine"));
+					// clé unifiée "estMachine" (sans espace)
+					ace.setEstMachine(getBool(a, "estMachine"));
 					aces.add(ace);
-
 				}
 			}
 
-			Societe soc = new Societe(getString(obj, "nom"),getString(obj, "ce"),	aces,
+			Societe soc = new Societe(getString(obj, "nom"), getString(obj, "ce"), aces,
 				getInt(obj, "totalHeuresCE"));
 
-			// Lots affectés à la société
 			String lotsAff = extraireTableauPrimitif(obj, "lotsAffectes");
 			if (lotsAff != null)
 				for (String id : parseIdList(lotsAff))
@@ -216,7 +197,6 @@ public class DonneesSauvegarder
 					if (lot != null) soc.getLots().add(lot);
 				}
 
-			// Lots affectés aux ACE
 			if (blocAces != null)
 			{
 				int ai = 0;
@@ -248,17 +228,17 @@ public class DonneesSauvegarder
 	private Lot parseLot(String obj)
 	{
 		Lot lot = new Lot(
-			getInt(obj, "numCDE"),
-			getInt(obj, "nbPieces"),
+			getInt   (obj, "numCDE"),
+			getInt   (obj, "nbPieces"),
 			getDouble(obj, "cadence"),
 			getDouble(obj, "heures"),
-			getInt(obj, "valeurVente"),
+			getInt   (obj, "valeurVente"),
 			getString(obj, "statut"),
 			getString(obj, "statutEchant")
 		);
-		// Restaurer l'UUID persisté (prioritaire sur celui généré dans le constructeur)
 		String savedId = getString(obj, "id");
 		if (savedId != null && !savedId.isEmpty()) lot.setId(savedId);
+
 		lot.setTypologie    (getString(obj, "typologie"));
 		lot.setAffaire      (getString(obj, "affaire"));
 		lot.setSemaine      (getString(obj, "semaine"));
@@ -277,17 +257,27 @@ public class DonneesSauvegarder
 		lot.setDistribution (getString(obj, "distribution"));
 		lot.setFormatCarton (getString(obj, "formatCarton"));
 		lot.setHeuresAce    (getDouble(obj, "heuresAce"));
+		lot.setCollisage    (getInt   (obj, "collisage"));
+		lot.setEstMachine   (getBool  (obj, "estMachine"));
+
+		// Phase
+		Phase phase = new Phase();
+		phase.setPreTri     (getBool(obj, "phase_preTri"));
+		phase.setSurPiste   (getBool(obj, "phase_surPiste"));
+		phase.setSortieEtiq (getBool(obj, "phase_sortieEtiq"));
+		phase.setTri        (getBool(obj, "phase_tri"));
+		phase.setFinit      (getBool(obj, "phase_finit"));
+		lot.setPhase(phase);
+
 		return lot;
 	}
 
-	/** Recherche un lot par son UUID (clé technique unique). */
 	private Lot trouverLot(ArrayList<Lot> lots, String id)
 	{
 		for (Lot l : lots) if (id.equals(l.getId())) return l;
 		return null;
 	}
 
-	/** Parse un tableau JSON de chaînes UUID : ["uuid1","uuid2",...] */
 	private ArrayList<String> parseIdList(String tableau)
 	{
 		ArrayList<String> liste = new ArrayList<>();
