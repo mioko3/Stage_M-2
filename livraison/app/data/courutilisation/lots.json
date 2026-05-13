@@ -782,7 +782,7 @@
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 104,
     "sp_nbHeureRepartRestant": 134,
-    "methode": "",
+    "methode": "21A",
     "distribution": "",
     "formatCarton": "",
     "dateDebut": "12/05/2026 15:41:31",
@@ -791,8 +791,8 @@
     "collisage": 0,
     "estMachine": false,
     "phase_preTri": true,
-    "phase_surPiste": false,
-    "phase_sortieEtiq": false,
+    "phase_surPiste": true,
+    "phase_sortieEtiq": true,
     "phase_tri": false,
     "phase_finit": false
 

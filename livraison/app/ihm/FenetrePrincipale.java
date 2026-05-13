@@ -257,6 +257,7 @@ public class FenetrePrincipale extends JFrame
 			panelMap        .rafraichir();
 			if (lblInfo != null) lblInfo.setText(buildInfo());
 		});
+		this.ctrl.autoSauvegarde();
 	}
 
 	public PanelAffectation getPanelAffectation() { return panelAffectation; }

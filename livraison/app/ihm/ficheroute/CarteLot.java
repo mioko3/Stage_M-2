@@ -450,7 +450,6 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 			}
 			this.m.rafraichir();
-			this.ctrl.autoSauvegarde();
 		} catch (NumberFormatException ex) {
 			((JTextField) e.getSource()).setBackground(new Color(255, 220, 220));
 		}

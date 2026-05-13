@@ -263,18 +263,21 @@ public class PanelFicheRoute extends JPanel
 		if (societeCourante == null) return;
 		FicheRoute fdr = ctrl.genererFicheRoute(societeCourante);
 
-		int vvs = 0, pcs = 0, cntPU = 0; double sumPU = 0;
+		int vvs = 0, pcs = 0, cntPU = 0, pcsT=0; double sumPU = 0, etiq=0;
 		for (Lot lot : societeCourante.getLots())
 		{
 			vvs += lot.getValeurVente(); pcs += lot.getNbPieces();
+			pcsT += lot.getNbPieces();
 			if (lot.getNbPieces() > 0) { sumPU += lot.getPrixUnitaire(); cntPU++; }
+			if (lot.getNbPieces() > 0 && lot.getSuivieProd() != null) etiq += lot.getSuivieProd().getNbPieceEtiq();
 		}
 		double puMoy = cntPU > 0 ? sumPU / cntPU : 0;
+		double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
 		majTuile(lblNbLots_s, "Lots affectés",  String.valueOf(societeCourante.getLots().size()), IhmUtils.BLEU);
 		majTuile(lblVVS_s,    "VVS. Total",       vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
 		majTuile(lblPieces_s, "Nb Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
 		majTuile(lblPU_s,     "PU. Moyen",        puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_s, "Av. Global",  "-", IhmUtils.ROUGE);
+		majTuile(lblHeures_s, "Av. Global", av > 0 ? String.format("%.1f %%", av) : "—", IhmUtils.ROUGE);
 
 		reconstruireRecapAce_s(fdr);
 
@@ -345,17 +348,21 @@ public class PanelFicheRoute extends JPanel
 	{
 		if (aceCourante == null) return;
 		List<Lot> lots = aceCourante.getLots();
-		int vvs = 0, pcs = 0, cntPU = 0; double sumPU = 0;
-		for (Lot lot : lots) {
+		int vvs = 0, pcs = 0, cntPU = 0,pcsT=0; double sumPU = 0, etiq=0;
+		for (Lot lot : lots)
+		{
 			vvs += lot.getValeurVente(); pcs += lot.getNbPieces();
+			pcsT += lot.getNbPieces();
 			if (lot.getNbPieces() > 0) { sumPU += lot.getPrixUnitaire(); cntPU++; }
+			if (lot.getNbPieces() > 0 && lot.getSuivieProd() != null) etiq += lot.getSuivieProd().getNbPieceEtiq();
 		}
 		double puMoy = cntPU > 0 ? sumPU / cntPU : 0;
+		double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
 		majTuile(lblNbLots_a, "Lots",        String.valueOf(lots.size()), IhmUtils.BLEU);
 		majTuile(lblVVS_a,    "VVS",          vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
 		majTuile(lblPieces_a, "Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
 		majTuile(lblPU_a,     "PU. Moyen",     puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_a, "Av. global", "-", IhmUtils.ROUGE);
+		majTuile(lblHeures_a, "Av. global", av > 0 ? String.format("%.1f %%", av) : "—", IhmUtils.ROUGE);
 
 		panelCartes_a.removeAll();
 		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", aceCourante.getColor()));
@@ -528,5 +535,6 @@ public class PanelFicheRoute extends JPanel
 			}
 			chargerFicheRouteAce();
 		}
+		ctrl.autoSauvegarde();
 	}
 }
