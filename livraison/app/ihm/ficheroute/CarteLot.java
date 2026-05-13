@@ -18,7 +18,7 @@ public class CarteLot extends JPanel implements ActionListener
 	static final Color BG_FINI      = new Color(220, 250, 220);
 	static final Color BG_DOUANE    = new Color(238, 224, 255);
 	static final Color BG_URGENCE   = new Color(255, 232, 232);
-	static final Color BG_COMMENCER = new Color(100, 100, 255);
+	static final Color BG_COMMENCER = new Color(220, 220, 250);
 	static final Color BG_NORMAL    = Color.WHITE;
 
 	/** Marqueur pour exclure un composant du recoloriage de fond */
@@ -174,6 +174,12 @@ public class CarteLot extends JPanel implements ActionListener
 			this.btncommencer.addActionListener(e -> commencer());
 			l2Bis.add(this.btncommencer);
 		}
+		else
+		{
+			this.btncommencer = new JButton("Annuler");
+			this.btncommencer.addActionListener(e -> annuler());
+			l2Bis.add(this.btncommencer);
+		}
 
 		l2Bis.add(new JLabel("Date de Debut : " + lot.getDateDebut()));
 		l2Bis.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
@@ -183,6 +189,12 @@ public class CarteLot extends JPanel implements ActionListener
 	{
 		estcommencer = true;
 		this.ctrl.commencerLot(lot);
+		this.m.rafraichir();
+	}
+	private void annuler()
+	{
+		estcommencer = false;
+		this.ctrl.annulerLot(lot);
 		this.m.rafraichir();
 	}
 
@@ -220,6 +232,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l4.setBackground(bg);
 
 		this.textPcsEtiq = new JTextField(String.valueOf(lot.getSuivieProd().getNbPieceEtiq()), 6);
+		this.textPcsEtiq.setEnabled(lot.getPhase().isSortieEtiq());
 		l4.add(champEditable("Pces Étiq.", this.textPcsEtiq, bg, "PCS_ETIQ", this));
 		info(l4, "Av. Étiq %",   lot.getSuivieProd().getAvancementEtiqPct(), bg);
 		info(l4, "H Étiq rest.", lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
@@ -229,6 +242,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l4.add(sep);
 
 		this.textPcsPart = new JTextField(String.valueOf(lot.getSuivieProd().getNbPieceRepart()), 6);
+		this.textPcsPart.setEnabled(lot.getPhase().isSortieEtiq());
 		l4.add(champEditable("Pces Parts", this.textPcsPart, bg, "PCS_PART", this));
 		info(l4, "Av. Parts %",   lot.getSuivieProd().getAvancementPartsPct(), bg);
 		info(l4, "H Parts rest.", lot.getSuivieProd().getNbHeureRepartRestant() + " h", bg);
@@ -299,6 +313,7 @@ public class CarteLot extends JPanel implements ActionListener
 		JCheckBox cb = new JCheckBox(label, etat);
 		cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		cb.setOpaque(false);
+		cb.setEnabled(estcommencer);
 		cb.setForeground(etat ? new Color(20, 120, 20) : new Color(100, 100, 100));
 		cb.addActionListener(e -> {
 			boolean v  = cb.isSelected();

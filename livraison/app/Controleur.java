@@ -206,10 +206,8 @@ public class Controleur
 	public void marquerLotTermine(Lot lot)
 	{ metier.marquerLotTermine(lot); autoSauvegarderLots(); }
 
-	public void commencerLot(Lot l)
-	{
-		this.metier.commencerLot(l);
-	}
+	public void commencerLot(Lot l) { this.metier.commencerLot(l);}
+	public void annulerLot(Lot l)   { this.metier.annulerLot(l);  }
 
 	// ── Modification sociétés ─────────────────────────────────────────────
 

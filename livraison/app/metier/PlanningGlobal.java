@@ -190,6 +190,17 @@ public class PlanningGlobal
 		String formatted = now.format(formatter);
 		l.setDateDebut(formatted);
 	}
+	public void annulerLot(Lot l)
+	{
+		l.setDateDebut("");
+		l.setdateFin("");
+		l.getPhase().setPreTri     (false);
+		l.getPhase().setSurPiste   (false);
+		l.getPhase().setSortieEtiq (false);
+		l.getPhase().setTri        (false);
+		l.getPhase().setFinit      (false);
+
+	}
 
 	// ── Recherche ─────────────────────────────────────────────────────────
 
