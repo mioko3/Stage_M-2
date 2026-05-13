@@ -243,6 +243,7 @@ public class PanelFicheRoute extends JPanel
 		combSociete.addItem("— Choisir une société —");
 		for (Societe s : ctrl.getSocietes())
 			combSociete.addItem(s.getNom() + "  (" + s.getLots().size() + " lots)");
+		
 		if (sel >= 0 && sel < combSociete.getItemCount())
 			combSociete.setSelectedIndex(sel);
 	}
@@ -250,7 +251,8 @@ public class PanelFicheRoute extends JPanel
 	private void changerSociete()
 	{
 		int idx = combSociete.getSelectedIndex() - 1;
-		if (idx < 0 || idx >= ctrl.getSocietes().size()) {
+		if (idx < 0 || idx >= ctrl.getSocietes().size())
+		{
 			societeCourante = null; viderRecap_s();
 			panelCartes_s.removeAll();
 			panelCartes_s.revalidate();
@@ -333,7 +335,8 @@ public class PanelFicheRoute extends JPanel
 		combAce.addItem("— Choisir une ACE —");
 		int restore = 0;
 		List<Ace> aces = ctrl.getTouteAces();
-		for (int i = 0; i < aces.size(); i++) {
+		for (int i = 0; i < aces.size(); i++)
+		{
 			Ace a = aces.get(i);
 			combAce.addItem(a.getNom() + " (" + a.getLots().size() + " lots)");
 			if (nomAceMemorise != null && nomAceMemorise.equals(a.getNom())) restore = i + 1;
@@ -344,9 +347,13 @@ public class PanelFicheRoute extends JPanel
 	private void changerAce()
 	{
 		int idx = combAce.getSelectedIndex() - 1;
-		if (idx < 0 || idx >= ctrl.getTouteAces().size()) {
-			aceCourante = null; nomAceMemorise = null;
-			panelCartes_a.removeAll(); panelCartes_a.revalidate(); panelCartes_a.repaint();
+		if (idx < 0 || idx >= ctrl.getTouteAces().size())
+		{
+			aceCourante    = null;
+			nomAceMemorise = null;
+			panelCartes_a.removeAll();
+			panelCartes_a.revalidate();
+			panelCartes_a.repaint();
 			viderRecap_a(); return;
 		}
 		aceCourante    = ctrl.getTouteAces().get(idx);
