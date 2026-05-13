@@ -1,5 +1,6 @@
 package app.metier.collecte;
 
+import app.metier.lot.LigneColisage;
 import app.metier.lot.Lot;
 import app.metier.ficheroute.Phase;
 import app.metier.personelle.Ace;
@@ -230,7 +231,6 @@ public class ExcelReader
 						getInt(a, "totalHeures"),
 						getInt(a, "effectifActuel")
 					);
-					// clé unifiée "estMachine" (sans espace)
 					ace.setEstMachine(getBool(a, "estMachine"));
 					aces.add(ace);
 					String blocLotsAce = extraireBloc(a, "\"lotsACE\"");
@@ -314,6 +314,18 @@ public class ExcelReader
 			lot.setHeuresAce    (getDouble(obj, "heuresAce"));
 			lot.setCollisage    (getInt   (obj, "collisage"));
 			lot.setEstMachine   (getBool  (obj, "estMachine"));
+
+			// ── Lignes de colisage multiples ──────────────────────────────
+			String blocLignes = extraireBloc(obj, "\"lignesColisage\"");
+			if (blocLignes != null)
+			{
+				for (String ligneObj : extraireObjets(blocLignes))
+				{
+					LigneColisage lc = LigneColisage.fromJson(ligneObj);
+					lc.recalculer(lot.getNbPieces());
+					lot.getLignesColisage().add(lc);
+				}
+			}
 
 			// Phase
 			Phase phase = new Phase();

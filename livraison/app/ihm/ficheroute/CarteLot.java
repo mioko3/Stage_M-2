@@ -2,6 +2,7 @@ package app.ihm.ficheroute;
 
 import app.Controleur;
 import app.ihm.IhmUtils;
+import app.metier.lot.LigneColisage;
 import app.metier.lot.Lot;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,16 +22,15 @@ public class CarteLot extends JPanel implements ActionListener
 	static final Color BG_COMMENCER = new Color(220, 220, 250);
 	static final Color BG_NORMAL    = Color.WHITE;
 
-	/** Marqueur pour exclure un composant du recoloriage de fond */
 	private static final String PRESERVE_BG = "preserve_bg";
-	
+
 	private static boolean estcommencer;
 
 	private final Lot            lot;
 	private final Controleur     ctrl;
 	private final PanelFicheRoute m;
 
-	// ── Champs éditables (références pour ActionListener) ──────────────
+	// ── Champs éditables ──────────────────────────────────────────────
 	private JButton    btncommencer;
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
@@ -41,12 +41,16 @@ public class CarteLot extends JPanel implements ActionListener
 	private JTextField textColisRecup;
 	private JTextField textMethode;
 
-	// ── Barre de progression (mise à jour à la volée) ───────────────────
+	// Panel logistique (reconstruit quand on ajoute/supprime une ligne)
+	private JPanel panelLogistique;
+	private Color  bgCourant;
+
+	// ── Barre de progression ───────────────────────────────────────────
 	private BarreProgression barrePhasesWidget;
 
-	// ── Panel ligne 1 droite (badges état) — reconstruit au recoloriage ─
-	private JPanel  panelBadgesEtat;
-	private JPanel  ligne1;
+	// ── Panel badges état ──────────────────────────────────────────────
+	private JPanel panelBadgesEtat;
+	private JPanel ligne1;
 
 	public CarteLot(Lot lot, Color couleurAce, Controleur ctrl, PanelFicheRoute m)
 	{
@@ -56,6 +60,7 @@ public class CarteLot extends JPanel implements ActionListener
 		estcommencer = !lot.getDateDebut().equals("");
 
 		Color bg     = bgPourLot(lot);
+		this.bgCourant = bg;
 		Color accent = couleurAce != null ? couleurAce : IhmUtils.BLEU;
 
 		setLayout(new BorderLayout());
@@ -75,6 +80,8 @@ public class CarteLot extends JPanel implements ActionListener
 		corps.setLayout(new BoxLayout(corps, BoxLayout.Y_AXIS));
 		corps.setBackground(bg);
 
+		panelLogistique = construireLigne5Logistique(bg);
+
 		corps.add(construireLigne1(bg, accent));
 		corps.add(Box.createVerticalStrut(5));
 		corps.add(separateur());
@@ -86,7 +93,7 @@ public class CarteLot extends JPanel implements ActionListener
 		corps.add(separateur());
 		corps.add(construireLigne4Avancement(bg));
 		corps.add(separateur());
-		corps.add(construireLigne5Logistique(bg));
+		corps.add(panelLogistique);
 		corps.add(separateur());
 		corps.add(construireCommentaire(bg));
 
@@ -122,7 +129,8 @@ public class CarteLot extends JPanel implements ActionListener
 		lblDes.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		gauche.add(lblDes);
 
-		if (!s(lot.getSemaine()).isEmpty()) {
+		if (!s(lot.getSemaine()).isEmpty())
+		{
 			JLabel sem = new JLabel("  S" + lot.getSemaine());
 			sem.setFont(new Font("SansSerif", Font.PLAIN, 11));
 			sem.setForeground(new Color(120, 120, 120));
@@ -136,7 +144,6 @@ public class CarteLot extends JPanel implements ActionListener
 		return ligne1;
 	}
 
-	/** Construit le panel des badges d'état à droite (DOUANE, TERMINÉ, etc.) */
 	private JPanel construireBadgesEtat(Color bg)
 	{
 		JPanel droite = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 0));
@@ -185,12 +192,14 @@ public class CarteLot extends JPanel implements ActionListener
 		l2Bis.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
 		return l2Bis;
 	}
+
 	private void commencer()
 	{
 		estcommencer = true;
 		this.ctrl.commencerLot(lot);
 		this.m.rafraichir();
 	}
+
 	private void annuler()
 	{
 		estcommencer = false;
@@ -216,7 +225,6 @@ public class CarteLot extends JPanel implements ActionListener
 
 		l3.add(Box.createHorizontalStrut(6));
 
-		// Barre de progression dynamique — garde une référence pour la mettre à jour
 		barrePhasesWidget = new BarreProgression(5);
 		barrePhasesWidget.setPreferredSize(new Dimension(80, 10));
 		barrePhasesWidget.setOpaque(false);
@@ -249,8 +257,15 @@ public class CarteLot extends JPanel implements ActionListener
 		return l4;
 	}
 
+	// ── Logistique + lignes colisage ───────────────────────────────────
+
 	private JPanel construireLigne5Logistique(Color bg)
 	{
+		JPanel conteneur = new JPanel();
+		conteneur.setLayout(new BoxLayout(conteneur, BoxLayout.Y_AXIS));
+		conteneur.setBackground(bg);
+
+		// Ligne principale (format carton par défaut + collisage)
 		JPanel l5 = new JPanel(new GridLayout(2, 4, 4, 2));
 		l5.setBackground(bg);
 
@@ -266,13 +281,64 @@ public class CarteLot extends JPanel implements ActionListener
 		l5.add(champEditable("Lot à charge",  this.textLotCharge,  bg, "LOT_CHARGE",  this));
 		l5.add(champEditable("Format carton", this.textFormCart,   bg, "FORM_CART",   this));
 		l5.add(champEditable("Collisage",     this.textCollisage,  bg, "COLLISAGES",  this));
-		info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),   bg);
+		info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),    bg);
 		info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
 		l5.add(champEditable("Colis récup.", this.textColisRecup, bg, "COLIS_RECUP", this));
 		l5.add(champEditable("Méthode",      this.textMethode,   bg, "METHODE",     this));
-		return l5;
+
+		conteneur.add(l5);
+
+		// ── Lignes de colisage supplémentaires ────────────────────────
+		for (int i = 0; i < lot.getLignesColisage().size(); i++)
+		{
+			conteneur.add(construireRowLigneColisage(lot.getLignesColisage().get(i), i, bg));
+		}
+
+		// Bouton ajouter une ligne
+		JButton btnAjouter = new JButton("+ format de carton supplémentaire");
+		btnAjouter.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		btnAjouter.setForeground(IhmUtils.BLEU);
+		btnAjouter.setBackground(bg);
+		btnAjouter.setBorderPainted(true);
+		btnAjouter.setFocusPainted(false);
+		btnAjouter.setAlignmentX(Component.LEFT_ALIGNMENT);
+		btnAjouter.addActionListener(e -> ouvrirDialogueAjoutLigne(bg));
+		JPanel wrapBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
+		wrapBtn.setBackground(bg);
+		wrapBtn.add(btnAjouter);
+		conteneur.add(wrapBtn);
+
+		return conteneur;
 	}
 
+	private JPanel construireRowLigneColisage(LigneColisage lc, int index, Color bg)
+	{
+		JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 2));
+		row.setBackground(bg);
+
+		JLabel lbl = new JLabel(String.format(
+			"  ↳ %s  ×%d  →  %d colis  /  %d palettes",
+			lc.getFormatCarton(), lc.getCollisage(), lc.getNbColis(), lc.getNbPalettes()));
+		lbl.setFont(new Font("Monospaced", Font.PLAIN, 11));
+		lbl.setForeground(new Color(60, 60, 120));
+
+		JButton btnSuppr = new JButton("✕");
+		btnSuppr.setFont(new Font("SansSerif", Font.BOLD, 10));
+		btnSuppr.setForeground(IhmUtils.ROUGE);
+		btnSuppr.setBackground(bg);
+		btnSuppr.setBorderPainted(false);
+		btnSuppr.setFocusPainted(false);
+		btnSuppr.setToolTipText("Supprimer cette ligne");
+		btnSuppr.addActionListener(e -> {
+			lot.supprimerLigneColisage(index);
+			m.rafraichir();
+		});
+
+		row.add(lbl);
+		row.add(btnSuppr);
+		return row;
+	}
+	
 	private JPanel construireCommentaire(Color bg)
 	{
 		JPanel lCom = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 1));
@@ -304,6 +370,41 @@ public class CarteLot extends JPanel implements ActionListener
 		return lCom;
 	}
 
+	private void ouvrirDialogueAjoutLigne(Color bg)
+	{
+		JComboBox<String> comboFmt = new JComboBox<>(Lot.F_CARTON);
+		JTextField tfCol = new JTextField("1", 5);
+
+		JPanel dlg = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
+		dlg.add(new JLabel("Format :"));
+		dlg.add(comboFmt);
+		dlg.add(new JLabel("Collisage :"));
+		dlg.add(tfCol);
+
+		int res = JOptionPane.showConfirmDialog(
+			this, dlg,
+			"Ajouter un format de carton supplémentaire",
+			JOptionPane.OK_CANCEL_OPTION,
+			JOptionPane.PLAIN_MESSAGE);
+
+		if (res != JOptionPane.OK_OPTION) return;
+
+		try
+		{
+			int col = Integer.parseInt(tfCol.getText().trim());
+			if (col <= 0) throw new NumberFormatException();
+			lot.ajouterLigneColisage(
+				new LigneColisage((String) comboFmt.getSelectedItem(), col));
+			m.rafraichir();
+		}
+		catch (NumberFormatException ex)
+		{
+			JOptionPane.showMessageDialog(this,
+				"Collisage invalide (entier > 0 attendu).",
+				"Erreur", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	// ══════════════════════════════════════════════════════════════════
 	// Phases
 	// ══════════════════════════════════════════════════════════════════
@@ -328,17 +429,9 @@ public class CarteLot extends JPanel implements ActionListener
 				case "FINI":     fi = v; break;
 			}
 			ctrl.modifierPhase(lot, pt, sp, se, tr, fi);
-
-			// Mise à jour couleur du label de la checkbox
 			cb.setForeground(cb.isSelected() ? new Color(20, 120, 20) : new Color(100, 100, 100));
-
-			// Mise à jour barre de progression
 			barrePhasesWidget.mettreAJour(nbPhasesCoches());
-
-			// Mise à jour badges d'état (TERMINÉ apparaît/disparaît)
 			mettreAJourBadgesEtat();
-
-			// Recoloriage fond carte
 			recolorierCarte();
 			this.m.rafraichir();
 		});
@@ -355,33 +448,27 @@ public class CarteLot extends JPanel implements ActionListener
 	}
 
 	// ══════════════════════════════════════════════════════════════════
-	// Recoloriage carte
+	// Recoloriage
 	// ══════════════════════════════════════════════════════════════════
 
 	private void recolorierCarte()
 	{
 		Color nouvBg = bgPourLot(lot);
+		bgCourant = nouvBg;
 		appliquerFond(this, nouvBg);
 		revalidate();
 		repaint();
 	}
 
-	/**
-	 * Applique le fond bg à tous les composants sauf ceux marqués PRESERVE_BG
-	 * (badges colorés, barre de progression).
-	 */
 	private void appliquerFond(Container c, Color bg)
 	{
-		// Ne pas écraser les composants marqués comme "preserve_bg"
 		if (c instanceof JComponent && Boolean.TRUE.equals(((JComponent) c).getClientProperty(PRESERVE_BG)))
 			return;
-
 		c.setBackground(bg);
 		for (Component child : c.getComponents())
 			if (child instanceof Container) appliquerFond((Container) child, bg);
 	}
 
-	/** Reconstruit le panel des badges d'état après un changement de phase */
 	private void mettreAJourBadgesEtat()
 	{
 		Color bg = bgPourLot(lot);
@@ -450,7 +537,9 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 			}
 			this.m.rafraichir();
-		} catch (NumberFormatException ex) {
+		}
+		catch (NumberFormatException ex)
+		{
 			((JTextField) e.getSource()).setBackground(new Color(255, 220, 220));
 		}
 	}
@@ -459,9 +548,6 @@ public class CarteLot extends JPanel implements ActionListener
 	// Helpers visuels statiques
 	// ══════════════════════════════════════════════════════════════════
 
-	/**
-	 * Badge coloré. Marqué PRESERVE_BG pour ne pas être recolorié par appliquerFond.
-	 */
 	static JLabel badge(String txt, Color col)
 	{
 		JLabel l = new JLabel(txt);
@@ -470,7 +556,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l.setBackground(col);
 		l.setForeground(Color.WHITE);
 		l.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-		l.putClientProperty(PRESERVE_BG, Boolean.TRUE);  // ← protégé du recoloriage
+		l.putClientProperty(PRESERVE_BG, Boolean.TRUE);
 		return l;
 	}
 
@@ -512,18 +598,12 @@ public class CarteLot extends JPanel implements ActionListener
 		return p;
 	}
 
-	// ══════════════════════════════════════════════════════════════════
-	// Barre de progression dynamique (inner class)
-	// ══════════════════════════════════════════════════════════════════
+	// ── Barre de progression ───────────────────────────────────────────
 
-	/**
-	 * Barre de progression qui se redessine dynamiquement.
-	 * On stocke la valeur courante dans un tableau pour la modifier depuis l'extérieur.
-	 */
 	private static class BarreProgression extends JPanel
 	{
-		private final int   max;
-		private       int   valeur;
+		private final int max;
+		private       int valeur;
 
 		BarreProgression(int max)
 		{
@@ -549,7 +629,8 @@ public class CarteLot extends JPanel implements ActionListener
 			g2.setColor(new Color(215, 220, 228));
 			g2.fillRoundRect(0, 0, W, H, H, H);
 			int fill = max > 0 ? (int)(W * valeur / (double) max) : 0;
-			if (fill > 0) {
+			if (fill > 0)
+			{
 				Color c = valeur == max ? IhmUtils.VERT : IhmUtils.AMBER;
 				g2.setColor(c);
 				g2.fillRoundRect(0, 0, fill, H, H, H);
@@ -557,9 +638,7 @@ public class CarteLot extends JPanel implements ActionListener
 		}
 	}
 
-	// ══════════════════════════════════════════════════════════════════
-	// Utilitaires
-	// ══════════════════════════════════════════════════════════════════
+	// ── Utilitaires ───────────────────────────────────────────────────
 
 	static Color bgPourLot(Lot lot)
 	{

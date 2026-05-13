@@ -2,6 +2,7 @@ package app.metier.collecte;
 
 import app.metier.PlanningGlobal;
 import app.metier.ficheroute.Phase;
+import app.metier.lot.LigneColisage;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
@@ -61,6 +62,18 @@ public class DonneesSauvegarder
 				pw.println("    \"heuresAce\": "                + l.getHeuresAce()                                    + ",");
 				pw.println("    \"collisage\": "                + l.getCollisage()                                    + ",");
 				pw.println("    \"estMachine\": "               + l.estMachine()                                      + ",");
+
+				// ── Lignes de colisage multiples ──────────────────────────
+				ArrayList<LigneColisage> lc = l.getLignesColisage();
+				StringBuilder lignesJson = new StringBuilder("[");
+				for (int k = 0; k < lc.size(); k++)
+				{
+					lignesJson.append(lc.get(k).toJson());
+					if (k < lc.size() - 1) lignesJson.append(",");
+				}
+				lignesJson.append("]");
+				pw.println("    \"lignesColisage\": "           + lignesJson                                          + ",");
+
 				// Phase
 				pw.println("    \"phase_preTri\": "             + (p != null && p.isPreTri())                         + ",");
 				pw.println("    \"phase_surPiste\": "           + (p != null && p.isSurPiste())                       + ",");
@@ -182,7 +195,6 @@ public class DonneesSauvegarder
 				{
 					Ace ace = new Ace(getString(a, "nom"), getInt(a, "nbPers"),
 					            getInt(a, "totalHeures"), getInt(a, "effectifActuel"));
-					// clé unifiée "estMachine" (sans espace)
 					ace.setEstMachine(getBool(a, "estMachine"));
 					aces.add(ace);
 				}
@@ -261,6 +273,18 @@ public class DonneesSauvegarder
 		lot.setHeuresAce    (getDouble(obj, "heuresAce"));
 		lot.setCollisage    (getInt   (obj, "collisage"));
 		lot.setEstMachine   (getBool  (obj, "estMachine"));
+
+		// ── Lignes de colisage multiples ──────────────────────────────────
+		String blocLignes = extraireBloc(obj, "\"lignesColisage\"");
+		if (blocLignes != null)
+		{
+			for (String ligneObj : extraireObjets(blocLignes))
+			{
+				LigneColisage lc = LigneColisage.fromJson(ligneObj);
+				lc.recalculer(lot.getNbPieces());
+				lot.getLignesColisage().add(lc);
+			}
+		}
 
 		// Phase
 		Phase phase = new Phase();

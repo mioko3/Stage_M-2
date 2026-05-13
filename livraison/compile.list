@@ -1,5 +1,6 @@
 app/metier/lot/Lot.java
 app/metier/lot/Methode.java
+app/metier/lot/LigneColisage.java
 
 app/metier/ficheroute/Phase.java
 app/metier/ficheroute/SuivieProd.java
