@@ -26,7 +26,7 @@
 2. **Double-cliquez sur le fichier `run.bat`** (sous Windows).
 3. L'application s'ouvre automatiquement. Aucune installation n'est nécessaire.
 
-> ⚠️ Si une fenêtre noire (invite de commandes) s'ouvre brièvement, c'est normal. Elle se ferme seule.
+> ⚠️ Si une fenêtre noire (invite de commandes) s'ouvre pas y toucher
 
 ---
 
@@ -96,15 +96,15 @@ Cet onglet est le cœur de l'application. Il est divisé en trois colonnes :
 
 Cet onglet affiche un tableau récapitulatif de toutes les sociétés avec leurs informations.
 
-| Colonne | Signification |
-|---|---|
-| Société | Nom de la société |
-| CE | Nom du responsable CE |
-| H initiales | Nombre d'heures attribuées au départ |
+|   Colonne   |                           Signification                                 |
+|-------------|-------------------------------------------------------------------------|
+|   Société   | Nom de la société                                                       |
+|     CE      | Nom du responsable CE                                                   |
+| H initiales | Nombre d'heures attribuées au départ                                    |
 | H restantes | Heures encore disponibles (coloré en vert/orange/rouge selon le niveau) |
-| % consommé | Pourcentage des heures déjà utilisées |
-| Lots | Nombre de lots affectés à cette société |
-| ACE | Nombre d'équipes (ACE) dans cette société |
+| % consommé  | Pourcentage des heures déjà utilisées                                   |
+|     Lots    | Nombre de lots affectés à cette société                                 |
+|     ACE     | Nombre d'équipes (ACE) dans cette société                               |
 
 ### Modifier une société
 
