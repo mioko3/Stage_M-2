@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class Lot
 {
-	public static final String[] F_CARTON = new String[]{"1/16","1/8","1/4","1/2","box"};
+	public static final String[] F_CARTON = new String[]{"","1/16","1/8","1/4","1/2","box"};
 
 	private static ArrayList<String> tabId;
 	// ── Identité ──────────────────────────────────────────────────────────
@@ -77,6 +77,7 @@ public class Lot
 		this.datePaiement = "";
 		this.commentaire  = "";
 		this.emplacement  = "";
+		this.formatCarton = "";
 		this.dateDebut    = "";
 		this.dateFin      = "";
 		this.pcsUtiliser  = this.nbPieces;
@@ -118,8 +119,12 @@ public class Lot
 
 	public void recalculNbPalette()
 	{
-		if (collisage <= 0 || formatCarton == null) return;
-
+		if (collisage <= 0 || formatCarton == "") 
+		{
+			this.nbColisPrevue = 0;
+			this.nbPalettes    = 0;
+			return;
+		}
 		int nbcarton = (int) Math.ceil(this.pcsUtiliser / (double) this.collisage);
 		this.nbColisPrevue = nbcarton;
 		switch (formatCarton)

@@ -6,7 +6,6 @@ import app.metier.lot.LigneColisage;
 import app.metier.lot.Lot;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import javax.swing.*;
 
 /**
@@ -19,7 +18,7 @@ public class CarteLot extends JPanel implements ActionListener
 	static final Color BG_FINI      = new Color(220, 250, 220);
 	static final Color BG_DOUANE    = new Color(238, 224, 255);
 	static final Color BG_URGENCE   = new Color(255, 232, 232);
-	static final Color BG_COMMENCER = new Color(220, 220, 250);
+	static final Color BG_COMMENCER = new Color(250, 250, 220);
 	static final Color BG_NORMAL    = Color.WHITE;
 
 	private static final String PRESERVE_BG = "preserve_bg";
@@ -36,7 +35,7 @@ public class CarteLot extends JPanel implements ActionListener
 	private JTextField textPcsPart;
 	private JTextField textDistri;
 	private JTextField textLotCharge;
-	private JTextField textFormCart;
+	private JComboBox<String> textFormCart;
 	private JTextField textCollisage;
 	private JTextField textColisRecup;
 	private JTextField textMethode;
@@ -271,7 +270,8 @@ public class CarteLot extends JPanel implements ActionListener
 
 		this.textDistri     = new JTextField(s(lot.getLotACharge()), 10);
 		this.textLotCharge  = new JTextField(s(lot.getDistribution()), 10);
-		this.textFormCart   = new JTextField(s(lot.getFormatCarton()), 10);
+		this.textFormCart   = new JComboBox(lot.F_CARTON);
+		this.textFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
 		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
 		this.textColisRecup = new JTextField(String.valueOf(lot.getNbColisRecup()), 6);
 		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
@@ -518,8 +518,7 @@ public class CarteLot extends JPanel implements ActionListener
 					lot.setDistribution(textLotCharge.getText().trim());
 					break;
 				case "FORM_CART":
-					if (Arrays.asList(Lot.F_CARTON).contains(textFormCart.getText().trim()))
-						lot.setFormatCarton(textFormCart.getText().trim());
+					lot.setFormatCarton((String)textFormCart.getSelectedItem());
 					break;
 				case "COLLISAGES":
 				{
@@ -595,6 +594,19 @@ public class CarteLot extends JPanel implements ActionListener
 		l.setFont(new Font("SansSerif", Font.BOLD, 11));
 		l.setForeground(new Color(90, 90, 90));
 		t.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		t.setActionCommand(action);
+		t.addActionListener(listener);
+		p.add(l);
+		p.add(t);
+		return p;
+	}
+	static JPanel champEditable(String label, JComboBox t, Color bg, String action, ActionListener listener)
+	{
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+		p.setBackground(bg);
+		JLabel l = new JLabel(label + " :");
+		l.setFont(new Font("SansSerif", Font.BOLD, 11));
+		l.setForeground(new Color(90, 90, 90));
 		t.setActionCommand(action);
 		t.addActionListener(listener);
 		p.add(l);

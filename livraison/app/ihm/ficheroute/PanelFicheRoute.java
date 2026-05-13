@@ -27,14 +27,15 @@ public class PanelFicheRoute extends JPanel
 
 	// ── Sous-onglet "Par Société" ──────────────────────────────────────
 	private JComboBox<String> combSociete;
-	private JLabel  lblVVS_s, lblPieces_s, lblPU_s, lblHeures_s, lblNbLots_s;
+	private JLabel  lblVVS_s, lblPieces_s, lblPU_s, lblHeures_s, lblHeures_s2, lblNbLots_s;
 	private JPanel  panelRecapAce_s;
 	private JPanel  panelCartes_s;
 	private Societe societeCourante;
 
 	// ── Sous-onglet "Par ACE" ──────────────────────────────────────────
 	private JComboBox<String> combAce;
-	private JLabel  lblVVS_a, lblPieces_a, lblPU_a, lblHeures_a, lblNbLots_a;
+	private JLabel  lblVVS_a, lblPieces_a, lblHeures_a, lblHeures_a2;
+	private JLabel  lblVVS_a2, lblPieces_a2;
 	private JPanel  panelCartes_a;
 	private Ace     aceCourante;
 	private String  nomAceMemorise = null;
@@ -107,12 +108,13 @@ public class PanelFicheRoute extends JPanel
 		tuiles.setBackground(IhmUtils.FOND);
 		tuiles.setPreferredSize(new Dimension(0, 64));
 		lblNbLots_s = creerTuile("Lots affectés",  "—", IhmUtils.BLEU);
-		lblVVS_s    = creerTuile("VVS Total",       "—", IhmUtils.VERT);
+		lblVVS_s    = creerTuile("VVS. Total",       "—", IhmUtils.VERT);
 		lblPieces_s = creerTuile("Nb Pièces",       "—", new Color(0, 80, 140));
-		lblPU_s     = creerTuile("PU Moyen",        "—", IhmUtils.AMBER);
-		lblHeures_s = creerTuile("H CE restantes",  "—", IhmUtils.ROUGE);
+		lblPU_s     = creerTuile("PU. Moyen",        "—", IhmUtils.AMBER);
+		lblHeures_s = creerTuile("Av. étiq",  "—", IhmUtils.ROUGE);
+		lblHeures_s2 = creerTuile("Av. valeur",  "—", IhmUtils.ROUGE);
 		tuiles.add(lblNbLots_s); tuiles.add(lblVVS_s); tuiles.add(lblPieces_s);
-		tuiles.add(lblPU_s); tuiles.add(lblHeures_s);
+		tuiles.add(lblPU_s); tuiles.add(lblHeures_s); tuiles.add(lblHeures_s2);
 
 		// Récap ACE
 		panelRecapAce_s = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -174,14 +176,18 @@ public class PanelFicheRoute extends JPanel
 		JPanel tuiles = new JPanel(new GridLayout(1, 5, 6, 0));
 		tuiles.setBackground(IhmUtils.FOND);
 		tuiles.setPreferredSize(new Dimension(0, 64));
-		lblNbLots_a = creerTuile("Lots",        "—", IhmUtils.BLEU);
-		lblVVS_a    = creerTuile("VVS",          "—", IhmUtils.VERT);
-		lblPieces_a = creerTuile("Pièces",       "—", new Color(0, 80, 140));
-		lblPU_a     = creerTuile("PU Moyen",     "—", IhmUtils.AMBER);
-		lblHeures_a = creerTuile("H restantes Piste",  "—", IhmUtils.ROUGE);
-		tuiles.add(lblNbLots_a); tuiles.add(lblVVS_a); tuiles.add(lblPieces_a);
-		tuiles.add(lblPU_a);
+		lblVVS_a2 = creerTuile("VVS. global",        "—", IhmUtils.BLEU);
+		lblPieces_a2 = creerTuile("Pcs. global",       "—", new Color(0, 80, 140));
+		lblVVS_a    = creerTuile("VVS. étiq",          "—", IhmUtils.VERT);
+		lblPieces_a = creerTuile("Pcs. étiq",       "—", new Color(0, 80, 140));
+		lblHeures_a = creerTuile("Av. étiq",  "—", IhmUtils.ROUGE);
+		lblHeures_a2 = creerTuile("Av. valuer",  "—", IhmUtils.ROUGE);
+		tuiles.add(lblVVS_a2);
+		tuiles.add(lblVVS_a);
+		tuiles.add(lblPieces_a2);
+		tuiles.add(lblPieces_a);
 		tuiles.add(lblHeures_a);
+		tuiles.add(lblHeures_a2);
 
 		JPanel nord = new JPanel();
 		nord.setLayout(new BoxLayout(nord, BoxLayout.Y_AXIS));
@@ -195,7 +201,7 @@ public class PanelFicheRoute extends JPanel
 
 	// ── En-têtes de section ─────────────────────────────────────────────
 
-	private JPanel creerEnteteAce(Ace ace, int idx, List<Lot> lots)
+	private JPanel creerEnteteAce(Ace ace, List<Lot> lots)
 	{
 		JPanel p = new JPanel(new BorderLayout(8, 0));
 		p.setBackground(ace.getColor());
@@ -262,25 +268,28 @@ public class PanelFicheRoute extends JPanel
 	private void chargerFicheRouteSociete()
 	{
 		if (societeCourante == null) return;
-		FicheRoute fdr = ctrl.genererFicheRoute(societeCourante);
 
-		int vvs = 0, pcs = 0, cntPU = 0, pcsT=0; double sumPU = 0, etiq=0;
+		int vvs = 0, vvsE=0, pcs = 0, cntPU = 0, pcsT=0; double sumPU = 0, etiq=0;
 		for (Lot lot : societeCourante.getLots())
 		{
-			vvs += lot.getValeurVente(); pcs += lot.getNbPieces();
+			vvsE += lot.getSuivieProd().getNbPieceEtiq() * lot.getPrixUnitaire();
+			vvs += lot.getValeurVente();
+			pcs += lot.getNbPieces();
 			pcsT += lot.getNbPieces();
 			if (lot.getNbPieces() > 0) { sumPU += lot.getPrixUnitaire(); cntPU++; }
 			if (lot.getNbPieces() > 0 && lot.getSuivieProd() != null) etiq += lot.getSuivieProd().getNbPieceEtiq();
 		}
 		double puMoy = cntPU > 0 ? sumPU / cntPU : 0;
-		double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
+		double avE   = pcsT > 0 ? 100.0 * etiq / pcsT : 0;
+		double avV    = vvs > 0 ? 100.0 * vvsE / vvs : 0;
 		majTuile(lblNbLots_s, "Lots affectés",  String.valueOf(societeCourante.getLots().size()), IhmUtils.BLEU);
 		majTuile(lblVVS_s,    "VVS. Total",       vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
 		majTuile(lblPieces_s, "Nb Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
 		majTuile(lblPU_s,     "PU. Moyen",        puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_s, "Av. Global", av > 0 ? String.format("%.1f %%", av) : "—", IhmUtils.ROUGE);
+		majTuile(lblHeures_s, "Av. étiq", avE > 0 ? String.format("%.1f %%", avE) : "—", IhmUtils.ROUGE);
+		majTuile(lblHeures_s2, "Av. valeur", avV > 0 ? String.format("%.1f %%", avV) : "—", IhmUtils.ROUGE);
 
-		reconstruireRecapAce_s(fdr);
+		reconstruireRecapAce_s();
 
 		panelCartes_s.removeAll();
 		List<Ace> aces = societeCourante.getAces();
@@ -297,7 +306,7 @@ public class PanelFicheRoute extends JPanel
 			{
 				Ace ace = aces.get(i);
 				List<Lot> lotsAce = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
-				panelCartes_s.add(creerEnteteAce(ace, i, lotsAce));
+				panelCartes_s.add(creerEnteteAce(ace, lotsAce));
 				for (Lot lot : lotsAce)
 					panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
 			}
@@ -349,21 +358,24 @@ public class PanelFicheRoute extends JPanel
 	{
 		if (aceCourante == null) return;
 		List<Lot> lots = aceCourante.getLots();
-		int vvs = 0, pcs = 0, cntPU = 0,pcsT=0; double sumPU = 0, etiq=0;
-		for (Lot lot : lots)
+		int vvsE = 0, vvsT=0, pcsE = 0,pcsT=0; double etiq=0;
+		for (Lot l : lots)
 		{
-			vvs += lot.getValeurVente(); pcs += lot.getNbPieces();
-			pcsT += lot.getNbPieces();
-			if (lot.getNbPieces() > 0) { sumPU += lot.getPrixUnitaire(); cntPU++; }
-			if (lot.getNbPieces() > 0 && lot.getSuivieProd() != null) etiq += lot.getSuivieProd().getNbPieceEtiq();
+			vvsE += l.getSuivieProd().getNbPieceEtiq() * l.getPrixUnitaire();
+			vvsT += l.getValeurVente();
+			pcsE += l.getSuivieProd().getNbPieceEtiq();
+			pcsT += l.getNbPieces();
+			if (l.getNbPieces() > 0 && l.getSuivieProd() != null) etiq += l.getSuivieProd().getNbPieceEtiq();
 		}
-		double puMoy = cntPU > 0 ? sumPU / cntPU : 0;
-		double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
-		majTuile(lblNbLots_a, "Lots",        String.valueOf(lots.size()), IhmUtils.BLEU);
-		majTuile(lblVVS_a,    "VVS",          vvs > 0 ? String.format("%,d €", vvs) : "—", IhmUtils.VERT);
-		majTuile(lblPieces_a, "Pièces",       String.format("%,d", pcs), new Color(0, 80, 140));
-		majTuile(lblPU_a,     "PU. Moyen",     puMoy > 0 ? String.format("%.2f €", puMoy) : "—", IhmUtils.AMBER);
-		majTuile(lblHeures_a, "Av. global", av > 0 ? String.format("%.1f %%", av) : "—", IhmUtils.ROUGE);
+		double avE    = pcsT > 0 ? 100.0 * etiq / pcsT : 0;
+		double avV    = vvsT > 0 ? 100.0 * vvsE / vvsT : 0;
+
+		majTuile(lblVVS_a2, "VVS. global", vvsT > 0 ? String.format("%,d €", vvsT) : "-", IhmUtils.BLEU);
+		majTuile(lblPieces_a2, "Pcs. global", String.format("%,d", pcsT), new Color(0, 80, 140));
+		majTuile(lblVVS_a,    "VVS. étiq", vvsE > 0 ? String.format("%,d €", vvsE) : "—", IhmUtils.VERT);
+		majTuile(lblPieces_a, "Pcs. étiq", String.format("%,d", pcsE), new Color(0, 80, 140));
+		majTuile(lblHeures_a, "Av. etiq" , avE > 0 ? String.format("%.1f %%", avE) : "—", IhmUtils.ROUGE);
+		majTuile(lblHeures_a2, "Av. valeur", avV > 0 ? String.format("%.1f %%", avV) : "—", IhmUtils.ROUGE);
 
 		panelCartes_a.removeAll();
 		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", aceCourante.getColor()));
@@ -376,7 +388,7 @@ public class PanelFicheRoute extends JPanel
 	// RÉCAP ACE (haut société)
 	// ══════════════════════════════════════════════════════════════════
 
-	private void reconstruireRecapAce_s(FicheRoute fdr)
+	private void reconstruireRecapAce_s()
 	{
 		panelRecapAce_s.removeAll();
 		if (societeCourante == null || societeCourante.getAces() == null || societeCourante.getAces().isEmpty())
@@ -390,16 +402,17 @@ public class PanelFicheRoute extends JPanel
 		{
 			Ace ace = aces.get(i);
 			List<Lot> lots = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
-			int vvs = 0, pcs = 0, pcsT = 0, etiq = 0;
+			int vvsE = 0, pcsE = 0, pcsT = 0, etiq = 0;
 			for (Lot l : lots)
 			{
-				vvs += l.getSuivieProd().getNbPieceEtiq() * l.getPrixUnitaire();
-				pcs += l.getSuivieProd().getNbPieceEtiq();
+				vvsE += l.getSuivieProd().getNbPieceEtiq() * l.getPrixUnitaire();
+				pcsE += l.getSuivieProd().getNbPieceEtiq();
 				pcsT += l.getNbPieces();
 				if (l.getNbPieces() > 0 && l.getSuivieProd() != null) etiq += l.getSuivieProd().getNbPieceEtiq();
 			}
-			double puMoy  = pcs != 0 ? vvs/pcs : 0;
-			double av     = pcs > 0 ? 100.0 * etiq / pcsT : 0;
+			double puMoy  = pcsE != 0 ? vvsE / pcsE : 0;
+			double avE    = pcsT > 0 ? 100.0 * etiq / pcsT : 0;
+			double avV    = pcsT > 0 ? 100.0 * vvsE / pcsT : 0;
 			Color col     = ace.getColor();
 			JPanel grp = new JPanel(new BorderLayout(0, 2));
 			grp.setBackground(IhmUtils.FOND);
@@ -412,10 +425,11 @@ public class PanelFicheRoute extends JPanel
 			titLbl.setForeground(Color.WHITE); titLbl.setOpaque(true); titLbl.setBackground(col);
 			titLbl.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
 			JPanel t3 = new JPanel(new GridLayout(1, 4, 4, 0)); t3.setBackground(IhmUtils.FOND);
-			t3.add(creerTuileMini("VVS étiq",     vvs > 0 ? String.format("%,d €", vvs) : "—", col));
-			t3.add(creerTuileMini("Pièces étiq",  String.format("%,d", pcs), col));
-			t3.add(creerTuileMini("PU Moy étiq.", puMoy > 0 ? String.format("%.2f €", puMoy) : "—", col));
-			t3.add(creerTuileMini("Av.",     av > 0 ? String.format("%.1f %%", av) : "—", col));
+			t3.add(creerTuileMini("VVS. étiq"   , vvsE > 0 ? String.format("%,d €", vvsE) : "—", col));
+			t3.add(creerTuileMini("Pièces étiq" , String.format("%,d", pcsE), col));
+			t3.add(creerTuileMini("PU.Moy étiq.", puMoy > 0 ? String.format("%.2f €", puMoy) : "—", col));
+			t3.add(creerTuileMini("Av. étiq"    , avE > 0 ? String.format("%.1f %%", avE) : "—", col));
+			t3.add(creerTuileMini("Av. valeur"  , avV > 0 ? String.format("%.1f %%", avV) : "—", col));
 			grp.add(titLbl, BorderLayout.NORTH); grp.add(t3, BorderLayout.CENTER);
 			panelRecapAce_s.add(grp);
 		}
@@ -495,7 +509,7 @@ public class PanelFicheRoute extends JPanel
 		JLabel l = new JLabel("<html><span style='font-size:8px;color:#888;'>" + titre + "</span><br><b style='font-size:12px;color:" + hex + ";'>" + val + "</b></html>");
 		l.setOpaque(true); l.setBackground(Color.WHITE);
 		l.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(IhmUtils.BORD), BorderFactory.createEmptyBorder(2, 6, 2, 6)));
-		l.setPreferredSize(new Dimension(100, 46)); return l;
+		l.setPreferredSize(new Dimension(88, 44)); return l;
 	}
 
 	private String buildTuileHtml(String titre, String val, Color c)
@@ -506,15 +520,23 @@ public class PanelFicheRoute extends JPanel
 
 	private void majTuile(JLabel t, String titre, String val, Color c) { t.setText(buildTuileHtml(titre, val, c)); }
 
-	private void viderRecap_s() {
-		majTuile(lblNbLots_s,"Lots affectés","—",IhmUtils.BLEU); majTuile(lblVVS_s,"VVS Total","—",IhmUtils.VERT);
-		majTuile(lblPieces_s,"Nb Pièces","—",new Color(0,80,140)); majTuile(lblPU_s,"PU Moyen","—",IhmUtils.AMBER);
-		majTuile(lblHeures_s,"H CE restantes","—",IhmUtils.ROUGE);
+	private void viderRecap_s()
+	{
+		majTuile(lblNbLots_s,"Lots affectés","—",IhmUtils.BLEU);
+		majTuile(lblVVS_s,"VVS. Total","—",IhmUtils.VERT);
+		majTuile(lblPieces_s,"Nb Pièces","—",new Color(0,80,140));
+		majTuile(lblPU_s,"PU. Moyen","—",IhmUtils.AMBER);
+		majTuile(lblHeures_s,"Av. étiq","—",IhmUtils.ROUGE);
+		majTuile(lblHeures_s2,"Av. valeur","—",IhmUtils.ROUGE);
 	}
-	private void viderRecap_a() {
-		majTuile(lblNbLots_a,"Lots","—",IhmUtils.BLEU); majTuile(lblVVS_a,"VVS","—",IhmUtils.VERT);
-		majTuile(lblPieces_a,"Pièces","—",new Color(0,80,140)); majTuile(lblPU_a,"PU Moyen","—",IhmUtils.AMBER);
-		majTuile(lblHeures_a,"H restantes","—",IhmUtils.ROUGE);
+	private void viderRecap_a()
+	{
+		majTuile(lblVVS_a2,"VVS. global","—",IhmUtils.VERT);
+		majTuile(lblPieces_a2,"Pcs. global","—",new Color(0,80,140));
+		majTuile(lblVVS_a,"VVS. étaiq","—",IhmUtils.VERT);
+		majTuile(lblPieces_a,"Pcs. étiq","—",new Color(0,80,140));
+		majTuile(lblHeures_a,"Av. étiq","—",IhmUtils.ROUGE);
+		majTuile(lblHeures_a2,"Av. valeur","-",IhmUtils.ROUGE);
 	}
 
 	private String s(String v) { return v != null ? v : ""; }
