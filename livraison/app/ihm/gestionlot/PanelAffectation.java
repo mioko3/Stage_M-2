@@ -244,9 +244,6 @@ public class PanelAffectation extends JPanel
 		Lot lot = getLotSelectionne();
 		if (lot == null) { infoLot.setText(""); return; }
 
-		Societe soc = ctrl.getSocieteDuLot(lot);
-		Ace     ace = ctrl.getAceDuLot(lot);
-
 		StringBuilder sb = new StringBuilder();
 		sb.append("N° CDE  : ").append(lot.getNumCDE()).append("\n");
 		sb.append("Typo    : ").append(safe(lot.getTypologie())).append("\n");
@@ -388,7 +385,6 @@ public class PanelAffectation extends JPanel
 				&& !safe2(l.getAffaire()).toLowerCase().contains(filtre)) continue;
 
 			Societe soc = ctrl.getSocieteDuLot(l);
-			String socLabel = soc != null ? "✔ " + soc.getNom() : "";
 			modelDisponibles.addRow(new Object[]{
 				l.getNumCDE(),
 				safe2(l.getTypologie()).length() > 28
