@@ -402,17 +402,18 @@ public class PanelFicheRoute extends JPanel
 		{
 			Ace ace = aces.get(i);
 			List<Lot> lots = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
-			int vvsE = 0, pcsE = 0, pcsT = 0, etiq = 0;
+			int vvsE = 0, vvsV=0, pcsE = 0, pcsT = 0, etiq = 0;
 			for (Lot l : lots)
 			{
 				vvsE += l.getSuivieProd().getNbPieceEtiq() * l.getPrixUnitaire();
+				vvsV += l.getValeurVente();
 				pcsE += l.getSuivieProd().getNbPieceEtiq();
 				pcsT += l.getNbPieces();
 				if (l.getNbPieces() > 0 && l.getSuivieProd() != null) etiq += l.getSuivieProd().getNbPieceEtiq();
 			}
 			double puMoy  = pcsE != 0 ? vvsE / pcsE : 0;
 			double avE    = pcsT > 0 ? 100.0 * etiq / pcsT : 0;
-			double avV    = pcsT > 0 ? 100.0 * vvsE / pcsT : 0;
+			double avV    = pcsT > 0 ? 100.0 * vvsE / vvsV : 0;
 			Color col     = ace.getColor();
 			JPanel grp = new JPanel(new BorderLayout(0, 2));
 			grp.setBackground(IhmUtils.FOND);
