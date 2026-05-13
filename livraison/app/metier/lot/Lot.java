@@ -46,7 +46,7 @@ public class Lot
 	private SuivieProd suivieProd;
 	private Phase      phase;
 	private Methode     methode;
-	private int    nbPalettes, nbColisPrevue, nbColisRecup, collisage;
+	private int    nbPalettes, nbColisPrevue, nbColisRecup, collisage,pcsUtiliser;
 	private String  distribution, poucentrecupCartonFour;
 	private String formatCarton, dateDebut, dateFin;
 	private boolean estMachine;
@@ -79,6 +79,7 @@ public class Lot
 		this.emplacement  = "";
 		this.dateDebut    = "";
 		this.dateFin      = "";
+		this.pcsUtiliser  = this.nbPieces;
 		this.suivieProd   = new SuivieProd();
 		this.suivieProd.setLot(this);
 		this.phase        = new Phase();
@@ -119,7 +120,7 @@ public class Lot
 	{
 		if (collisage <= 0 || formatCarton == null) return;
 
-		int nbcarton = (int) Math.ceil(this.nbPieces / (double) this.collisage);
+		int nbcarton = (int) Math.ceil(this.pcsUtiliser / (double) this.collisage);
 		this.nbColisPrevue = nbcarton;
 		switch (formatCarton)
 		{
@@ -136,16 +137,22 @@ public class Lot
 
 	public ArrayList<LigneColisage> getLignesColisage() { return lignesColisage; }
 
-	public void ajouterLigneColisage(LigneColisage ligne)
+	public void ajouterLigneColisage(LigneColisage ligne, int pcs)
 	{
-		ligne.recalculer(this.nbPieces);
+		this.pcsUtiliser = this.pcsUtiliser - pcs;
+		ligne.recalculer(pcs);
 		lignesColisage.add(ligne);
+		recalculNbPalette();
 	}
 
 	public void supprimerLigneColisage(int index)
 	{
 		if (index >= 0 && index < lignesColisage.size())
+		{
+			this.pcsUtiliser += lignesColisage.get(index).getPcs();
 			lignesColisage.remove(index);
+			recalculNbPalette();
+		}
 	}
 
 	public void recalculerLignesColisage()

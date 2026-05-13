@@ -338,7 +338,7 @@ public class CarteLot extends JPanel implements ActionListener
 		row.add(btnSuppr);
 		return row;
 	}
-	
+
 	private JPanel construireCommentaire(Color bg)
 	{
 		JPanel lCom = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 1));
@@ -374,8 +374,11 @@ public class CarteLot extends JPanel implements ActionListener
 	{
 		JComboBox<String> comboFmt = new JComboBox<>(Lot.F_CARTON);
 		JTextField tfCol = new JTextField("1", 5);
+		JTextField tfpiece = new JTextField("1", 5);
 
 		JPanel dlg = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
+		dlg.add(new JLabel("nb pieces :"));
+		dlg.add(tfpiece);
 		dlg.add(new JLabel("Format :"));
 		dlg.add(comboFmt);
 		dlg.add(new JLabel("Collisage :"));
@@ -392,9 +395,10 @@ public class CarteLot extends JPanel implements ActionListener
 		try
 		{
 			int col = Integer.parseInt(tfCol.getText().trim());
+			int pcs = Integer.parseInt(tfpiece.getText().trim());
 			if (col <= 0) throw new NumberFormatException();
-			lot.ajouterLigneColisage(
-				new LigneColisage((String) comboFmt.getSelectedItem(), col));
+			if (pcs <= 0 || pcs >= lot.getNbPieces()) throw new NumberFormatException();
+			lot.ajouterLigneColisage(new LigneColisage((String) comboFmt.getSelectedItem(), col),pcs);
 			m.rafraichir();
 		}
 		catch (NumberFormatException ex)

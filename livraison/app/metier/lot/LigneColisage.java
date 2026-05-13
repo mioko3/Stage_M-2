@@ -2,6 +2,7 @@ package app.metier.lot;
 
 public class LigneColisage
 {
+	private int    pcs;
 	private String formatCarton;
 	private int    collisage;
 	private int    nbColis;
@@ -28,8 +29,10 @@ public class LigneColisage
 			default:     parPalette =  1;
 		}
 		this.nbPalettes = (int) Math.ceil((double) nbColis / parPalette);
+		this.pcs = nbPieces;
 	}
 
+	public int    getPcs()          { return this.pcs;     }
 	public String getFormatCarton() { return formatCarton; }
 	public int    getCollisage()    { return collisage;    }
 	public int    getNbColis()      { return nbColis;      }

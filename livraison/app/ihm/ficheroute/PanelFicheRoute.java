@@ -5,12 +5,13 @@ import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
 import app.metier.ficheroute.FicheRoute;
 import app.metier.lot.Lot;
+import app.metier.lot.Methode;
 import app.metier.personelle.Ace;
 import app.metier.personelle.Societe;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.swing.*;
 
@@ -427,15 +428,28 @@ public class PanelFicheRoute extends JPanel
 
 	private void ouvrirMeth_s()
 	{
-		if (societeCourante == null) return;
-		List<Lot> avecMeth = societeCourante.getLots().stream()
-			.filter(l -> l.getMethode() != null).collect(Collectors.toList());
-		if (avecMeth.isEmpty()) { JOptionPane.showMessageDialog(this, "Aucun lot avec méthode.", "Info", JOptionPane.INFORMATION_MESSAGE); return; }
-		String[] opts = avecMeth.stream().map(l -> "N°" + l.getNumCDE() + " — " + s(l.getAffaire()) + "  [" + l.getMethode().getNom() + "]").toArray(String[]::new);
-		String choix = (String) JOptionPane.showInputDialog(this, "Choisir le lot :", "Voir Méthode",
-			JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
-		if (choix == null) return;
-		avecMeth.get(Arrays.asList(opts).indexOf(choix)).getMethode().ouvrir();
+		if (societeCourante == null) { return;}
+
+		// Récupère uniquement les méthodes uniques
+		List<Methode> methodes = societeCourante.getLots().stream()
+				.map(Lot::getMethode).filter(Objects::nonNull)
+				.distinct().collect(Collectors.toList());
+
+		if (methodes.isEmpty())
+		{
+			JOptionPane.showMessageDialog(this,	"Aucune méthode.",
+					"Info",JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		String[] opts = methodes.stream().map(Methode::getNom).toArray(String[]::new);
+
+		String choix = (String) JOptionPane.showInputDialog(this,"Choisir la méthode :",
+				"Voir Méthode",JOptionPane.PLAIN_MESSAGE,null,opts,opts[0]);
+
+		if (choix == null) { return;}
+
+		methodes.stream().filter(m -> m.getNom().equals(choix)).findFirst().ifPresent(Methode::ouvrir);
 	}
 
 	private void exporterTexte()
