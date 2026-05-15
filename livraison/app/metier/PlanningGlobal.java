@@ -94,6 +94,12 @@ public class PlanningGlobal
 		ExcelReader.ajouterHeuresDepuisExcel(cheminXlsx, this.societes, semaine);
 	}
 
+	public void nouveau()
+	{
+		this.lots = new ArrayList<Lot>();
+		this.ficheRoute = new ArrayList<>();
+	}
+
 	// ── Méthodes IHM (inchangées, pas de Swing) ───────────────────────────
 
 	public void modifierLot(Lot lot, String typologie, String affaire,

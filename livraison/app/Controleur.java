@@ -382,7 +382,8 @@ public class Controleur
 	{
 		this.cheminLotsJson     = LOTS_JSON;
 		this.cheminSocietesJson = SOCIETES_JSON;
-		this.metier = new PlanningGlobal();
+		this.metier.nouveau();
+		this.chargerDepuisExcelInteractif();
 		autoSauvegarderLots();
 		autoSauvegarderSocietes();
 	}
