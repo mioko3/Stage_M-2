@@ -42,7 +42,6 @@ public class CarteLot extends JPanel implements ActionListener
 
 	// Panel logistique (reconstruit quand on ajoute/supprime une ligne)
 	private JPanel panelLogistique;
-	private Color  bgCourant;
 
 	// ── Barre de progression ───────────────────────────────────────────
 	private BarreProgression barrePhasesWidget;
@@ -59,7 +58,6 @@ public class CarteLot extends JPanel implements ActionListener
 		estcommencer = !lot.getDateDebut().equals("");
 
 		Color bg     = bgPourLot(lot);
-		this.bgCourant = bg;
 		Color accent = couleurAce != null ? couleurAce : IhmUtils.BLEU;
 
 		setLayout(new BorderLayout());
@@ -81,7 +79,7 @@ public class CarteLot extends JPanel implements ActionListener
 
 		panelLogistique = construireLigne5Logistique(bg);
 
-		corps.add(construireLigne1(bg, accent));
+		corps.add(construireLigne1(bg));
 		corps.add(Box.createVerticalStrut(5));
 		corps.add(separateur());
 		corps.add(construireLigne2(bg));
@@ -104,7 +102,7 @@ public class CarteLot extends JPanel implements ActionListener
 	// Lignes de contenu
 	// ══════════════════════════════════════════════════════════════════
 
-	private JPanel construireLigne1(Color bg, Color accent)
+	private JPanel construireLigne1(Color bg)
 	{
 		ligne1 = new JPanel(new BorderLayout(6, 0));
 		ligne1.setBackground(bg);
@@ -302,7 +300,7 @@ public class CarteLot extends JPanel implements ActionListener
 		btnAjouter.setBorderPainted(true);
 		btnAjouter.setFocusPainted(false);
 		btnAjouter.setAlignmentX(Component.LEFT_ALIGNMENT);
-		btnAjouter.addActionListener(e -> ouvrirDialogueAjoutLigne(bg));
+		btnAjouter.addActionListener(e -> ouvrirDialogueAjoutLigne());
 		JPanel wrapBtn = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
 		wrapBtn.setBackground(bg);
 		wrapBtn.add(btnAjouter);
@@ -370,7 +368,7 @@ public class CarteLot extends JPanel implements ActionListener
 		return lCom;
 	}
 
-	private void ouvrirDialogueAjoutLigne(Color bg)
+	private void ouvrirDialogueAjoutLigne()
 	{
 		JComboBox<String> comboFmt = new JComboBox<>(Lot.F_CARTON);
 		JTextField tfCol = new JTextField("1", 5);
@@ -425,7 +423,8 @@ public class CarteLot extends JPanel implements ActionListener
 			boolean pt = lot.getPhase().isPreTri(),    sp = lot.getPhase().isSurPiste(),
 			        se = lot.getPhase().isSortieEtiq(), tr = lot.getPhase().isTri(),
 			        fi = lot.getPhase().isFinit();
-			switch (code) {
+			switch (code)
+			{
 				case "PRETRI":   pt = v; break;
 				case "SURPISTE": sp = v; break;
 				case "SORETIQ":  se = v; break;
@@ -458,7 +457,6 @@ public class CarteLot extends JPanel implements ActionListener
 	private void recolorierCarte()
 	{
 		Color nouvBg = bgPourLot(lot);
-		bgCourant = nouvBg;
 		appliquerFond(this, nouvBg);
 		revalidate();
 		repaint();

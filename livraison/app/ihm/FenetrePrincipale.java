@@ -38,7 +38,7 @@ public class FenetrePrincipale extends JFrame
 	public FenetrePrincipale(Controleur ctrl)
 	{
 		this.ctrl = ctrl;
-		setTitle("Planning Global Futura — PAM S07/2026");
+		setTitle("Planning Global Futura — PAM ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);

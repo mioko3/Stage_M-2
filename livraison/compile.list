@@ -14,6 +14,8 @@ app/metier/collecte/DonneesSauvegarder.java
 
 app/metier/PlanningGlobal.java
 
+app/ihm/login/FenetreLogin.java
+
 app/ihm/dialogue/DialogAjoutLot.java
 app/ihm/dialogue/DialogEditLot.java
 app/ihm/dialogue/DialogEditSociete.java

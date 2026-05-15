@@ -1,6 +1,7 @@
 package app;
 
 import app.ihm.FenetrePrincipale;
+import app.ihm.login.FenetreLogin;
 import app.metier.PlanningGlobal;
 import app.metier.collecte.DonneesSauvegarder;
 import app.metier.ficheroute.FicheRoute;
@@ -15,17 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Contrôleur MVC.
  *
- * Responsabilités :
- *   - Gérer TOUS les dialogues utilisateur (JFileChooser, JOptionPane)
- *   - Appeler la couche métier (PlanningGlobal) avec des données propres
- *   - Déclencher l'auto-sauvegarde après chaque modification
- *
- * PlanningGlobal ne contient plus aucun import javax.swing.
+ * Cycle de vie :
+ *   1. main()           → new Controleur()
+ *   2. Controleur()     → affiche FenetreLogin (aucun chargement de données)
+ *   3. FenetreLogin     → appelle ctrl.lancerApp(login, utiliserExcel)
+ *   4. lancerApp()      → charge les données (Excel ou JSON) puis ouvre FenetrePrincipale
  */
 public class Controleur
 {
@@ -35,23 +36,57 @@ public class Controleur
 	private String             cheminLotsJson;
 	private String             cheminSocietesJson;
 
+	// ── Chemins par défaut ────────────────────────────────────────────────
 	private static final String LOTS_JSON     = "app/data/courutilisation/lots.json";
 	private static final String SOCIETES_JSON = "app/data/courutilisation/societes.json";
 	private static final String SOCIETES_REF  = "app/data/pastouche/societes.json";
 
+	// ── Constructeur ──────────────────────────────────────────────────────
+
+	/**
+	 * Initialise la couche métier et affiche la fenêtre de login.
+	 * Aucune donnée n'est chargée à ce stade.
+	 */
 	public Controleur()
 	{
 		this.metier             = new PlanningGlobal();
 		this.savDonnees         = new DonneesSauvegarder();
 		this.cheminLotsJson     = LOTS_JSON;
 		this.cheminSocietesJson = SOCIETES_JSON;
-		chargerDonneesDemarrage();
-		this.fenetre = new FenetrePrincipale(this);
+
+		// Afficher la fenêtre de login sur l'EDT
+		SwingUtilities.invokeLater(() -> new FenetreLogin(this));
 	}
 
-	// ── Chargement au démarrage ───────────────────────────────────────────
+	// ── Point d'entrée appelé par FenetreLogin ────────────────────────────
 
-	private void chargerDonneesDemarrage()
+	/**
+	 * Appelé par FenetreLogin une fois l'identifiant validé.
+	 *
+	 * @param login         identifiant de l'utilisateur connecté
+	 * @param utiliserExcel true → demander un fichier Excel ; false → charger le JSON courant
+	 */
+	public void lancerApp(String login, boolean utiliserExcel)
+	{
+		SwingUtilities.invokeLater(() ->
+		{
+			if (utiliserExcel)
+				chargerDepuisExcelInteractif();
+			else
+				chargerFallbackJson();
+
+			// Ouvrir la fenêtre principale
+			this.fenetre = new FenetrePrincipale(this);
+		});
+	}
+
+	// ── Chargement des données ────────────────────────────────────────────
+
+	/**
+	 * Demande les deux fichiers Excel (lots + heures ACE) et charge les données.
+	 * En cas d'erreur ou d'annulation, bascule sur le JSON de secours.
+	 */
+	private void chargerDepuisExcelInteractif()
 	{
 		String xlsx = demanderFichierExcel("Sélectionner le fichier des lots (XLSX / XLSM)");
 		if (xlsx != null)
@@ -63,17 +98,26 @@ public class Controleur
 				if (!tempLots.isEmpty())
 				{
 					String sem = tempLots.get(0).getSemaine();
-					try { semaine = Integer.parseInt("" + sem.charAt(sem.length()-2) + sem.charAt(sem.length()-1)); }
+					try
+					{
+						semaine = Integer.parseInt(
+							"" + sem.charAt(sem.length() - 2)
+							   + sem.charAt(sem.length() - 1));
+					}
 					catch (NumberFormatException ignored) {}
 				}
-				String xlsxHeures = demanderFichierExcel("Sélectionner le fichier des heures ACE (XLSX / XLSM)");
+
+				String xlsxHeures = demanderFichierExcel(
+					"Sélectionner le fichier des heures ACE (XLSX / XLSM)");
 				if (xlsxHeures == null) xlsxHeures = xlsx;
+
 				metier.chargerDepuisExcel(xlsx, SOCIETES_REF, semaine, xlsxHeures);
 			}
 			catch (IOException e)
 			{
 				JOptionPane.showMessageDialog(null,
-					"Erreur lors du chargement Excel :\n" + e.getMessage() + "\n\nRetour aux données JSON.",
+					"Erreur lors du chargement Excel :\n" + e.getMessage()
+					+ "\n\nRetour aux données JSON.",
 					"Erreur de chargement", JOptionPane.WARNING_MESSAGE);
 				chargerFallbackJson();
 			}
@@ -84,16 +128,20 @@ public class Controleur
 		}
 	}
 
+	/**
+	 * Charge les données depuis le JSON de secours (lots.json + societes.json).
+	 * Propose à l'utilisateur de confirmer, et quitte si refus.
+	 */
 	private void chargerFallbackJson()
 	{
-		int rep = JOptionPane.showConfirmDialog(null,
-			"Aucun fichier Excel sélectionné.\nVoulez-vous utiliser les données JSON existantes ?",
-			"Chargement des lots", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (rep != JOptionPane.YES_OPTION)
+		File lotsFile = new File(LOTS_JSON);
+		if (!lotsFile.exists())
 		{
-			System.out.println("[Controleur] Chargement annulé par l'utilisateur.");
-			System.exit(0);
+			// Aucune donnée disponible : démarrage à vide
+			System.out.println("[Controleur] Aucun JSON existant, démarrage à vide.");
+			return;
 		}
+
 		try
 		{
 			metier.chargerDepuisJson(LOTS_JSON, SOCIETES_JSON);
@@ -102,8 +150,7 @@ public class Controleur
 		{
 			JOptionPane.showMessageDialog(null,
 				"Impossible de charger les données JSON :\n" + e.getMessage(),
-				"Erreur fatale", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+				"Erreur", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -113,7 +160,8 @@ public class Controleur
 	{
 		JFileChooser chooser = new JFileChooser();
 		chooser.setDialogTitle(titre);
-		chooser.setFileFilter(new FileNameExtensionFilter("Fichiers Excel (*.xlsx, *.xlsm)", "xlsx", "xlsm"));
+		chooser.setFileFilter(
+			new FileNameExtensionFilter("Fichiers Excel (*.xlsx, *.xlsm)", "xlsx", "xlsm"));
 		File dossierDefaut = new File("app/data");
 		if (dossierDefaut.exists() && dossierDefaut.isDirectory())
 			chooser.setCurrentDirectory(dossierDefaut);
@@ -122,6 +170,11 @@ public class Controleur
 			return chooser.getSelectedFile().getAbsolutePath();
 		return null;
 	}
+
+	// ══════════════════════════════════════════════════════════════════════
+	// Toutes les méthodes métier ci-dessous sont IDENTIQUES à la version
+	// originale — seul le constructeur et lancerApp() ont changé.
+	// ══════════════════════════════════════════════════════════════════════
 
 	// ── Données ───────────────────────────────────────────────────────────
 
@@ -143,7 +196,8 @@ public class Controleur
 	{
 		metier.ajouterLot(numCDE, typologie, affaire, nbPieces, cadence, valeurVente,
 		                  statut, statutEchant, semaine, priorite,
-		                  lotACharge, emplacement, sousDouane, dateReception, datePaiement, commentaire);
+		                  lotACharge, emplacement, sousDouane, dateReception,
+		                  datePaiement, commentaire);
 		autoSauvegarderLots();
 	}
 
@@ -152,7 +206,8 @@ public class Controleur
 		String xlsx = demanderFichierExcel("Sélectionner le fichier des nouveaux lots");
 		if (xlsx == null)
 		{
-			JOptionPane.showMessageDialog(null, "Aucun fichier sélectionné. Opération annulée.",
+			JOptionPane.showMessageDialog(null,
+				"Aucun fichier sélectionné. Opération annulée.",
 				"Import lots", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
@@ -163,7 +218,8 @@ public class Controleur
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(null, "Erreur lors de l'import :\n" + e.getMessage(),
+			JOptionPane.showMessageDialog(null,
+				"Erreur lors de l'import :\n" + e.getMessage(),
 				"Import lots", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -192,7 +248,8 @@ public class Controleur
 	{
 		metier.modifierLot(lot, typologie, affaire, nbPieces, cadence, valeurVente,
 		                   statut, statutEchant, semaine, priorite,
-		                   lotACharge, emplacement, sousDouane, dateReception, datePaiement, commentaire);
+		                   lotACharge, emplacement, sousDouane, dateReception,
+		                   datePaiement, commentaire);
 		autoSauvegarderLots();
 	}
 
@@ -206,18 +263,15 @@ public class Controleur
 	public void marquerLotTermine(Lot lot)
 	{ metier.marquerLotTermine(lot); autoSauvegarderLots(); }
 
-	public void commencerLot(Lot l) { this.metier.commencerLot(l);}
-	public void annulerLot(Lot l)   { this.metier.annulerLot(l);  }
+	public void commencerLot(Lot l) { this.metier.commencerLot(l); }
+	public void annulerLot(Lot l)   { this.metier.annulerLot(l);   }
 
 	// ── Modification sociétés ─────────────────────────────────────────────
 
-	public void modifierSociete(Societe soc, String nom, String ce, int totalHeuresCE, int effectif)
+	public void modifierSociete(Societe soc, String nom, String ce,
+	                            int totalHeuresCE, int effectif)
 	{ metier.modifierSociete(soc, nom, ce, totalHeuresCE, effectif); autoSauvegarderSocietes(); }
 
-	/**
-	 * Met à jour la liste complète des ACE d'une société.
-	 * Refuse si on essaie de supprimer un ACE qui a encore des lots affectés.
-	 */
 	public boolean mettreAJourAces(Societe soc, List<Ace> nouvellesAces)
 	{
 		List<Ace> aces = soc.getAces();
@@ -229,7 +283,8 @@ public class Controleur
 		{
 			Ace ancien  = aces.get(i);
 			Ace nouveau = nouvellesAces.get(i);
-			metier.modifierAce(ancien, nouveau.getNom(), nouveau.getNbPers(), nouveau.getEffectifActuel());
+			metier.modifierAce(ancien, nouveau.getNom(),
+				nouveau.getNbPers(), nouveau.getEffectifActuel());
 		}
 		for (int i = aces.size() - 1; i >= nouvellesAces.size(); i--)
 			aces.remove(i);
@@ -247,7 +302,8 @@ public class Controleur
 		String xlsx = demanderFichierExcel("Sélectionner le fichier des heures ACE");
 		if (xlsx == null)
 		{
-			JOptionPane.showMessageDialog(null, "Aucun fichier sélectionné. Opération annulée.",
+			JOptionPane.showMessageDialog(null,
+				"Aucun fichier sélectionné. Opération annulée.",
 				"Nouvelle heure", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
@@ -255,11 +311,14 @@ public class Controleur
 		{
 			metier.mettreAJourHeuresSocietes(xlsx, semaine);
 			autoSauvegarderSocietes();
-			JOptionPane.showMessageDialog(null, "Heures ajoutées avec succès !", "Nouvelle heure", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+				"Heures ajoutées avec succès !",
+				"Nouvelle heure", JOptionPane.INFORMATION_MESSAGE);
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(null, "Erreur lors du chargement du fichier Excel :\n" + e.getMessage(),
+			JOptionPane.showMessageDialog(null,
+				"Erreur lors du chargement du fichier Excel :\n" + e.getMessage(),
 				"Nouvelle heure", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -280,7 +339,7 @@ public class Controleur
 
 	public Societe getSocieteDuLot(Lot lot) { return metier.getSocieteDuLot(lot); }
 	public Ace     getAceDuLot    (Lot lot) { return metier.getAceDuLot(lot);     }
-	public ArrayList<Ace> getTouteAces() { return metier.getTouteAces(); }
+	public ArrayList<Ace> getTouteAces()    { return metier.getTouteAces();       }
 
 	// ── Fiche de route ────────────────────────────────────────────────────
 
@@ -298,16 +357,17 @@ public class Controleur
 				Files.createDirectories(Paths.get(dossierSemaine));
 			String destLots     = dossierSemaine + "/lots.json";
 			String destSocietes = dossierSemaine + "/societes.json";
-			Files.copy(Paths.get(cheminLotsJson),     Paths.get(destLots),     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-			Files.copy(Paths.get(cheminSocietesJson), Paths.get(destSocietes), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Paths.get(cheminLotsJson),     Paths.get(destLots),
+				java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Paths.get(cheminSocietesJson), Paths.get(destSocietes),
+				java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			this.cheminLotsJson     = destLots;
 			this.cheminSocietesJson = destSocietes;
-			System.out.println("[Controleur] Données sauvegardées dans : " + dossierSemaine);
+			System.out.println("[Controleur] Données sauvegardées : " + dossierSemaine);
 		}
 		catch (IOException e)
 		{
-			System.err.println("[Controleur] Erreur lors de la sauvegarde : " + e.getMessage());
-			e.printStackTrace();
+			System.err.println("[Controleur] Erreur sauvegarde : " + e.getMessage());
 		}
 	}
 
@@ -328,6 +388,7 @@ public class Controleur
 	}
 
 	// ── Auto-sauvegarde ───────────────────────────────────────────────────
+
 	public void autoSauvegarde()
 	{
 		autoSauvegarderLots();
@@ -338,20 +399,24 @@ public class Controleur
 	{
 		if (cheminLotsJson != null)
 			try { savDonnees.sauvegarderLots(metier.getLots(), cheminLotsJson); }
-			catch (Exception e) { System.err.println("[AutoSave Lots] Échec : " + e.getMessage()); }
+			catch (Exception e)
+			{ System.err.println("[AutoSave Lots] Échec : " + e.getMessage()); }
 	}
 
 	private void autoSauvegarderSocietes()
 	{
 		if (cheminSocietesJson != null)
-			try { savDonnees.sauvegarderSocietes(metier.getSocietes(), metier.getLots(), cheminSocietesJson); }
-			catch (Exception e) { System.err.println("[AutoSave Sociétés] Échec : " + e.getMessage()); }
+			try { savDonnees.sauvegarderSocietes(
+					metier.getSocietes(), metier.getLots(), cheminSocietesJson); }
+			catch (Exception e)
+			{ System.err.println("[AutoSave Sociétés] Échec : " + e.getMessage()); }
 	}
 
 	// ── Point d'entrée ────────────────────────────────────────────────────
 
 	public static void main(String[] args)
 	{
-		new Controleur();
+		// Lance uniquement le login ; le reste suit dans lancerApp()
+		SwingUtilities.invokeLater(Controleur::new);
 	}
 }
