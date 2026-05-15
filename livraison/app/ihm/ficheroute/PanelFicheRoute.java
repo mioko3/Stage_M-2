@@ -70,6 +70,7 @@ public class PanelFicheRoute extends JPanel
 		p.add(creerHautSociete(), BorderLayout.NORTH);
 
 		panelCartes_s = new JPanel();
+		
 		panelCartes_s.setLayout(new BoxLayout(panelCartes_s, BoxLayout.Y_AXIS));
 		panelCartes_s.setBackground(new Color(240, 242, 245));
 
@@ -119,6 +120,13 @@ public class PanelFicheRoute extends JPanel
 		// Récap ACE
 		panelRecapAce_s = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		panelRecapAce_s.setBackground(IhmUtils.FOND);
+		JScrollPane scroll = new JScrollPane(panelRecapAce_s);
+		scroll.getHorizontalScrollBar().setUnitIncrement(20);
+		scroll.setVerticalScrollBarPolicy(
+			JScrollPane.VERTICAL_SCROLLBAR_NEVER
+		);
+		scroll.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+		scroll.getHorizontalScrollBar().setVisible(false);
 
 		JPanel nord = new JPanel();
 		nord.setLayout(new BoxLayout(nord, BoxLayout.Y_AXIS));
@@ -131,7 +139,7 @@ public class PanelFicheRoute extends JPanel
 		nord.add(titreTotaux);
 		nord.add(tuiles);
 		nord.add(Box.createVerticalStrut(6));
-		nord.add(panelRecapAce_s);
+		nord.add(scroll);
 		p.add(nord, BorderLayout.NORTH);
 		return p;
 	}
@@ -309,6 +317,7 @@ public class PanelFicheRoute extends JPanel
 				Ace ace = aces.get(i);
 				List<Lot> lotsAce = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
 				panelCartes_s.add(creerEnteteAce(ace, lotsAce));
+	
 				for (Lot lot : lotsAce)
 					panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
 			}
@@ -441,7 +450,8 @@ public class PanelFicheRoute extends JPanel
 			grp.add(titLbl, BorderLayout.NORTH); grp.add(t3, BorderLayout.CENTER);
 			panelRecapAce_s.add(grp);
 		}
-		panelRecapAce_s.revalidate(); panelRecapAce_s.repaint();
+		panelRecapAce_s.revalidate();
+		panelRecapAce_s.repaint();
 	}
 
 	// ══════════════════════════════════════════════════════════════════
