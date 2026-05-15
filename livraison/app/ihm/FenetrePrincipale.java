@@ -49,11 +49,11 @@ public class FenetrePrincipale extends JFrame
 		setJMenuBar(creerMenuBar());
 		add(creerEntete(), BorderLayout.NORTH);
 
-		panelAffectation = new PanelAffectation(ctrl, this);
-		panelSocietes    = new PanelSocietes   (ctrl, this);
-		panelLots        = new PanelLots       (ctrl, this);
-		panelFicheRoute  = new PanelFicheRoute (ctrl, this);
-		panelMap         = new PanelMap        (ctrl, this);
+		this.panelAffectation = new PanelAffectation(ctrl, this);
+		this.panelSocietes    = new PanelSocietes   (ctrl, this);
+		this.panelLots        = new PanelLots       (ctrl, this);
+		this.panelFicheRoute  = new PanelFicheRoute (ctrl, this);
+		this.panelMap         = new PanelMap        (ctrl, this);
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);
@@ -118,8 +118,8 @@ public class FenetrePrincipale extends JFrame
 		try
 		{
 			ctrl.chargerDonnees(dossier);
-			panelAffectation.remplirComboSocietes();
-			panelFicheRoute.remplirComboSocietes();
+			this.panelAffectation.remplirComboSocietes();
+			this.panelFicheRoute.remplirComboSocietes();
 			rafraichirTout();
 			JOptionPane.showMessageDialog(this,
 				"Sauvegarde chargée : " + fc.getSelectedFile().getName(),
@@ -183,9 +183,9 @@ public class FenetrePrincipale extends JFrame
 		if (res == JOptionPane.YES_OPTION)
 		{
 			ctrl.nouveaux();
-			panelAffectation.remplirComboSocietes();
-			panelFicheRoute.remplirComboSocietes();
-			rafraichirTout();
+			this.panelAffectation.remplirComboSocietes();
+			this.panelFicheRoute.remplirComboSocietes();
+			this.rafraichirTout();
 		}
 	}
 
@@ -251,11 +251,11 @@ public class FenetrePrincipale extends JFrame
 	public void rafraichirTout()
 	{
 		SwingUtilities.invokeLater(() -> {
-			panelAffectation.rafraichir();
-			panelSocietes   .rafraichir();
-			panelLots       .rafraichir();
-			panelFicheRoute .rafraichir();
-			panelMap        .rafraichir();
+			this.panelAffectation.rafraichir();
+			this.panelSocietes   .rafraichir();
+			this.panelLots       .rafraichir();
+			this.panelFicheRoute .rafraichir();
+			this.panelMap        .rafraichir();
 			if (lblInfo != null) lblInfo.setText(buildInfo());
 		});
 		this.ctrl.autoSauvegarde();
