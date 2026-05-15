@@ -267,8 +267,8 @@ public class CarteLot extends JPanel implements ActionListener
 		l5.setBackground(bg);
 
 		this.textDistri     = new JComboBox(lot.DISTRI);
-		this.textDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getFormatCarton());
-		this.textLotCharge  = new JTextField(s(lot.getDistribution()), 10);
+		this.textDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getDistribution());
+		this.textLotCharge  = new JTextField(s(lot.getLotACharge()), 10);
 		this.textFormCart   = new JComboBox(lot.F_CARTON);
 		this.textFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
 		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
@@ -510,10 +510,10 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 				}
 				case "DISTRI":
-					lot.setLotACharge((String)textDistri.getSelectedItem());
+					lot.setDistribution((String)textDistri.getSelectedItem());
 					break;
 				case "LOT_CHARGE":
-					lot.setDistribution(textLotCharge.getText().trim());
+					lot.setLotACharge(textLotCharge.getText().trim());
 					break;
 				case "FORM_CART":
 					lot.setFormatCarton((String)textFormCart.getSelectedItem());
