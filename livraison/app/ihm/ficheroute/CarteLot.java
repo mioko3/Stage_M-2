@@ -598,7 +598,7 @@ public class CarteLot extends JPanel implements ActionListener
 		p.add(t);
 		return p;
 	}
-	static JPanel champEditable(String label, JComboBox t, Color bg, String action, ActionListener listener)
+	static JPanel champEditable(String label, JComboBox<String> t, Color bg, String action, ActionListener listener)
 	{
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
 		p.setBackground(bg);
