@@ -7,16 +7,18 @@
 ## Sommaire
 
 1. [Lancer l'application](#1-lancer-lapplication)
-2. [Comprendre l'écran principal](#2-comprendre-lécran-principal)
-3. [Importer des lots depuis Excel](#3-importer-des-lots-depuis-excel)
-4. [Onglet Affectation — attribuer un lot à une société](#4-onglet-affectation--attribuer-un-lot-à-une-société)
-5. [Onglet Sociétés & heures — gérer les sociétés](#5-onglet-sociétés--heures--gérer-les-sociétés)
-6. [Onglet Liste des lots — consulter et modifier les lots](#6-onglet-liste-des-lots--consulter-et-modifier-les-lots)
-7. [Onglet Fiches de Route — voir le détail par société](#7-onglet-fiches-de-route--voir-le-détail-par-société)
-8. [Sauvegarder et charger les données](#8-sauvegarder-et-charger-les-données)
-9. [Remettre à zéro (nouvelle semaine)](#9-remettre-à-zéro-nouvelle-semaine)
-10. [Questions fréquentes](#10-questions-fréquentes)
-11. [Idées](#11-idées)
+2. [Connexion](#2-connexion)
+3. [Comprendre l'écran principal](#3-comprendre-lécran-principal)
+4. [Importer des lots depuis Excel](#4-importer-des-lots-depuis-excel)
+5. [Onglet Affectation — attribuer un lot à une société](#5-onglet-affectation--attribuer-un-lot-à-une-société)
+6. [Onglet Fiches de Route — suivi de production](#6-onglet-fiches-de-route--suivi-de-production)
+7. [Onglet Liste des lots — consulter et modifier les lots](#7-onglet-liste-des-lots--consulter-et-modifier-les-lots)
+8. [Onglet Sociétés & heures — gérer les sociétés](#8-onglet-sociétés--heures--gérer-les-sociétés)
+9. [Onglet Carte entrepôt — visualiser les emplacements](#9-onglet-carte-entrepôt--visualiser-les-emplacements)
+10. [Sauvegarder et charger les données](#10-sauvegarder-et-charger-les-données)
+11. [Remettre à zéro (nouvelle semaine)](#11-remettre-à-zéro-nouvelle-semaine)
+12. [Questions fréquentes](#12-questions-fréquentes)
+13. [Idées d'améliorations futures](#13-idées-daméliorations-futures)
 
 ---
 
@@ -24,274 +26,298 @@
 
 1. Ouvrez le dossier du projet.
 2. **Double-cliquez sur le fichier `run.bat`** (sous Windows).
-3. L'application s'ouvre automatiquement. Aucune installation n'est nécessaire.
+3. L'application compile et s'ouvre automatiquement. Aucune installation n'est nécessaire.
 
-> ⚠️ Si une fenêtre noire (invite de commandes) s'ouvre pas y toucher
+> ⚠️ Si une fenêtre noire (invite de commandes) s'ouvre, ne pas la fermer — elle est nécessaire au fonctionnement de l'application.
+
+> ⚠️ Java doit être installé sur votre ordinateur. Si rien ne se passe, vérifiez en tapant `java -version` dans l'invite de commandes.
 
 ---
 
-## 2. Comprendre l'écran principal
+## 2. Connexion
+
+Au lancement, une **fenêtre de connexion** apparaît avant l'application.
+
+1. Saisissez l'identifiant : **`PAM`**
+2. Choisissez la source des données :
+   - **Utiliser les fichiers courants (JSON)** : charge les données de la dernière session (recommandé en temps normal)
+   - **Charger depuis un export Excel** : importe les lots depuis un nouveau fichier Excel — deux fichiers vous seront demandés (lots + heures ACE)
+3. Cliquez sur **SE CONNECTER**.
+
+> 💡 Si vous choisissez Excel et annulez la sélection de fichier, l'application bascule automatiquement sur les données JSON.
+
+---
+
+## 3. Comprendre l'écran principal
 
 L'écran se divise en deux zones :
 
-- **En haut** : une barre d'information qui affiche en temps réel le nombre de lots, de sociétés, le nombre de lots affectés et les heures disponibles au total.
-- **Au centre** : quatre onglets permettent d'accéder aux différentes fonctions.
+- **En haut** : une barre d'information affiche en temps réel le nombre de lots, les heures restantes sur les lots non affectés, le nombre de sociétés, les lots affectés et les heures disponibles au total.
+- **Au centre** : cinq onglets permettent d'accéder aux différentes fonctions.
 
 | Onglet | À quoi ça sert |
 |---|---|
-| ⊕ Affectation | Attribuer des lots à des sociétés |
-| ▤ Sociétés & heures | Voir et modifier les sociétés et leurs heures disponibles |
+| ⊕ Affectation | Attribuer des lots à des sociétés et des ACE |
+| 📋 Fiches de Route | Suivi de production détaillé par société ou par ACE |
 | ☰ Liste des lots | Consulter, filtrer, modifier ou supprimer des lots |
-| 📋 Fiches de Route | Voir la fiche détaillée de chaque société |
+| ▤ Sociétés & heures | Voir et modifier les sociétés et leurs heures disponibles |
+| 🗺 Carte entrepôt | Visualiser les emplacements des lots dans l'entrepôt |
 
 En haut à gauche, le menu **Fichier** permet de sauvegarder, charger ou réinitialiser les données.
 
----
-
-## 3. Importer des lots depuis Excel
-
-L'application lit automatiquement un fichier Excel fourni (le fichier planning hebdomadaire). Voici comment l'utiliser :
-
-1. Dans le menu **Fichier**, l'application charge les données du fichier `export.xlsx` situé dans le dossier `app/data/` qu'il faut rentré au tout début.
-2. Si vous avez un nouveau fichier Excel à charger, **remplacez le fichier `export.xlsx`** dans ce même dossier par votre nouveau fichier, en conservant le même nom.
-3. Relancez l'application : les lots seront automatiquement importés.
-
-> 💡 **Les heures ne se calculent pas encore automatiquement.** Des valeurs par défaut ont été pré-remplies. Si les heures d'un lot sont incorrectes, vous pouvez les modifier manuellement (voir section 6).
+Le bouton **⟳** dans l'en-tête force un rafraîchissement complet de tous les panneaux.
 
 ---
 
-## 4. Onglet Affectation — attribuer un lot à une société
+## 4. Importer des lots depuis Excel
+
+### Au démarrage (recommandé pour une nouvelle semaine)
+
+Choisissez **"Charger depuis un export Excel"** dans la fenêtre de connexion. L'application vous demandera successivement :
+1. Le fichier des **lots** (fichier planning XLSX/XLSM)
+2. Le fichier des **heures ACE** (peut être le même fichier)
+
+### En cours de session — importer de nouveaux lots
+
+Dans l'onglet **Affectation**, cliquez sur le bouton **importer nouveau lots** en bas du panneau central. Cela ajoute les nouveaux lots sans effacer les lots déjà présents.
+
+> ⚠️ Les lots importés depuis Excel n'ont pas d'emplacement ni de société affectés par défaut.
+
+---
+
+## 5. Onglet Affectation — attribuer un lot à une société
 
 Cet onglet est le cœur de l'application. Il est divisé en trois colonnes :
 
-- **Gauche** : liste de tous les lots disponibles (non encore affectés)
+- **Gauche** : liste des lots disponibles (non affectés, non bloqués, hors douane)
 - **Centre** : détail du lot sélectionné + formulaire d'affectation
 - **Droite** : liste des lots déjà affectés
 
-### Comment affecter un lot à une société
+### Comment affecter un lot
 
 1. Cliquez sur un lot dans la **colonne de gauche** pour le sélectionner.
-2. Ses informations apparaissent dans la **colonne centrale**.
-3. Dans la colonne centrale, choisissez une **société** dans la liste déroulante.
-4. Choisissez ensuite un **ACE** (équipe/groupe) dans la deuxième liste déroulante.
-5. Cliquez sur le bouton **▶ Affecter →**.
-6. Le lot disparaît de la colonne gauche et apparaît dans la colonne droite.
+2. Ses informations s'affichent dans la **colonne centrale**.
+3. Choisissez une **société** dans la première liste déroulante (les heures disponibles sont affichées).
+4. Choisissez un **ACE** (responsable d'équipe) dans la deuxième liste déroulante.
+5. Cliquez sur **▶ Affecter →**.
+
+> ⚠️ Si la société n'a pas assez d'heures disponibles, l'affectation est bloquée et un message d'erreur s'affiche.
 
 ### Comment retirer une affectation
 
-1. Cliquez sur un lot dans la **colonne de droite** (lots affectés).
-2. Cliquez sur le bouton **◀ Retirer**.
-3. Le lot revient dans la colonne de gauche.
+1. Cliquez sur un lot dans la **colonne de droite**.
+2. Cliquez sur **◀ Retirer**.
+3. Le lot revient dans la colonne de gauche et les heures sont restituées à la société.
 
-### Autres boutons disponibles
+### Créer un lot manuellement
 
-- **✏ Modifier ce lot** : ouvre une fenêtre pour changer les informations du lot sélectionné.
-- **+ Nouveau lot** : permet de créer manuellement un nouveau lot.
+Cliquez sur **+ Nouveau lot** pour ouvrir un formulaire. Les champs obligatoires sont marqués d'un `*`. Les heures sont calculées automatiquement à partir du nombre de pièces et de la cadence.
 
-> 🔍 Vous pouvez utiliser la **barre de recherche** au-dessus de chaque tableau pour filtrer les lots par numéro de commande, type ou affaire.
+### Modifier un lot
 
----
+Sélectionnez un lot et cliquez sur **✏ Modifier ce lot**. Vous pouvez modifier tous les champs, y compris l'emplacement (zone + numéro de rangée).
 
-## 5. Onglet Sociétés & heures — gérer les sociétés
-
-Cet onglet affiche un tableau récapitulatif de toutes les sociétés avec leurs informations.
-
-|   Colonne   |                           Signification                                 |
-|-------------|-------------------------------------------------------------------------|
-|   Société   | Nom de la société                                                       |
-|     CE      | Nom du responsable CE                                                   |
-| H initiales | Nombre d'heures attribuées au départ                                    |
-| H restantes | Heures encore disponibles (coloré en vert/orange/rouge selon le niveau) |
-| % consommé  | Pourcentage des heures déjà utilisées                                   |
-|     Lots    | Nombre de lots affectés à cette société                                 |
-|     ACE     | Nombre d'équipes (ACE) dans cette société                               |
-
-### Modifier une société
-
-1. Cliquez sur une ligne pour sélectionner une société.
-2. Cliquez sur **✏ Modifier la société sélectionnée** (ou double-cliquez sur la ligne).
-3. Une fenêtre s'ouvre : vous pouvez changer le nom, le CE, et le total d'heures.
-4. Cliquez sur **Enregistrer** pour valider.
-
-### Mettre à jour les heures en début de semaine
-
-Cliquez sur le bouton **Nouvelle heure** pour recalculer automatiquement les heures restantes en fonction du numéro de semaine.
+> 🔍 Utilisez les **barres de recherche** au-dessus de chaque tableau pour filtrer par numéro de commande, typologie ou affaire.
 
 ---
 
-## 6. Onglet Liste des lots — consulter et modifier les lots
+## 6. Onglet Fiches de Route — suivi de production
+
+Cet onglet présente une vue détaillée par **société** ou par **ACE**, avec des cartes de lot interactives.
+
+### Sous-onglet "Par Société"
+
+1. Sélectionnez une société dans la liste déroulante.
+2. Des **tuiles de statistiques** s'affichent en haut (VVS total, nb pièces, PU moyen, avancement étiquetage et valeur).
+3. Un **récapitulatif par ACE** est visible sous les tuiles.
+4. En dessous, les **cartes de lot** sont regroupées par ACE.
+
+### Sous-onglet "Par ACE"
+
+Sélectionnez un ACE pour voir uniquement ses lots avec ses statistiques propres.
+
+### Que peut-on faire sur une carte de lot ?
+
+Chaque carte permet de :
+
+- **Commencer / Annuler un lot** : enregistre l'heure de début ou remet le lot à zéro
+- **Cocher les phases** : Pré Tri → Sur Piste → Sortie Étiq → Tri → Fini *(les phases ne sont cochables qu'après avoir cliqué sur "Commencer")*
+- **Saisir l'avancement** : nombre de pièces étiquetées et réparties
+- **Renseigner la logistique** : distribution, lot à charge, format carton, collisage, méthode
+- **Ajouter des lignes de colisage supplémentaires** (formats de cartons différents)
+- **Saisir un commentaire** directement sur la carte
+
+> 💡 Le bouton **🖸 Aperçu / Export** génère un résumé textuel de la fiche de route pour la société sélectionnée.
+
+> 💡 Le bouton **👁 Voir la Méthode** ouvre le PDF de méthode associé aux lots (si disponible dans `app/data/pastouche/methodes/`).
+
+### Couleurs des cartes
+
+| Couleur | Signification |
+|---|---|
+| 🟢 Vert clair | Lot terminé (phase "Fini" cochée) |
+| 🟣 Violet clair | Lot sous douane |
+| 🔴 Rouge clair | Lot prioritaire (priorité ≥ 8) |
+| 🟡 Jaune clair | Lot commencé (en cours) |
+| ⬜ Blanc | Lot normal |
+
+---
+
+## 7. Onglet Liste des lots — consulter et modifier les lots
 
 Cet onglet affiche **tous les lots** enregistrés dans l'application.
 
 ### Filtrer et rechercher
 
-En haut du tableau, vous disposez de trois outils de filtrage :
-
-- **Filtre Statut** : affiche uniquement les lots d'un certain statut (`VA - Validé`, `BL - Bloqué`, `EP - Envoi au CP`).
-- **Case "Inclure les lots sous douane"** : les lots sous douane sont cachés par défaut (affichés en rouge quand la case est cochée).
-- **Champ Recherche** : tapez un numéro de commande, une typologie ou une affaire pour filtrer instantanément.
+- **Filtre Statut** : affiche uniquement les lots d'un statut donné (`VA - Validé`, `BL - Bloqué`, `EP - Envoi au CP`).
+- **Case "Inclure les lots sous douane"** : les lots sous douane sont masqués par défaut.
+- **Champ Recherche** : filtrage instantané par numéro de commande, typologie ou affaire.
 
 ### Modifier un lot
 
-1. Cliquez sur un lot pour le sélectionner.
-2. **Double-cliquez** dessus (ou cliquez sur **✏ Modifier**).
-3. Une fenêtre s'ouvre avec tous les champs modifiables : typography, nombre de pièces, cadence, statut, semaine, emplacement, commentaire, etc.
-4. Cliquez sur **Enregistrer** pour valider.
+Double-cliquez sur une ligne (ou cliquez sur **✏ Modifier**) pour ouvrir la fenêtre d'édition complète.
 
 ### Supprimer un lot
 
-1. Sélectionnez un lot **non affecté** (un lot affecté ne peut pas être supprimé directement).
-2. Cliquez sur **🗑 Supprimer**.
-3. Confirmez la suppression dans la fenêtre qui apparaît.
+1. Sélectionnez un lot **non affecté**.
+2. Cliquez sur **🗑 Supprimer** et confirmez.
 
-> ⚠️ Pour supprimer un lot affecté, vous devez d'abord **retirer son affectation** dans l'onglet Affectation.
+> ⚠️ Pour supprimer un lot affecté, retirez d'abord son affectation dans l'onglet **Affectation**.
 
 ---
 
-## 7. Onglet Fiches de Route — voir le détail par société
+## 8. Onglet Sociétés & heures — gérer les sociétés
 
-Cet onglet génère automatiquement une **fiche de route** pour chaque société.
+Tableau récapitulatif de toutes les sociétés :
+
+| Colonne | Signification |
+|---|---|
+| Société | Nom de la société |
+| CE | Responsable CE |
+| H initiales | Heures attribuées au départ |
+| H restantes | Heures encore disponibles (vert / orange / rouge) |
+| % consommé | Pourcentage des heures utilisées |
+| Lots | Nombre de lots affectés |
+| ACE | Nombre d'équipes (ACE) |
+
+### Modifier une société
+
+Double-cliquez sur une ligne (ou cliquez sur **✏ Modifier**). Vous pouvez changer le nom, le CE, les heures disponibles et gérer les ACE (ajout, suppression, modification des effectifs).
+
+> ⚠️ Vous ne pouvez pas supprimer un ACE qui a des lots affectés.
+
+### Mettre à jour les heures depuis Excel
+
+Cliquez sur **Nouvelle heure**, saisissez le numéro de semaine (1 à 53), puis sélectionnez le fichier Excel des heures. Les heures des sociétés sont recalculées automatiquement.
+
+---
+
+## 9. Onglet Carte entrepôt — visualiser les emplacements
+
+Cet onglet affiche un **plan interactif de l'entrepôt** avec les lots positionnés par emplacement.
+
+### Zones disponibles
+
+| Zone | Description |
+|---|---|
+| A, B, C, D | Zones à rangées numérotées (ex : B21, C12) |
+| LTS | Long Term Storage |
+| HD | Hors Douane |
 
 ### Comment l'utiliser
 
-1. Sélectionnez une société dans la liste déroulante en haut.
-2. La fiche s'affiche avec :
-   - **Un résumé global** : valeur totale, nombre de pièces, heures disponibles.
-   - **Un résumé par ACE** : détail par équipe.
-   - **Un tableau détaillé** des lots, regroupés par ACE, avec les colonnes de suivi de production (étiquetage, répartition, avancement, heures restantes, etc.).
+- **Survolez** une cellule pour voir un résumé des lots présents (tooltip).
+- **Cliquez** sur une cellule pour la sélectionner : la liste des lots s'affiche dans le panneau de droite.
+- Cliquez sur un lot dans la liste pour voir **toutes ses informations détaillées** dans la zone en bas à droite.
 
-### Mettre à jour le suivi de production
+### Code couleur des cellules
 
-Dans le tableau de la fiche de route, vous pouvez directement saisir :
-- Le **nombre de pièces étiquetées**
-- Le **nombre de pièces réparties**
+| Couleur | Signification |
+|---|---|
+| 🟢 Vert | Lot(s) validé(s) (VA) |
+| 🔴 Rouge | Lot(s) bloqué(s) (BL) |
+| 🟡 Orange | Lot(s) en attente (EP) |
+| 🟣 Violet | Lot(s) sous douane |
+| ⬜ Gris clair | Emplacement vide |
+| 🔵 Bleu | Emplacement sélectionné |
 
-Ces valeurs sont sauvegardées automatiquement.
+> 💡 Un emplacement contenant plusieurs lots affiche plusieurs couleurs côte à côte.
 
 ---
 
-## 8. Sauvegarder et charger les données
+## 10. Sauvegarder et charger les données
 
-### Sauvegarde manuelle
+### Sauvegarde automatique
 
-1. Allez dans **Fichier → 💾 Sauvegarder** (ou appuyez sur **Ctrl+S**).
-2. Une fenêtre s'ouvre pour choisir un dossier de destination.
-3. Entrez le **numéro de semaine** (ex : `19`).
-4. L'application crée automatiquement un sous-dossier `S19/` avec vos données.
+Toute modification (affectation, édition d'un lot, suivi de production…) est **enregistrée automatiquement** dans `app/data/courutilisation/`. Vos données ne sont jamais perdues en cas de fermeture inattendue.
 
-> 💡 La sauvegarde automatique fonctionne en permanence : chaque modification (affectation, modification d'un lot, etc.) est enregistrée immédiatement dans le dossier courant.
+### Sauvegarde manuelle (archivage par semaine)
+
+1. **Fichier → 💾 Sauvegarder** (ou **Ctrl+S**)
+2. Choisissez un dossier de destination.
+3. Entrez le numéro de semaine (ex : `19`).
+4. Un sous-dossier `S19/` est créé avec une copie des fichiers JSON.
 
 ### Charger une sauvegarde précédente
 
-1. Allez dans **Fichier → 📂 Ouvrir une sauvegarde…** (ou **Ctrl+O**).
+1. **Fichier → 📂 Charger une sauvegarde…** (ou **Ctrl+O**)
 2. Naviguez jusqu'au dossier de la semaine souhaitée (ex : `S19/`).
 3. Sélectionnez ce dossier et cliquez sur **Ouvrir**.
-4. Les données de cette semaine se chargent automatiquement.
 
 ---
 
-## 9. Remettre à zéro (nouvelle semaine)
+## 11. Remettre à zéro (nouvelle semaine)
 
-Pour commencer une nouvelle session vierge :
+> ⚠️ **Pensez à sauvegarder la semaine en cours avant de faire cette action !**
 
-1. Allez dans **Fichier → 🆕 Nouveaux fichiers JSON…** (ou **Ctrl+N**).
-2. Une confirmation vous est demandée : cliquez sur **Oui**.
-3. Toutes les données sont effacées et l'application repart de zéro.
-
-> ⚠️ **Attention** : pensez à sauvegarder la semaine en cours avant de faire cette action !
+1. **Fichier → 🆕 Nouveaux fichiers JSON…** (ou **Ctrl+N**)
+2. Confirmez en cliquant sur **Oui**.
+3. Toutes les données sont effacées, l'application repart de zéro.
 
 ---
 
-## 10. Questions fréquentes
+## 12. Questions fréquentes
 
-**L'application ne démarre pas quand je double-clique sur `run.bat`.**
-→ Vérifiez que Java est installé sur votre ordinateur. Faites un clic droit sur `run.bat` → *Ouvrir avec* → *Invite de commandes* pour voir le message d'erreur.
+**L'application ne démarre pas.**
+→ Vérifiez que Java est installé. Faites un clic droit sur `run.bat` → *Ouvrir avec* → *Invite de commandes* pour voir le message d'erreur précis.
 
-**Je ne vois pas mes lots après avoir remplacé le fichier Excel.**
-→ Fermez et relancez l'application. Le fichier doit s'appeler exactement `export.xlsx` et être placé dans le dossier `app/data/`.
+**Je ne vois pas mes lots après avoir chargé un fichier Excel.**
+→ Vérifiez que le fichier est au format `.xlsx` ou `.xlsm`. Les données sont lues depuis la première feuille du classeur.
 
 **Je ne peux pas supprimer un lot.**
-→ Un lot affecté à une société ne peut pas être supprimé. Allez d'abord dans l'onglet **Affectation**, retirez le lot de sa société, puis revenez dans **Liste des lots** pour le supprimer.
+→ Un lot affecté ne peut pas être supprimé directement. Retirez d'abord son affectation dans l'onglet **Affectation**, puis supprimez-le depuis **Liste des lots**.
 
-**Les heures restantes d'une société sont incorrectes.**
-→ Allez dans l'onglet **Sociétés & heures**, sélectionnez la société et cliquez sur **✏ Modifier** pour corriger le total d'heures initiales.
+**Les heures restantes d'une société semblent incorrectes.**
+→ Allez dans **Sociétés & heures**, sélectionnez la société et cliquez sur **✏ Modifier** pour corriger le total d'heures initiales.
 
-**J'ai fermé l'application sans sauvegarder, est-ce que j'ai perdu mes données ?**
-→ Non. La sauvegarde automatique enregistre chaque modification au fur et à mesure dans le fichier courant (`app/data/courutilisation/`). Vos données sont conservées.
+**Un lot n'apparaît pas dans la colonne "disponibles" de l'onglet Affectation.**
+→ Les lots sous douane, bloqués (`BL`) ou déjà affectés sont masqués dans cette colonne. Utilisez l'onglet **Liste des lots** pour les consulter.
 
----
+**La carte entrepôt ne montre pas un lot que j'ai placé.**
+→ Cliquez sur le bouton **⟳** en haut de l'écran pour forcer le rafraîchissement, ou naviguez vers un autre onglet puis revenez sur la carte.
 
-*Manuel rédigé pour les utilisateurs de l'application Planning Global Futura — PAM.*
-
-## 11. Idées
-
-## 1. Historique des actions (Undo / Redo) (très bonne idée)
-
-- Implémenter le **pattern Command** pour annuler les dernières affectations ou modifications.
-- Très utile en pratique.
-- Fortement valorisé à l’oral pour démontrer la maîtrise des **design patterns**.
+**J'ai fermé l'application sans sauvegarder manuellement, est-ce que j'ai perdu mes données ?**
+→ Non. La sauvegarde automatique enregistre chaque modification dans `app/data/courutilisation/`. Vos données sont conservées.
 
 ---
 
-## 2. Tableau de bord avec indicateurs visuels (déjà fait en partie)
+## 13. Idées d'améliorations futures
 
-Créer un panneau récapitulatif avec :
+### Historique des actions (Undo / Redo)
+Implémenter le **pattern Command** pour annuler les dernières affectations ou modifications. Fortement valorisé pour démontrer la maîtrise des design patterns.
 
-- Nombre de lots affectés vs non affectés  
-- Heures consommées par société  
-- Barres de progression colorées :
-  - 🟢 Vert : faible charge
-  - 🟠 Orange : charge moyenne
-  - 🔴 Rouge : proche de la saturation  
+### Export PDF / Excel de la fiche de route
+Générer un export imprimable de la fiche de route avec Apache PDFBox (déjà inclus dans les dépendances) ou Apache POI pour Excel.
 
-👉 Réalisable en **Swing** avec un `JProgressBar` stylisé.
+### Détection de conflit de capacité
+Ajouter un avertissement progressif quand une société dépasse 80 % de capacité, plutôt qu'un blocage uniquement à 0 heure disponible.
 
----
+### Vue "planning semaine" visuelle
+Créer une vue de type calendrier (lignes = sociétés, colonnes = semaines) pour visualiser la charge de travail dans le temps.
 
-## 3. Filtres avancés dans les tableaux (flèmme pas d'idée)
-
-Améliorer le système de recherche actuel :
-
-- Filtrer par statut  
-- Filtrer par semaine  
-- Filtrer par plage d’heures  
-- Afficher uniquement les lots non affectés  
-
-👉 Gain ergonomique important sans complexité technique élevée.
+### Filtres avancés dans les tableaux
+Filtrer par semaine, par plage d'heures, par présence ou absence d'emplacement, etc.
 
 ---
 
-## 4. Export PDF/excel de la fiche de route (oui)
-
-- Générer un export PDF de la **FicheRoute** existante.
-- Utiliser une bibliothèque comme :
-  - iText  
-  - Apache PDFBox  
-
-👉 Apporte un livrable concret et imprimable pour les sociétés.
-
----
-
-## 5. Détection de conflit de capacité (bonne idée)
-
-Avant d’affecter un lot :
-
-- Ajouter un avertissement si une société dépasse un seuil (ex : 80% de capacité).
-- Actuellement :
-  - Blocage uniquement si 0 heure disponible ❌  
-- Amélioration :
-  - Avertissement progressif ⚠️  
-
-👉 Meilleure ergonomie et anticipation des problèmes.
-
----
-
-## 6. Vue "planning semaine" visuelle (m'oui)
-
-Créer une vue de type calendrier :
-
-- Lignes : sociétés  
-- Colonnes : semaines  
-- Contenu : charge de travail par société  
-
-👉 Met en valeur les données temporelles déjà présentes dans les lots.
+*Manuel rédigé pour les utilisateurs de l'application Planning Global Futura — PAM S07/2026.*

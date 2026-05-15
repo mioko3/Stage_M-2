@@ -2050,7 +2050,7 @@
     "sp_nbPieceRepart": 0,
     "sp_nbHeureEtiqRestant": 48,
     "sp_nbHeureRepartRestant": 48,
-    "methode": "",
+    "methode": "25d",
     "distribution": "",
     "formatCarton": "1/4",
     "dateDebut": "",
