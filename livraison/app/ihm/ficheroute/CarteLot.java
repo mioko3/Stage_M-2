@@ -33,7 +33,7 @@ public class CarteLot extends JPanel implements ActionListener
 	private JButton    btncommencer;
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
-	private JTextField textDistri;
+	private JComboBox<String> textDistri;
 	private JTextField textLotCharge;
 	private JComboBox<String> textFormCart;
 	private JTextField textCollisage;
@@ -237,7 +237,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l4.setBackground(bg);
 
 		this.textPcsEtiq = new JTextField(String.valueOf(lot.getSuivieProd().getNbPieceEtiq()), 6);
-		this.textPcsEtiq.setEnabled(lot.getPhase().isSortieEtiq());
+		this.textPcsEtiq.setEnabled(estcommencer);
 		l4.add(champEditable("Pces Étiq.", this.textPcsEtiq, bg, "PCS_ETIQ", this));
 		info(l4, "Av. Étiq %",   lot.getSuivieProd().getAvancementEtiqPct(), bg);
 		info(l4, "H Étiq rest.", lot.getSuivieProd().getNbHeureEtiqRestant() + " h", bg);
@@ -266,7 +266,8 @@ public class CarteLot extends JPanel implements ActionListener
 		JPanel l5 = new JPanel(new GridLayout(2, 4, 4, 2));
 		l5.setBackground(bg);
 
-		this.textDistri     = new JTextField(s(lot.getLotACharge()), 10);
+		this.textDistri     = new JComboBox(lot.DISTRI);
+		this.textDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getFormatCarton());
 		this.textLotCharge  = new JTextField(s(lot.getDistribution()), 10);
 		this.textFormCart   = new JComboBox(lot.F_CARTON);
 		this.textFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
@@ -416,7 +417,6 @@ public class CarteLot extends JPanel implements ActionListener
 		JCheckBox cb = new JCheckBox(label, etat);
 		cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		cb.setOpaque(false);
-		cb.setEnabled(estcommencer);
 		cb.setForeground(etat ? new Color(20, 120, 20) : new Color(100, 100, 100));
 		cb.addActionListener(e -> {
 			boolean v  = cb.isSelected();
@@ -510,7 +510,7 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 				}
 				case "DISTRI":
-					lot.setLotACharge(textDistri.getText().trim());
+					lot.setLotACharge((String)textDistri.getSelectedItem());
 					break;
 				case "LOT_CHARGE":
 					lot.setDistribution(textLotCharge.getText().trim());

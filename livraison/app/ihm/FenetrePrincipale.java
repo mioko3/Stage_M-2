@@ -205,7 +205,7 @@ public class FenetrePrincipale extends JFrame
 		btnRafraichir.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnRafraichir.setBackground(IhmUtils.HEADER);
 		btnRafraichir.setForeground(new Color(255, 255, 180));
-		btnRafraichir.addActionListener(e -> rafraichirTout());
+		btnRafraichir.addActionListener(e -> this.rafraichirTout());
 
 		lblInfo = new JLabel(buildInfo());
 		lblInfo.setForeground(new Color(180, 180, 180));

@@ -17,6 +17,7 @@ import java.util.UUID;
 public class Lot
 {
 	public static final String[] F_CARTON = new String[]{"","1/16","1/8","1/4","1/2","box"};
+	public static final String[] DISTRI   = new String[]{"","PI","PM","PREPA","MI","PREPA + MI","PREPA + PART"};
 
 	private static ArrayList<String> tabId;
 	// ── Identité ──────────────────────────────────────────────────────────
@@ -78,6 +79,7 @@ public class Lot
 		this.commentaire  = "";
 		this.emplacement  = "";
 		this.formatCarton = "";
+		this.distribution = "";
 		this.dateDebut    = "";
 		this.dateFin      = "";
 		this.pcsUtiliser  = this.nbPieces;

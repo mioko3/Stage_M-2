@@ -24,6 +24,7 @@ public class PanelFicheRoute extends JPanel
 {
 	private final Controleur        ctrl;
 	private final FenetrePrincipale fenetre;
+	private java.util.Map<Ace, Boolean> aceExpanded = new java.util.HashMap<>();
 
 	// ── Sous-onglet "Par Société" ──────────────────────────────────────
 	private JComboBox<String> combSociete;
@@ -208,23 +209,41 @@ public class PanelFicheRoute extends JPanel
 	}
 
 	// ── En-têtes de section ─────────────────────────────────────────────
-
 	private JPanel creerEnteteAce(Ace ace, List<Lot> lots)
 	{
+		boolean ouvert = aceExpanded.getOrDefault(ace, true);
+
 		JPanel p = new JPanel(new BorderLayout(8, 0));
 		p.setBackground(ace.getColor());
 		p.setBorder(BorderFactory.createEmptyBorder(7, 14, 7, 14));
 		p.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
-		JLabel titre = new JLabel("▶  " + ace.getNom() + "   (" + lots.size() + " lot(s))");
+		String fleche = ouvert ? "▼" : "▶";
+		JLabel titre = new JLabel(fleche + "  " + ace.getNom() + "   (" + lots.size() + " lot(s))");
 		titre.setFont(new Font("SansSerif", Font.BOLD, 13));
 		titre.setForeground(Color.WHITE);
 		int vvs = 0, pcs = 0;
-		for (Lot l : lots) { vvs += l.getValeurVente(); pcs += l.getNbPieces(); }
+		for (Lot l : lots)
+		{
+			vvs += l.getValeurVente();
+			pcs += l.getNbPieces();
+		}
 		JLabel stats = new JLabel(String.format("VVS : %,d €   |   Pièces : %,d", vvs, pcs));
 		stats.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		stats.setForeground(new Color(200, 220, 255));
 		p.add(titre, BorderLayout.CENTER);
 		p.add(stats, BorderLayout.EAST);
+		// clic toggle
+		p.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		p.addMouseListener(new java.awt.event.MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent e)
+			{
+				boolean actuel = aceExpanded.getOrDefault(ace, true);
+				aceExpanded.put(ace, !actuel);
+				chargerFicheRouteSociete(); // refresh UI
+			}
+		});
 		return p;
 	}
 
@@ -318,8 +337,9 @@ public class PanelFicheRoute extends JPanel
 				List<Lot> lotsAce = ace.getLots() != null ? ace.getLots() : new ArrayList<>();
 				panelCartes_s.add(creerEnteteAce(ace, lotsAce));
 	
-				for (Lot lot : lotsAce)
-					panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
+				if (aceExpanded.getOrDefault(ace, true))
+					for (Lot lot : lotsAce)
+						panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
 			}
 			List<Lot> sans = new ArrayList<>();
 			for (Lot lot : societeCourante.getLots()) if (!dansAce.contains(lot)) sans.add(lot);
