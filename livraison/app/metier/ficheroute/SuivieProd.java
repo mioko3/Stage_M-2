@@ -8,7 +8,6 @@ public class SuivieProd
 	private int    nbPieceRepart;
 	private int    nbHeureEtiqRestant;
 	private int    nbHeureRepartRestant;
-	private String avancementHeures;
 	private String avancementEtiqPct;
 	private String avancementPartsPct;
 	private Lot lot;
@@ -19,7 +18,6 @@ public class SuivieProd
 		this.nbPieceRepart        = 0;
 		this.nbHeureEtiqRestant   = 0;
 		this.nbHeureRepartRestant = 0;
-		this.avancementHeures     = "0";
 		this.avancementEtiqPct    = "0";
 		this.avancementPartsPct   = "0";
 	}
@@ -28,7 +26,6 @@ public class SuivieProd
 	public int    getNbPieceRepart        () { return nbPieceRepart;        }
 	public int    getNbHeureEtiqRestant   () { return nbHeureEtiqRestant;   }
 	public int    getNbHeureRepartRestant () { return nbHeureRepartRestant; }
-	public String getAvancementHeures     () { return avancementHeures;     }
 	public String getAvancementEtiqPct    () { return avancementEtiqPct+" %";}
 	public String getAvancementPartsPct   () { return avancementPartsPct+" %";}
 	public Lot    getLot                  () { return lot;                  }
@@ -41,10 +38,6 @@ public class SuivieProd
 	
 	public void miseAJJourAvancement()
 	{
-		// Pourcentage heures
-		this.avancementHeures = this.lot != null && this.lot.getHeures() > 0
-			? String.format("%.1f", 100.0 * (this.nbHeureEtiqRestant + this.nbHeureRepartRestant) / this.lot.getHeures())
-			: "0";
 		
 		// Pourcentage pièces étiquetées (basé sur nbPieceEtiq / nbPieces total)
 		if (this.lot != null && this.lot.getNbPieces() > 0)

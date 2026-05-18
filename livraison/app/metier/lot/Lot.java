@@ -46,7 +46,7 @@ public class Lot
 	// -- fiche de route --
 	private SuivieProd suivieProd;
 	private Phase      phase;
-	private Methode     methode;
+	private Methode    methode;
 	private int    nbPalettes, nbColisPrevue, nbColisRecup, collisage,pcsUtiliser;
 	private String  distribution, poucentrecupCartonFour;
 	private String formatCarton, dateDebut, dateFin;

@@ -171,67 +171,18 @@ public class DonneesSauvegarder
 	{
 		String cheminLots     = Paths.get(cheminDossier, FICHIER_LOTS).toString();
 		String cheminSocietes = Paths.get(cheminDossier, FICHIER_SOCIETES).toString();
-
+	
 		if (!new File(cheminLots).exists())
 			throw new IOException("Fichier introuvable : " + cheminLots);
 		if (!new File(cheminSocietes).exists())
 			throw new IOException("Fichier introuvable : " + cheminSocietes);
-
+	
 		metier.getSocietes().clear();
 		metier.getLots().clear();
-
-		String jsonLots = lireFichier(cheminLots);
-		for (String obj : extraireObjets(jsonLots))
-			metier.getLots().add(parseLot(obj));
-
-		String jsonSocietes = lireFichier(cheminSocietes);
-		for (String obj : extraireObjets(jsonSocietes))
-		{
-			ArrayList<Ace> aces = new ArrayList<>();
-			String blocAces = extraireBloc(obj, "\"aces\"");
-			if (blocAces != null)
-			{
-				for (String a : extraireObjets(blocAces))
-				{
-					Ace ace = new Ace(getString(a, "nom"), getInt(a, "nbPers"),
-					            getInt(a, "totalHeures"), getInt(a, "effectifActuel"));
-					ace.setEstMachine(getBool(a, "estMachine"));
-					aces.add(ace);
-				}
-			}
-
-			Societe soc = new Societe(getString(obj, "nom"), getString(obj, "ce"), aces,
-				getInt(obj, "totalHeuresCE"));
-
-			String lotsAff = extraireTableauPrimitif(obj, "lotsAffectes");
-			if (lotsAff != null)
-				for (String id : parseIdList(lotsAff))
-				{
-					Lot lot = trouverLot(metier.getLots(), id);
-					if (lot != null) soc.getLots().add(lot);
-				}
-
-			if (blocAces != null)
-			{
-				int ai = 0;
-				for (String a : extraireObjets(blocAces))
-				{
-					if (ai >= aces.size()) break;
-					String lotsAce = extraireTableauPrimitif(a, "lotsACE");
-					if (lotsAce != null)
-						for (String id : parseIdList(lotsAce))
-						{
-							Lot lot = trouverLot(metier.getLots(), id);
-							if (lot != null && !aces.get(ai).getLots().contains(lot))
-								aces.get(ai).getLots().add(lot);
-						}
-					ai++;
-				}
-			}
-
-			metier.getSocietes().add(soc);
-		}
-
+	
+		metier.getLots()    .addAll(ExcelReader.lireLots    (cheminLots));
+		metier.getSocietes().addAll(ExcelReader.lireSocietes(cheminSocietes));
+	
 		System.out.println("[Chargement] ← " + cheminDossier
 			+ " (" + metier.getLots().size() + " lots, "
 			+ metier.getSocietes().size() + " sociétés)");

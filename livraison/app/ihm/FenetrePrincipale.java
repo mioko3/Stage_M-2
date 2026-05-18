@@ -120,7 +120,6 @@ public class FenetrePrincipale extends JFrame
 			ctrl.chargerDonnees(dossier);
 			this.panelAffectation.remplirComboSocietes();
 			this.panelFicheRoute.remplirComboSocietes();
-			rafraichirTout();
 			JOptionPane.showMessageDialog(this,
 				"Sauvegarde chargée : " + fc.getSelectedFile().getName(),
 				"Chargement OK", JOptionPane.INFORMATION_MESSAGE);
