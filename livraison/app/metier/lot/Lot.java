@@ -26,7 +26,7 @@ public class Lot
 	private String  typologie;
 	private String  affaire;
 	private int     nbPieces;
-	private double  cadence;
+	private double  cadence,cadenceReel;
 	private double  heures;
 	private double  heuresAce; // les temps que ça prend (heure / nbpersonne)
 	private int     valeurVente;
@@ -49,8 +49,9 @@ public class Lot
 	private Methode    methode;
 	private int    nbPalettes, nbColisPrevue, nbColisRecup, collisage,pcsUtiliser;
 	private String  distribution, poucentrecupCartonFour;
-	private String formatCarton, dateDebut, dateFin;
+	private String formatCarton, dateDebut, dateFin, dateFinTheorique; // "dd/MM/yyyy HH:mm:ss"
 	private boolean estMachine;
+	private int     nbPers;
 
 	// ── Lignes de colisage multiples (cas rares) ──────────────────────────
 	private ArrayList<LigneColisage> lignesColisage = new ArrayList<>();
@@ -63,6 +64,7 @@ public class Lot
 		this.numCDE      = numCDE;
 		this.nbPieces    = nbPieces;
 		this.cadence     = cadence;
+		this.cadenceReel = cadence;
 		this.heures      = heures;
 		this.valeurVente = valeurVente;
 		this.prixUnitaire = calculerPU();
@@ -82,6 +84,7 @@ public class Lot
 		this.distribution = "";
 		this.dateDebut    = "";
 		this.dateFin      = "";
+		this.dateFinTheorique = "";
 		this.pcsUtiliser  = this.nbPieces;
 		this.suivieProd   = new SuivieProd();
 		this.suivieProd.setLot(this);
@@ -106,7 +109,12 @@ public class Lot
 	// ── Recalcul ───────────────────────────────────────────────
 	public void recalculerHeures()
 	{
-		this.heures = (this.cadence > 0) ? this.nbPieces / this.cadence : 0.0;
+		this.heures = (this.cadenceReel > 0) ? this.nbPieces / this.cadenceReel : 0.0;
+	}
+
+	public void calculDateFinThéorique()
+	{
+
 	}
 
 	private double calculerPU()
@@ -175,6 +183,7 @@ public class Lot
 	public String  getAffaire()        { return affaire;       }
 	public int     getNbPieces()       { return nbPieces;      }
 	public double  getCadence()        { return cadence;       }
+	public double  getCadenceReel()    { return cadenceReel;   }
 	public double  getHeures()         { return heures;        }
 	public int     getValeurVente()    { return valeurVente;   }
 	public double  getPrixUnitaire()   { return prixUnitaire;  }
@@ -201,7 +210,9 @@ public class Lot
 	public String     getPoucentrecupCartonFour() { return poucentrecupCartonFour; }
 	public String     getDateDebut    () { return dateDebut;   }
 	public String     getdateFin      () { return dateFin;     }
+	public String     getdateFinT      () { return dateFinTheorique;}
 	public boolean    estMachine      () { return estMachine;  }
+	public int        getNbPers       () { return nbPers;      }
 
 	// ── Setters ───────────────────────────────────────────────────────────
 	public void setId(String v)            { this.id           = v; }
@@ -215,6 +226,7 @@ public class Lot
 		recalculerLignesColisage();
 	}
 	public void setCadence(double v)       { this.cadence      = v; }
+	public void setCadenceReel(double v)   { this.cadenceReel  = v; }
 	public void setHeures(double v)        { this.heures       = v; }
 	public void setValeurVente(int v)      { this.valeurVente  = v; this.prixUnitaire = calculerPU(); }
 	public void setPrixUnitaire(double v)  { this.prixUnitaire = v; }
@@ -241,5 +253,7 @@ public class Lot
 	public void setPoucentrecupCartonFour(String v) { this.poucentrecupCartonFour = v; }
 	public void setDateDebut(String v)      { this.dateDebut = v;    }
 	public void setdateFin(String v)        { this.dateFin = v;      }
+	public void setdateFinT(String v)       { this.dateFinTheorique = v; }
 	public void setEstMachine(boolean v)    { this.estMachine = v;   }
+	public void setNbPers(int v)            { this.nbPers = v;            }
 }

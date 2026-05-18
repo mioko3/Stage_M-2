@@ -118,8 +118,8 @@ public class FenetreLogin extends JFrame implements ActionListener
 		carte.add(Box.createRigidArea(new Dimension(0, 12)));
 
 		chkFichierCourant = checkbox("Utiliser les fichiers courants (JSON)");
-		chkExport         = checkbox("Charger depuis un export Excel");
-		chkSave           = checkbox("Charger depuis une sauvegarde");
+		chkExport         = checkbox("Faire une nouvelle semaine    (Excel)");
+		chkSave           = checkbox("Utiliser une semaine sauvegarde (JSON)");
 		chkFichierCourant.setSelected(true);   // par défaut : JSON
 
 		// Exclusion mutuelle

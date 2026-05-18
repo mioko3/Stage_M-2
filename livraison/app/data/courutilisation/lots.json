@@ -1,6 +1,6 @@
 [
   {
-    "id": "db3f2c36-6140-4005-bad1-aa54f86e2974",
+    "id": "665fac19-70ad-4d97-9246-4960f2559279",
     "numCDE": 9001349,
     "semaine": "202617",
     "priorite": 0,
@@ -27,7 +27,7 @@
     "formatCarton": "",
     "dateDebut": "",
     "dateFin": "",
-    "heuresAce": 4.404444444444445,
+    "heuresAce": 0.0,
     "collisage": 0,
     "estMachine": false,
     "lignesColisage": [],
@@ -39,7 +39,7 @@
 
   },
   {
-    "id": "670e214e-e5b0-4c0f-af14-0cbb2f1dcd50",
+    "id": "f07af12a-7c55-43a6-81cb-401a3562c61e",
     "numCDE": 5407279,
     "semaine": "202617",
     "priorite": 0,
@@ -66,7 +66,7 @@
     "formatCarton": "",
     "dateDebut": "",
     "dateFin": "",
-    "heuresAce": 0.0,
+    "heuresAce": 4.7411111111111115,
     "collisage": 0,
     "estMachine": false,
     "lignesColisage": [],
@@ -78,7 +78,7 @@
 
   },
   {
-    "id": "d37f21be-6f11-42f3-941a-88cda707855f",
+    "id": "944ca704-fe22-4d8f-b80e-c2dd9b698e2d",
     "numCDE": 6004656,
     "semaine": "202617",
     "priorite": 0,
@@ -117,7 +117,7 @@
 
   },
   {
-    "id": "973b73f4-35db-401a-87bf-b61ff81e2ed4",
+    "id": "3eec423f-1e2d-4282-ae27-ce563b1c730a",
     "numCDE": 9001797,
     "semaine": "202617",
     "priorite": 0,
@@ -156,16 +156,16 @@
 
   },
   {
-    "id": "678220c1-42f9-499b-9d26-d7db53ca15bc",
+    "id": "68042ffe-e3f2-4ff7-bf7b-2a20e62c23c4",
     "numCDE": 9001797,
     "semaine": "202617",
     "priorite": 0,
     "typologie": "PANIER ET BOITE FIBRE VEGETALE",
     "affaire": "PANIERS RONDS BORS COLORES 4 REFS",
     "valeurVente": 0,
-    "nbPieces": 1,
+    "nbPieces": 0,
     "cadence": 142.62,
-    "heures": 0.007011639321273314,
+    "heures": 0.0,
     "statut": "OU",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "",
@@ -183,7 +183,7 @@
     "formatCarton": "",
     "dateDebut": "",
     "dateFin": "",
-    "heuresAce": 5.39356870867178E-4,
+    "heuresAce": 0.0,
     "collisage": 0,
     "estMachine": false,
     "lignesColisage": [],
@@ -195,7 +195,7 @@
 
   },
   {
-    "id": "0fe9f5ae-c56e-401e-8f93-a0e5add073d7",
+    "id": "22b4bb64-c0f5-4901-b645-08e12e95947c",
     "numCDE": 1800743,
     "semaine": "202617",
     "priorite": 0,
@@ -234,7 +234,7 @@
 
   },
   {
-    "id": "d85a008c-3ce5-487e-8823-0c885b72d2e3",
+    "id": "c3a5ec6a-be66-4d22-aa90-3995571c6327",
     "numCDE": 5408579,
     "semaine": "202617",
     "priorite": 0,
@@ -243,7 +243,7 @@
     "valeurVente": 35979,
     "nbPieces": 12033,
     "cadence": 154.35,
-    "heures": 77.95,
+    "heures": 77.9591836734694,
     "statut": "TC",
     "statutEchant": "VA - Validé avec le CP",
     "lotACharge": "A",
@@ -273,7 +273,7 @@
 
   },
   {
-    "id": "20af6f57-3482-42a3-bb49-367763fc4aef",
+    "id": "3009dbda-4a3b-4b34-a06a-b1d107d61117",
     "numCDE": 1802493,
     "semaine": "202617",
     "priorite": 0,
@@ -312,7 +312,7 @@
 
   },
   {
-    "id": "a30a4858-0bf1-4782-ade2-87b9d5fcf88e",
+    "id": "68aa4b9b-78b0-4861-a045-9afdd45590a2",
     "numCDE": 6005769,
     "semaine": "202617",
     "priorite": 0,
@@ -351,7 +351,7 @@
 
   },
   {
-    "id": "a56e94a1-596c-445a-b3fe-66dafc18d315",
+    "id": "1ccc7f44-713a-433d-8070-2491c0b79304",
     "numCDE": 1802539,
     "semaine": "202617",
     "priorite": 0,
@@ -378,7 +378,7 @@
     "formatCarton": "",
     "dateDebut": "",
     "dateFin": "",
-    "heuresAce": 6.093846153846154,
+    "heuresAce": 0.0,
     "collisage": 0,
     "estMachine": false,
     "lignesColisage": [],
@@ -390,7 +390,7 @@
 
   },
   {
-    "id": "73db99a4-b8ed-46f4-97e2-435438dd5cee",
+    "id": "01185e16-140e-4609-89ab-3c037a12201f",
     "numCDE": 1803481,
     "semaine": "202617",
     "priorite": 0,
@@ -429,7 +429,7 @@
 
   },
   {
-    "id": "861b09b8-e5f1-4a9f-a6f6-d6142b7a719f",
+    "id": "4cb796ff-3fcf-4723-b82c-73fbd4956afb",
     "numCDE": 6005733,
     "semaine": "202617",
     "priorite": 0,
@@ -468,7 +468,7 @@
 
   },
   {
-    "id": "b7d9d68b-09bd-4923-8a9e-2fe2eecda3de",
+    "id": "fb64300d-d210-425f-9123-a33b6e1db2f2",
     "numCDE": 1802021,
     "semaine": "202617",
     "priorite": 0,
@@ -507,7 +507,7 @@
 
   },
   {
-    "id": "49e9dc50-5f67-47e3-8c7e-91bcf00a89bc",
+    "id": "55fddb3e-4858-48de-a7d3-1f4c8a12b440",
     "numCDE": 1802021,
     "semaine": "202617",
     "priorite": 0,
@@ -546,7 +546,7 @@
 
   },
   {
-    "id": "221a76a8-3872-4481-bbe0-b3ece03add4d",
+    "id": "1a10a836-b361-48a5-a4a0-149a5e9f4e7d",
     "numCDE": 5409277,
     "semaine": "202617",
     "priorite": 0,
@@ -585,7 +585,7 @@
 
   },
   {
-    "id": "e1619046-14b4-4a52-bfba-fbe0d3bf6b34",
+    "id": "c4aadf15-dda1-4950-87b1-8c72153b4c4b",
     "numCDE": 5409277,
     "semaine": "202617",
     "priorite": 0,
@@ -624,7 +624,7 @@
 
   },
   {
-    "id": "94470b71-d69e-4595-8d0e-22dc1f35fb53",
+    "id": "7c28ba65-ed33-47d5-92e8-b2d64217e7d0",
     "numCDE": 6006057,
     "semaine": "202617",
     "priorite": 0,
@@ -663,7 +663,7 @@
 
   },
   {
-    "id": "7b0eab35-d858-445a-824f-a54481fa1dc6",
+    "id": "14417af1-cd32-4366-83bf-2108bbd743de",
     "numCDE": 1802825,
     "semaine": "202617",
     "priorite": 0,
@@ -702,7 +702,7 @@
 
   },
   {
-    "id": "16dfcb1c-504f-4a14-87ef-add6bc7f31d4",
+    "id": "5cd8cf7d-5ecd-48fc-b61c-57fd7933a03a",
     "numCDE": 1802825,
     "semaine": "202617",
     "priorite": 0,
@@ -741,7 +741,7 @@
 
   },
   {
-    "id": "3f2b6d9c-229b-4689-b626-4f09567e3e04",
+    "id": "55546a2f-6899-4285-83e1-c421ba7c09f2",
     "numCDE": 9002553,
     "semaine": "202617",
     "priorite": 0,
@@ -780,7 +780,7 @@
 
   },
   {
-    "id": "d3d36eb7-cd9b-45f9-9856-c3a7fb35dc06",
+    "id": "a117665c-4a75-44fe-bfa0-c511b3afc797",
     "numCDE": 5410507,
     "semaine": "202617",
     "priorite": 0,
@@ -819,7 +819,7 @@
 
   },
   {
-    "id": "d4a5d8fc-8d3f-4ee9-b6b5-d992526cd117",
+    "id": "0c6efd8b-8bc3-4667-a4f6-ebb2c18bd6e8",
     "numCDE": 6006068,
     "semaine": "202617",
     "priorite": 0,
@@ -858,7 +858,7 @@
 
   },
   {
-    "id": "393b1df7-727f-4986-a057-99a9890f00e2",
+    "id": "e5ef3fda-0aac-4bdd-8939-24aa5645d52a",
     "numCDE": 5410972,
     "semaine": "202617",
     "priorite": 0,
@@ -897,7 +897,7 @@
 
   },
   {
-    "id": "e7e4d377-382b-42df-a1eb-8bad594b89b7",
+    "id": "00a3e7c8-4152-42c9-932a-22d0cdacc341",
     "numCDE": 5409874,
     "semaine": "202617",
     "priorite": 0,
@@ -936,7 +936,7 @@
 
   },
   {
-    "id": "ff93449c-9b6d-4682-88df-6e9ccf7d3e5a",
+    "id": "3d37c9d9-df7b-4ad1-a360-f338fc84ae60",
     "numCDE": 5409874,
     "semaine": "202617",
     "priorite": 0,
@@ -975,7 +975,7 @@
 
   },
   {
-    "id": "ae3398fe-8f16-4dcf-b246-92ce800ea8df",
+    "id": "7f23b157-69d5-409a-ac1b-fe6ed05b3e3f",
     "numCDE": 1802901,
     "semaine": "202617",
     "priorite": 0,
@@ -1014,7 +1014,7 @@
 
   },
   {
-    "id": "141894df-e9c0-49f5-af5d-c552b8a9a689",
+    "id": "562b89c3-38bd-4aac-b988-7c3659e291cf",
     "numCDE": 6005770,
     "semaine": "202617",
     "priorite": 0,
@@ -1053,7 +1053,7 @@
 
   },
   {
-    "id": "58988e3a-458d-4ac7-85a8-c7e5522916f1",
+    "id": "8a2ebf45-00b1-4b2b-9aee-9f0fcc265447",
     "numCDE": 9002397,
     "semaine": "202617",
     "priorite": 0,
@@ -1092,7 +1092,7 @@
 
   },
   {
-    "id": "2f1e715e-7621-4244-b0c9-faa41291493d",
+    "id": "6845d8de-b0e3-4ab9-8ac7-3dbe71d8ec6b",
     "numCDE": 9002397,
     "semaine": "202617",
     "priorite": 0,
@@ -1131,7 +1131,7 @@
 
   },
   {
-    "id": "185deafc-ab62-4d33-8d07-7c754791e28a",
+    "id": "ca8363a2-22e5-4fe9-a2a5-192d7c8ce49e",
     "numCDE": 6006051,
     "semaine": "202617",
     "priorite": 0,
@@ -1170,7 +1170,7 @@
 
   },
   {
-    "id": "06eacfa5-9512-4b49-aca5-b704420dcd9c",
+    "id": "26081543-0a8a-4e56-9d64-9d987d0efa32",
     "numCDE": 1804061,
     "semaine": "202617",
     "priorite": 0,
@@ -1209,7 +1209,7 @@
 
   },
   {
-    "id": "c52788f6-2627-465b-9f2e-e99321dc4293",
+    "id": "d7dcdc7b-b461-4d70-83be-0205fa7d6959",
     "numCDE": 5411410,
     "semaine": "202617",
     "priorite": 0,
@@ -1248,7 +1248,7 @@
 
   },
   {
-    "id": "74c8b4e4-a846-4ddd-837d-970c37d895b5",
+    "id": "cc784f23-fddd-4476-bc78-949fbdf3ea0b",
     "numCDE": 5411410,
     "semaine": "202617",
     "priorite": 0,
@@ -1287,7 +1287,7 @@
 
   },
   {
-    "id": "c847f262-e957-47b7-bdc6-8634024b044f",
+    "id": "58d639f8-b04d-417e-b888-3f56e236fac1",
     "numCDE": 5409297,
     "semaine": "202617",
     "priorite": 0,
@@ -1326,7 +1326,7 @@
 
   },
   {
-    "id": "ebf2b2b4-b952-484a-8e1e-a420eb5c7718",
+    "id": "9180ed50-05a9-42fd-acb0-8dbbcbf0f677",
     "numCDE": 5411134,
     "semaine": "202617",
     "priorite": 0,
@@ -1365,7 +1365,7 @@
 
   },
   {
-    "id": "6255170d-121e-4ed3-901d-7f66fab05b97",
+    "id": "dd453e18-1575-4ed0-92fd-eebf5b9552bb",
     "numCDE": 5411379,
     "semaine": "202617",
     "priorite": 0,
@@ -1404,7 +1404,7 @@
 
   },
   {
-    "id": "84f9f5f7-e0ea-4e0c-9854-95fb2f4b5282",
+    "id": "c85712d3-fdad-4e97-a32e-56eca8402387",
     "numCDE": 5411379,
     "semaine": "202617",
     "priorite": 0,
@@ -1443,7 +1443,7 @@
 
   },
   {
-    "id": "16d3118d-bdb1-414a-9b94-c04f7afb3ae3",
+    "id": "1d6276db-7b57-47a0-a830-a2ff7d811b70",
     "numCDE": 5410148,
     "semaine": "202617",
     "priorite": 0,
@@ -1482,7 +1482,7 @@
 
   },
   {
-    "id": "196e1fca-3cbe-4321-9e7a-0ff44923f207",
+    "id": "7b35c9d9-fac7-47e6-9f95-cc5d62456040",
     "numCDE": 1804288,
     "semaine": "202617",
     "priorite": 0,
@@ -1521,7 +1521,7 @@
 
   },
   {
-    "id": "909d22c2-d471-4519-8e43-db3db8314623",
+    "id": "502a1297-7615-49fb-b144-5251a64b27c3",
     "numCDE": 5411288,
     "semaine": "202617",
     "priorite": 0,
@@ -1560,7 +1560,7 @@
 
   },
   {
-    "id": "e3d07c9a-ea8e-4f90-9785-1544403c6652",
+    "id": "470b293a-d97b-4a68-8b3d-17d82e5c3c73",
     "numCDE": 9002931,
     "semaine": "202617",
     "priorite": 0,
@@ -1599,7 +1599,7 @@
 
   },
   {
-    "id": "d58f599d-16c5-4fea-9475-fef541bf9a79",
+    "id": "db7b88fc-a419-47cd-bcb3-9a8426034be5",
     "numCDE": 5408741,
     "semaine": "202617",
     "priorite": 0,
@@ -1638,7 +1638,7 @@
 
   },
   {
-    "id": "885e0432-566e-4566-b46c-bd017816fdb5",
+    "id": "b61c5d8e-76ad-4117-8bc8-69d01fce1e6d",
     "numCDE": 6006244,
     "semaine": "202617",
     "priorite": 0,
@@ -1677,7 +1677,7 @@
 
   },
   {
-    "id": "67a3bcee-4725-4b39-b3be-43591b3546c8",
+    "id": "46cf90e8-2ec9-4656-940b-d789ad6b73c9",
     "numCDE": 6006244,
     "semaine": "202617",
     "priorite": 0,
@@ -1716,7 +1716,7 @@
 
   },
   {
-    "id": "b0a5ed0f-1fa4-4c95-8471-ab068e4fefd8",
+    "id": "2a2168b4-fe37-459a-b46e-9002d6b8d4b7",
     "numCDE": 9002448,
     "semaine": "202617",
     "priorite": 0,
@@ -1755,7 +1755,7 @@
 
   },
   {
-    "id": "774cc0c8-2f1b-48f5-8c50-a5652c660b89",
+    "id": "8e5cee81-be50-4ed1-9b20-7b817d9fb0c5",
     "numCDE": 1803082,
     "semaine": "202617",
     "priorite": 0,
@@ -1794,7 +1794,7 @@
 
   },
   {
-    "id": "537f86c3-14f0-456b-b429-f8f7d9d4db75",
+    "id": "d05ff982-b020-4851-a334-97c9893f7032",
     "numCDE": 1803082,
     "semaine": "202617",
     "priorite": 0,
@@ -1833,7 +1833,7 @@
 
   },
   {
-    "id": "cbd893d3-b26e-43b4-95fe-e0c6a3fa6c4d",
+    "id": "6b981cc2-e4d0-40fe-a4fc-19c98ab8bfce",
     "numCDE": 1803472,
     "semaine": "202617",
     "priorite": 0,
@@ -1872,7 +1872,7 @@
 
   },
   {
-    "id": "1be3b6f9-0cf9-4c9a-b32b-015a8249af03",
+    "id": "9a5cb186-7213-4267-9f9d-c202972587b5",
     "numCDE": 9003100,
     "semaine": "202617",
     "priorite": 0,
@@ -1911,7 +1911,7 @@
 
   },
   {
-    "id": "855cae3a-d010-4738-a1bf-2462a846515e",
+    "id": "2e9af6f6-f8ee-43d8-9b10-1e7525547a79",
     "numCDE": 6006204,
     "semaine": "202617",
     "priorite": 0,
@@ -1950,7 +1950,7 @@
 
   },
   {
-    "id": "a48f7b73-2922-4c69-ba81-3563fe9029ff",
+    "id": "0acd59d8-2ab0-4e0e-9b34-30bc3168174e",
     "numCDE": 9002912,
     "semaine": "202617",
     "priorite": 0,
@@ -1989,7 +1989,7 @@
 
   },
   {
-    "id": "d129bb23-bb13-4b6c-bff7-61cd65a73117",
+    "id": "c3e4d4c6-5a32-4675-be70-e1d25d461b8a",
     "numCDE": 1802839,
     "semaine": "202617",
     "priorite": 0,
@@ -2028,7 +2028,7 @@
 
   },
   {
-    "id": "3ec3a5cf-6060-4453-bca4-9eda6aea50b8",
+    "id": "8044baed-4f1e-45b7-a2b7-d3bb5cef8a66",
     "numCDE": 6006194,
     "semaine": "202617",
     "priorite": 0,
@@ -2067,7 +2067,7 @@
 
   },
   {
-    "id": "999d68b1-a79f-4a6d-9683-2982ffe498a7",
+    "id": "2a196446-99f2-4bb7-8c72-1257dacc7863",
     "numCDE": 6006194,
     "semaine": "202617",
     "priorite": 0,
@@ -2106,7 +2106,7 @@
 
   },
   {
-    "id": "4100ce5c-a028-43fc-a175-ef76aaf8d932",
+    "id": "fc8dc032-38da-4893-9920-669040bf63f3",
     "numCDE": 1804424,
     "semaine": "202617",
     "priorite": 0,
@@ -2145,7 +2145,7 @@
 
   },
   {
-    "id": "446d23a5-a79b-43cc-80b9-5efe074bf6a9",
+    "id": "2bbd44da-c4a7-4caa-b81d-2bbc83163889",
     "numCDE": 1804424,
     "semaine": "202617",
     "priorite": 0,
@@ -2184,7 +2184,7 @@
 
   },
   {
-    "id": "0df86cb4-19a0-469b-9c76-336a84a0d654",
+    "id": "108835a0-a0fa-4ce6-9e0e-be2140d8ddc8",
     "numCDE": 6006130,
     "semaine": "202617",
     "priorite": 0,
@@ -2223,7 +2223,7 @@
 
   },
   {
-    "id": "44c349d2-5286-41de-9850-b6ca1a191b94",
+    "id": "15a38bc2-096d-44f8-953f-9603202ab122",
     "numCDE": 9002962,
     "semaine": "202617",
     "priorite": 0,
@@ -2262,7 +2262,7 @@
 
   },
   {
-    "id": "8ffa6327-5cc0-4cf6-9f8c-07166e7a7976",
+    "id": "fdc891d6-a559-47d0-8432-5105b351ae10",
     "numCDE": 5410754,
     "semaine": "202617",
     "priorite": 0,
@@ -2301,7 +2301,7 @@
 
   },
   {
-    "id": "1ae97d07-a0cc-48b5-9b3e-b5c631adb590",
+    "id": "6b27e8ae-9aec-4cdc-9d25-a81a8633bd92",
     "numCDE": 5410991,
     "semaine": "202617",
     "priorite": 0,

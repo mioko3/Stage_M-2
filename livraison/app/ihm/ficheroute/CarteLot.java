@@ -33,12 +33,14 @@ public class CarteLot extends JPanel implements ActionListener
 	private JButton    btncommencer;
 	private JTextField textPcsEtiq;
 	private JTextField textPcsPart;
-	private JComboBox<String> textDistri;
+	private JComboBox<String> combDistri;
 	private JTextField textLotCharge;
-	private JComboBox<String> textFormCart;
+	private JComboBox<String> combFormCart;
 	private JTextField textCollisage;
 	private JTextField textColisRecup;
 	private JTextField textMethode;
+	private JTextField textCadenceReel;
+	private JTextField textNbPers;
 
 	// Panel logistique (reconstruit quand on ajoute/supprime une ligne)
 	private JPanel panelLogistique;
@@ -163,6 +165,7 @@ public class CarteLot extends JPanel implements ActionListener
 		info(l2, "Cadence",       lot.getCadence() > 0 ? String.format("%.0f p/h", lot.getCadence()) : "—", bg);
 		info(l2, "H. Total",      lot.getHeures() > 0 ? String.format("%.1f h", lot.getHeures()) : "—", bg);
 		info(l2, "H. sur piste",  lot.getHeuresAce() > 0 ? String.format("%.1f h", lot.getHeuresAce()) : "—", bg);
+		if (!s(lot.getEmplacement()).isEmpty()) info(l2, "Emplacement", s(lot.getEmplacement()), bg);
 		if (!s(lot.getDateReception()).isEmpty()) info(l2, "Réception", lot.getDateReception(), bg);
 		if (!s(lot.getDatePaiement()).isEmpty())  info(l2, "Paiement",  lot.getDatePaiement(),  bg);
 		return l2;
@@ -170,23 +173,31 @@ public class CarteLot extends JPanel implements ActionListener
 
 	private JPanel construireLigne2Bis(Color bg)
 	{
-		JPanel l2Bis = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		JPanel l2Bis = new JPanel(new BorderLayout(6, 0));
 		l2Bis.setBackground(bg);
+		JPanel gauche =new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		gauche.setBackground(bg);
+		JPanel droit =new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		droit.setBackground(bg);
 		if (!estcommencer)
 		{
 			this.btncommencer = new JButton("Commencer");
 			this.btncommencer.addActionListener(e -> commencer());
-			l2Bis.add(this.btncommencer);
+			gauche.add(this.btncommencer);
 		}
 		else
 		{
 			this.btncommencer = new JButton("Annuler");
 			this.btncommencer.addActionListener(e -> annuler());
-			l2Bis.add(this.btncommencer);
+			gauche.add(this.btncommencer);
 		}
 
-		l2Bis.add(new JLabel("Date de Debut : " + lot.getDateDebut()));
-		l2Bis.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
+		gauche.add(new JLabel("Date de Debut : " + lot.getDateDebut()));
+		gauche.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
+
+		if (estcommencer)
+			droit.add(new JLabel("Date de Fin théorique : " + lot.getdateFinT()  ));
+		
 		return l2Bis;
 	}
 
@@ -263,26 +274,31 @@ public class CarteLot extends JPanel implements ActionListener
 		conteneur.setBackground(bg);
 
 		// Ligne principale (format carton par défaut + collisage)
-		JPanel l5 = new JPanel(new GridLayout(2, 4, 4, 2));
+		JPanel l5 = new JPanel(new GridLayout(2, 5, 4, 2));
 		l5.setBackground(bg);
 
-		this.textDistri     = new JComboBox(lot.DISTRI);
-		this.textDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getDistribution());
+		this.combDistri     = new JComboBox(lot.DISTRI);
+		this.combDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getDistribution());
 		this.textLotCharge  = new JTextField(s(lot.getLotACharge()), 10);
-		this.textFormCart   = new JComboBox(lot.F_CARTON);
-		this.textFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
+		this.combFormCart   = new JComboBox(lot.F_CARTON);
+		this.combFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
 		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
 		this.textColisRecup = new JTextField(String.valueOf(lot.getNbColisRecup()), 6);
 		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
+		this.textCadenceReel= new JTextField(String.valueOf(lot.getCadenceReel()),10);
+		this.textNbPers     = new JTextField(String.valueOf(lot.getNbPers()),10);
 
-		info(l5, "Emplacement", s(lot.getEmplacement()), bg);
-		l5.add(champEditable("Distribution",  this.textDistri,     bg, "DISTRI",      this));
-		l5.add(champEditable("Lot à charge",  this.textLotCharge,  bg, "LOT_CHARGE",  this));
-		l5.add(champEditable("Format carton", this.textFormCart,   bg, "FORM_CART",   this));
-		l5.add(champEditable("Collisage",     this.textCollisage,  bg, "COLLISAGES",  this));
+		// Ligne 1
+		l5.add(champEditable("Format carton", this.combFormCart,   bg, "FORM_CART",  this));
+		l5.add(champEditable("Collisage",     this.textCollisage,  bg, "COLLISAGES", this));
+		l5.add(champEditable("Nombre de pers",  this.textNbPers, bg, "NBPERS",   this));
+		l5.add(champEditable("Distribution",  this.combDistri,     bg, "DISTRI",     this));
+		l5.add(champEditable("Colis récup.", this.textColisRecup, bg, "COLIS_RECUP", this));
+		// ligne 2
 		info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),    bg);
 		info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
-		l5.add(champEditable("Colis récup.", this.textColisRecup, bg, "COLIS_RECUP", this));
+		l5.add(champEditable("Cadence Réel",  this.textCadenceReel, bg, "CADENCE",   this));
+		l5.add(champEditable("Lot à charge",  this.textLotCharge,  bg, "LOT_CHARGE", this));
 		l5.add(champEditable("Méthode",      this.textMethode,   bg, "METHODE",     this));
 
 		conteneur.add(l5);
@@ -510,13 +526,13 @@ public class CarteLot extends JPanel implements ActionListener
 					break;
 				}
 				case "DISTRI":
-					lot.setDistribution((String)textDistri.getSelectedItem());
+					lot.setDistribution((String)combDistri.getSelectedItem());
 					break;
 				case "LOT_CHARGE":
 					lot.setLotACharge(textLotCharge.getText().trim());
 					break;
 				case "FORM_CART":
-					lot.setFormatCarton((String)textFormCart.getSelectedItem());
+					lot.setFormatCarton((String)combFormCart.getSelectedItem());
 					break;
 				case "COLLISAGES":
 				{
@@ -536,6 +552,19 @@ public class CarteLot extends JPanel implements ActionListener
 				case "METHODE":
 					lot.setMethode(textMethode.getText().trim());
 					break;
+				case "CADENCE":
+				{
+					double v = Double.parseDouble(textCadenceReel.getText().trim());
+					if (v > 0)
+						lot.setCadenceReel(v);
+				}
+				case "NBPERS":
+				{
+					int v = Integer.parseInt(textNbPers.getText().trim());
+					if (v > 0)
+						lot.setNbPers(v);
+				}
+				
 			}
 			this.m.rafraichir();
 		}
