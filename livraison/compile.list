@@ -16,8 +16,8 @@ app/metier/PlanningGlobal.java
 
 app/ihm/login/FenetreLogin.java
 
-app/ihm/automatisation/PanelAuto.java
-app/ihm/automatisation/PanelGantt.java
+app/ihm/diagrame/Paneldiagrame.java
+app/ihm/diagrame/PanelGantt.java
 
 app/ihm/dialogue/DialogAjoutLot.java
 app/ihm/dialogue/DialogEditLot.java

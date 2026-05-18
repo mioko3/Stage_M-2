@@ -57,12 +57,13 @@ public class FenetrePrincipale extends JFrame
 		this.panelFicheRoute  = new PanelFicheRoute (ctrl, this);
 		this.panelMap         = new PanelMap        (ctrl, this);
 		this.panelAuto        = new PanelDiagrame       (ctrl, this);
+		this.panelAuto.setEnabled(false);
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);
 		onglets.addTab("📋 Fiches de Route",   panelFicheRoute);
 		onglets.addTab("☰ Liste des lots",    panelLots);
-		onglets.addTab("▤ Sociétés & heures", panelSocietes);
+		onglets.addTab("🕒 Sociétés & heures", panelSocietes);
 		onglets.addTab("🗺 Carte entrepôt",    panelMap);
 		onglets.addTab("⚙ DiagrameGantt",panelAuto);
 		add(onglets, BorderLayout.CENTER);

@@ -80,7 +80,9 @@ public class PlanningGlobal
 	public void importerNouveauxLots(String cheminXlsx) throws IOException
 	{
 		ArrayList<Lot> nouveaux = ExcelReader.lireLots(cheminXlsx);
-		this.lots.addAll(nouveaux);
+		for (Lot l : this.lots)
+			for (Lot ln : nouveaux)
+				if (!l.equals(ln)) this.lots.add(ln);
 	}
 
 	/**
