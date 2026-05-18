@@ -4,11 +4,11 @@
     "ce": "GERALDINE",
     "totalHeuresCE": 902,
     "aces": [
-      { "nom": "CHARLENE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["f07af12a-7c55-43a6-81cb-401a3562c61e"] },
+      { "nom": "CHARLENE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["538cf1c7-c48d-4cf0-a085-59209357dee4"] },
       { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": [] },
       { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": [] }
     ],
-    "lotsAffectes": ["f07af12a-7c55-43a6-81cb-401a3562c61e"]
+    "lotsAffectes": ["538cf1c7-c48d-4cf0-a085-59209357dee4"]
   },
   {
     "nom": "CFP",

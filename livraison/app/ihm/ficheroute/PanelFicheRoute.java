@@ -339,7 +339,7 @@ public class PanelFicheRoute extends JPanel
 	
 				if (aceExpanded.getOrDefault(ace, true))
 					for (Lot lot : lotsAce)
-						panelCartes_s.add(new CarteLot(lot, ace.getColor(),this.ctrl,this));
+						panelCartes_s.add(new CarteLot(lot, ace,this.ctrl,this));
 			}
 			List<Lot> sans = new ArrayList<>();
 			for (Lot lot : societeCourante.getLots()) if (!dansAce.contains(lot)) sans.add(lot);

@@ -311,9 +311,11 @@ public class ExcelReader
 			lot.setFormatCarton (getString(obj, "formatCarton"));
 			lot.setDateDebut    (getString(obj, "dateDebut"));
 			lot.setdateFin      (getString(obj, "dateFin"));
+			lot.setdateFinT      (getString(obj, "dateFinTheorique"));
 			lot.setHeuresAce    (getDouble(obj, "heuresAce"));
 			lot.setCollisage    (getInt   (obj, "collisage"));
 			lot.setEstMachine   (getBool  (obj, "estMachine"));
+			lot.setNbPers       (getInt(obj, "nbPers"));
 
 			// ── Lignes de colisage multiples ──────────────────────────────
 			String blocLignes = extraireBloc(obj, "\"lignesColisage\"");

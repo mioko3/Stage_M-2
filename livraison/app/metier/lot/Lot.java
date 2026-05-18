@@ -114,7 +114,71 @@ public class Lot
 
 	public void calculDateFinThéorique()
 	{
+		if (this.dateDebut == null || this.dateDebut.isEmpty()) return;
+		if (this.heuresAce <= 0) { this.dateFinTheorique = ""; return; }
 
+		try
+		{
+			java.time.format.DateTimeFormatter fmt =
+				java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			java.time.LocalDateTime curseur = java.time.LocalDateTime.parse(this.dateDebut, fmt);
+
+			// Plages de travail : début = 08:15, fin lun-jeu = 16:15, fin ven = 14:30
+			java.time.LocalTime DEBUT_JOURNEE   = java.time.LocalTime.of(8, 15);
+			java.time.LocalTime FIN_LUN_JEU     = java.time.LocalTime.of(16, 15);
+			java.time.LocalTime FIN_VEN         = java.time.LocalTime.of(14, 30);
+
+			double heuresRestantes = this.heuresAce;
+
+			// Si le curseur est avant le début de journée, avancer à 08:15
+			if (curseur.toLocalTime().isBefore(DEBUT_JOURNEE))
+				curseur = curseur.with(DEBUT_JOURNEE);
+
+			while (heuresRestantes > 0)
+			{
+				java.time.DayOfWeek jour = curseur.getDayOfWeek();
+
+				// Passer le week-end
+				if (jour == java.time.DayOfWeek.SATURDAY)
+				{ curseur = curseur.plusDays(2).with(DEBUT_JOURNEE); continue; }
+				if (jour == java.time.DayOfWeek.SUNDAY)
+				{ curseur = curseur.plusDays(1).with(DEBUT_JOURNEE); continue; }
+
+				java.time.LocalTime finJour = (jour == java.time.DayOfWeek.FRIDAY)
+					? FIN_VEN : FIN_LUN_JEU;
+
+				// Si on est après la fin de journée, passer au lendemain
+				if (!curseur.toLocalTime().isBefore(finJour))
+				{
+					curseur = curseur.plusDays(1).with(DEBUT_JOURNEE);
+					continue;
+				}
+
+				// Heures disponibles dans cette journée
+				long minutesDisponibles = java.time.Duration.between(
+					curseur.toLocalTime(), finJour).toMinutes();
+				double heuresDisponibles = minutesDisponibles / 60.0;
+
+				if (heuresRestantes <= heuresDisponibles)
+				{
+					// On termine dans cette journée
+					curseur = curseur.plusMinutes((long)(heuresRestantes * 60));
+					heuresRestantes = 0;
+				}
+				else
+				{
+					// On consomme toute la journée et on continue demain
+					heuresRestantes -= heuresDisponibles;
+					curseur = curseur.plusDays(1).with(DEBUT_JOURNEE);
+				}
+			}
+
+			this.dateFinTheorique = curseur.format(fmt);
+		}
+		catch (Exception e)
+		{
+			this.dateFinTheorique = "";
+		}
 	}
 
 	private double calculerPU()

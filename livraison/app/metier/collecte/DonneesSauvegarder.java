@@ -59,9 +59,11 @@ public class DonneesSauvegarder
 				pw.println("    \"formatCarton\": "             + esc(l.getFormatCarton())                            + ",");
 				pw.println("    \"dateDebut\": "                + esc(l.getDateDebut())                               + ",");
 				pw.println("    \"dateFin\": "                  + esc(l.getdateFin())                                 + ",");
+				pw.println("    \"dateFinTheorique\": "         + esc(l.getdateFinT())                                 + ",");
 				pw.println("    \"heuresAce\": "                + l.getHeuresAce()                                    + ",");
 				pw.println("    \"collisage\": "                + l.getCollisage()                                    + ",");
 				pw.println("    \"estMachine\": "               + l.estMachine()                                      + ",");
+				pw.println("    \"nbPers\": "                   + l.getNbPers()                                       + ",");
 
 				// ── Lignes de colisage multiples ──────────────────────────
 				ArrayList<LigneColisage> lc = l.getLignesColisage();

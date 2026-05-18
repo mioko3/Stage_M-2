@@ -4,6 +4,7 @@ import app.Controleur;
 import app.ihm.IhmUtils;
 import app.metier.lot.LigneColisage;
 import app.metier.lot.Lot;
+import app.metier.personelle.Ace;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -25,9 +26,10 @@ public class CarteLot extends JPanel implements ActionListener
 
 	private static boolean estcommencer;
 
-	private final Lot            lot;
-	private final Controleur     ctrl;
+	private final Lot             lot;
+	private final Controleur      ctrl;
 	private final PanelFicheRoute m;
+	private Ace             couranAce;
 
 	// ── Champs éditables ──────────────────────────────────────────────
 	private JButton    btncommencer;
@@ -52,15 +54,16 @@ public class CarteLot extends JPanel implements ActionListener
 	private JPanel panelBadgesEtat;
 	private JPanel ligne1;
 
-	public CarteLot(Lot lot, Color couleurAce, Controleur ctrl, PanelFicheRoute m)
+	public CarteLot(Lot lot, Color color, Controleur ctrl, PanelFicheRoute m)
 	{
 		this.lot  = lot;
 		this.ctrl = ctrl;
 		this.m    = m;
+		
 		estcommencer = !lot.getDateDebut().equals("");
 
 		Color bg     = bgPourLot(lot);
-		Color accent = couleurAce != null ? couleurAce : IhmUtils.BLEU;
+		Color accent = color != null ? color : IhmUtils.BLEU;
 
 		setLayout(new BorderLayout());
 		setBackground(bg);
@@ -98,6 +101,12 @@ public class CarteLot extends JPanel implements ActionListener
 
 		add(corps, BorderLayout.CENTER);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height + 16));
+	}
+
+	public CarteLot(Lot lot, Ace ace, Controleur ctrl, PanelFicheRoute m)
+	{
+		this(lot, ace.getColor(), ctrl, m);
+		this.couranAce = ace;
 	}
 
 	// ══════════════════════════════════════════════════════════════════
@@ -173,30 +182,27 @@ public class CarteLot extends JPanel implements ActionListener
 
 	private JPanel construireLigne2Bis(Color bg)
 	{
-		JPanel l2Bis = new JPanel(new BorderLayout(6, 0));
+		JPanel l2Bis = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
 		l2Bis.setBackground(bg);
-		JPanel gauche =new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
-		gauche.setBackground(bg);
-		JPanel droit =new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
-		droit.setBackground(bg);
 		if (!estcommencer)
 		{
 			this.btncommencer = new JButton("Commencer");
 			this.btncommencer.addActionListener(e -> commencer());
-			gauche.add(this.btncommencer);
+			l2Bis.add(this.btncommencer);
 		}
 		else
 		{
 			this.btncommencer = new JButton("Annuler");
 			this.btncommencer.addActionListener(e -> annuler());
-			gauche.add(this.btncommencer);
+			l2Bis.add(this.btncommencer);
 		}
 
-		gauche.add(new JLabel("Date de Debut : " + lot.getDateDebut()));
-		gauche.add(new JLabel("Date de Fin   : " + lot.getdateFin()  ));
-
-		if (estcommencer)
-			droit.add(new JLabel("Date de Fin théorique : " + lot.getdateFinT()  ));
+		info(l2Bis, "Date de Debut : ", lot.getDateDebut(), bg);
+		l2Bis.add(separateur());
+		info(l2Bis, "Date de Fin : ", lot.getdateFin(), bg);
+		for (int idx = 0; idx < 5; idx++)
+			l2Bis.add(separateur());
+		info(l2Bis, "Date de Fin théorique : ", lot.getdateFinT(), bg);
 		
 		return l2Bis;
 	}
@@ -205,6 +211,7 @@ public class CarteLot extends JPanel implements ActionListener
 	{
 		estcommencer = true;
 		this.ctrl.commencerLot(lot);
+		lot.calculDateFinThéorique();
 		this.m.rafraichir();
 	}
 
@@ -212,6 +219,7 @@ public class CarteLot extends JPanel implements ActionListener
 	{
 		estcommencer = false;
 		this.ctrl.annulerLot(lot);
+		lot.setdateFinT("");
 		this.m.rafraichir();
 	}
 
