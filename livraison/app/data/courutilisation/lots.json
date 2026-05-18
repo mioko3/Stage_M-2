@@ -67,7 +67,7 @@
     "distribution": "",
     "formatCarton": "",
     "dateDebut": "18/05/2026 14:22:57",
-    "dateFin": "",
+    "dateFin": "18/05/2026 15:38:37",
     "dateFinTheorique": "19/05/2026 11:07:00",
     "heuresAce": 4.7411111111111115,
     "collisage": 0,
@@ -78,7 +78,7 @@
     "phase_surPiste": false,
     "phase_sortieEtiq": false,
     "phase_tri": false,
-    "phase_finit": false
+    "phase_finit": true
 
   },
   {
