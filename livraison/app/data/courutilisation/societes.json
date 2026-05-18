@@ -2,33 +2,33 @@
   {
     "nom": "EUP",
     "ce": "GERALDINE",
-    "totalHeuresCE": 902,
+    "totalHeuresCE": 762,
     "aces": [
-      { "nom": "CHARLENE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["538cf1c7-c48d-4cf0-a085-59209357dee4"] },
-      { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": [] },
-      { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": [] }
+      { "nom": "CHARLENE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["538cf1c7-c48d-4cf0-a085-59209357dee4","eac91755-4376-4e4e-ab4e-88d89bce3fbd"] },
+      { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["108acb43-d305-4121-84e1-4135763f0766"] },
+      { "nom": "SOPHIE F", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["6cdbe3e8-519a-443e-b088-4c4dae1eaf4d"] }
     ],
-    "lotsAffectes": ["538cf1c7-c48d-4cf0-a085-59209357dee4"]
+    "lotsAffectes": ["538cf1c7-c48d-4cf0-a085-59209357dee4","eac91755-4376-4e4e-ab4e-88d89bce3fbd","108acb43-d305-4121-84e1-4135763f0766","6cdbe3e8-519a-443e-b088-4c4dae1eaf4d"]
   },
   {
     "nom": "CFP",
     "ce": "LAETITIA",
-    "totalHeuresCE": 868,
+    "totalHeuresCE": 817,
     "aces": [
-      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "estMachine": false, "lotsACE": [] },
+      { "nom": "SOLENNE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "estMachine": false, "lotsACE": ["6dfdf922-ed89-489f-b046-db052c4b46eb"] },
       { "nom": "CAMILLE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 12, "estMachine": false, "lotsACE": [] }
     ],
-    "lotsAffectes": []
+    "lotsAffectes": ["6dfdf922-ed89-489f-b046-db052c4b46eb"]
   },
   {
     "nom": "PA",
     "ce": "CLYDE",
-    "totalHeuresCE": 903,
+    "totalHeuresCE": 823,
     "aces": [
-      { "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": [] },
-      { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": [] }
+      { "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": ["3d643671-9450-4ab7-942b-aa04d4578aa9"] },
+      { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": ["a404f493-2015-4e9f-84f2-1acb86ee148b"] }
     ],
-    "lotsAffectes": []
+    "lotsAffectes": ["3d643671-9450-4ab7-942b-aa04d4578aa9","a404f493-2015-4e9f-84f2-1acb86ee148b"]
   },
   {
     "nom": "NP",
