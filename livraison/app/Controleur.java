@@ -376,6 +376,7 @@ public class Controleur
 		savDonnees.charger(metier, chemin);
 		this.cheminLotsJson     = chemin + "/lots.json";
 		this.cheminSocietesJson = chemin + "/societes.json";
+		fenetre.rafraichirTout();
 	}
 
 	public void nouveaux()

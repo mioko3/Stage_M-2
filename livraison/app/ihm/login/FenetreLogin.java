@@ -1,12 +1,11 @@
 package app.ihm.login;
 
 import app.Controleur;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Fenêtre de connexion.
@@ -27,6 +26,7 @@ public class FenetreLogin extends JFrame implements ActionListener
 	private JButton    btnConnexion;
 	private JCheckBox  chkFichierCourant;
 	private JCheckBox  chkExport;
+	private JCheckBox  chkSave;
 	private JLabel     lblErreur;
 
 	// ── Constructeur ──────────────────────────────────────────────────────
@@ -119,16 +119,20 @@ public class FenetreLogin extends JFrame implements ActionListener
 
 		chkFichierCourant = checkbox("Utiliser les fichiers courants (JSON)");
 		chkExport         = checkbox("Charger depuis un export Excel");
+		chkSave           = checkbox("Charger depuis une sauvegarde");
 		chkFichierCourant.setSelected(true);   // par défaut : JSON
 
 		// Exclusion mutuelle
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(chkFichierCourant);
 		grp.add(chkExport);
+		grp.add(chkSave);
 
 		carte.add(chkFichierCourant);
 		carte.add(Box.createRigidArea(new Dimension(0, 8)));
 		carte.add(chkExport);
+		carte.add(Box.createRigidArea(new Dimension(0, 8)));
+		carte.add(chkSave);
 
 		fond.add(carte);
 		return fond;
@@ -143,6 +147,28 @@ public class FenetreLogin extends JFrame implements ActionListener
 	{
 		if (e.getSource() == txtLogin || e.getSource() == btnConnexion)
 			tenterConnexion();
+	}
+
+	private void ouvrirSauvegarde()
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Ouvrir une sauvegarde JSON");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) return;
+
+		String dossier = fc.getSelectedFile().getAbsolutePath();
+		try
+		{
+			ctrl.chargerDonnees(dossier);
+			JOptionPane.showMessageDialog(this,
+				"Sauvegarde chargée : " + fc.getSelectedFile().getName(),
+				"Chargement OK", JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch (Exception ex)
+		{
+			JOptionPane.showMessageDialog(this, "Erreur : " + ex.getMessage(),
+				"Erreur", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void tenterConnexion()
@@ -164,6 +190,9 @@ public class FenetreLogin extends JFrame implements ActionListener
 
 		boolean utiliserExcel = chkExport.isSelected();
 		ctrl.lancerApp(saisie, utiliserExcel);
+
+		if (chkSave.isSelected())
+			ouvrirSauvegarde();
 	}
 
 	private boolean loginValide(String log)

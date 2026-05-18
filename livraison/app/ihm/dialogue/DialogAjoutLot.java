@@ -7,6 +7,7 @@ import app.ihm.gestionlot.PanelAffectation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -14,7 +15,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -26,10 +32,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-// tout est a revoir dans lui
-
 /**
  * Dialogue de création manuelle d'un nouveau lot.
+ *
+ * Emplacement : combo lettre (A/B/C/D/LTS/HD) + champ numéro libre
+ *               → concaténés en un seul String pour le métier (ex: "B42")
+ *               Les codes spéciaux LTS et HD n'ont pas de numéro.
  * Heures = NbPieces / Cadence (calcul en temps réel).
  */
 public class DialogAjoutLot extends JDialog
@@ -38,12 +46,25 @@ public class DialogAjoutLot extends JDialog
 	private final PanelAffectation  panelAff;
 	private final FenetrePrincipale fenetre;
 
+	// Champs formulaire
 	private JTextField        fNumCDE, fTypologie, fAffaire, fNbPieces, fCadence;
 	private JTextField        fValeur, fSemaine, fLotACharge, fDateRec, fDatePai, fCommentaire;
-	private JComboBox<String> fStatut, fStatutEchant, femplacement;
+	private JComboBox<String> fStatut, fStatutEchant;
 	private JCheckBox         fDouane;
 	private JSpinner          fPriorite;
-	private JLabel            lblHeures, lblErreur;
+
+	// Emplacement décomposé
+	private JComboBox<String> fEmplacementLettre;
+	private JTextField        fEmplacementNumero;
+
+	// Labels et erreur
+	private JLabel lblHeures, lblErreur;
+
+	// Lettres pour lesquelles le numéro n'a pas de sens
+	private static final Set<String> SANS_NUMERO =
+		new HashSet<>(Arrays.asList("LTS", "HD", ""));
+
+	// ── Constructeur ──────────────────────────────────────────────────────
 
 	public DialogAjoutLot(FenetrePrincipale fenetre, Controleur ctrl, PanelAffectation panelAff)
 	{
@@ -51,12 +72,14 @@ public class DialogAjoutLot extends JDialog
 		this.fenetre  = fenetre;
 		this.ctrl     = ctrl;
 		this.panelAff = panelAff;
-		setSize(520, 550);
+		setSize(540, 620);
 		setLocationRelativeTo(fenetre);
 		setLayout(new BorderLayout());
 		add(creerFormulaire(), BorderLayout.CENTER);
 		add(creerBas(),        BorderLayout.SOUTH);
 	}
+
+	// ── Formulaire ────────────────────────────────────────────────────────
 
 	private JScrollPane creerFormulaire()
 	{
@@ -75,20 +98,52 @@ public class DialogAjoutLot extends JDialog
 		fPriorite    = new JSpinner(new SpinnerNumberModel(0, 0, 99, 1));
 
 		fStatut = new JComboBox<>(new String[]{
-			"","OU", "TC","MR"});
+			"", "OU", "TC", "MR"});
 		fStatutEchant = new JComboBox<>(new String[]{
-			"","VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP",});
+			"", "VA - Validé avec le CP", "BL - Bloqué", "EP - Envoi au CP"});
 
+		// ── Sélecteur emplacement : lettre + numéro ───────────────────────
+		fEmplacementLettre = new JComboBox<>(new String[]{
+			"", "A", "B", "C", "D", "LTS", "HD"});
+
+		fEmplacementNumero = new JTextField(5);
+		fEmplacementNumero.setToolTipText("Numéro de rangée (ex: 42)");
+		fEmplacementNumero.setEnabled(false); // désactivé par défaut (lettre vide)
+
+		// Active/désactive le numéro selon la lettre choisie
+		fEmplacementLettre.addActionListener(e -> {
+			String lettre = s((String) fEmplacementLettre.getSelectedItem());
+			boolean avecNum = !SANS_NUMERO.contains(lettre);
+			fEmplacementNumero.setEnabled(avecNum);
+			if (!avecNum) fEmplacementNumero.setText("");
+		});
+
+		// Panel inline lettre + "—" + numéro
+		JPanel panelEmpl = new JPanel();
+		panelEmpl.setLayout(new BoxLayout(panelEmpl, BoxLayout.X_AXIS));
+		panelEmpl.setBackground(Color.WHITE);
+		fEmplacementLettre.setMaximumSize(new Dimension(80, 28));
+		fEmplacementNumero.setMaximumSize(new Dimension(70, 28));
+		JLabel sep = new JLabel("  —  ");
+		sep.setForeground(Color.GRAY);
+		panelEmpl.add(fEmplacementLettre);
+		panelEmpl.add(sep);
+		panelEmpl.add(fEmplacementNumero);
+		panelEmpl.add(Box.createHorizontalGlue());
+
+		// Label heures calculées
 		lblHeures = new JLabel("—");
 		lblHeures.setForeground(IhmUtils.BLEU);
 		lblHeures.setFont(new Font("SansSerif", Font.BOLD, 13));
 
+		// Recalcul en temps réel
 		KeyAdapter majH = new KeyAdapter() {
 			public void keyReleased(KeyEvent e) { calculerHeures(); }
 		};
 		fNbPieces.addKeyListener(majH);
 		fCadence .addKeyListener(majH);
 
+		// Tableau de champs
 		Object[][] champs = {
 			{"N° CDE *",         fNumCDE},
 			{"Typologie *",      fTypologie},
@@ -102,7 +157,7 @@ public class DialogAjoutLot extends JDialog
 			{"Semaine",          fSemaine},
 			{"Priorité",         fPriorite},
 			{"Lot à charge",     fLotACharge},
-			{"Emplacement",      femplacement},
+			{"Emplacement",      panelEmpl},
 			{"Date réception",   fDateRec},
 			{"Date paiement",    fDatePai},
 			{"",                 fDouane},
@@ -135,8 +190,8 @@ public class DialogAjoutLot extends JDialog
 		lblErreur.setForeground(IhmUtils.ROUGE);
 		lblErreur.setFont(new Font("SansSerif", Font.ITALIC, 12));
 
-		JButton btnOk  = IhmUtils.bouton("Créer",    IhmUtils.BLEU,          Color.WHITE);
-		JButton btnAnn = IhmUtils.bouton("Annuler",  new Color(100,100,100), Color.WHITE);
+		JButton btnOk  = IhmUtils.bouton("Créer",   IhmUtils.BLEU,           Color.WHITE);
+		JButton btnAnn = IhmUtils.bouton("Annuler", new Color(100, 100, 100), Color.WHITE);
 		btnAnn.addActionListener(e -> dispose());
 		btnOk .addActionListener(e -> valider());
 
@@ -146,6 +201,8 @@ public class DialogAjoutLot extends JDialog
 		return p;
 	}
 
+	// ── Calcul heures ─────────────────────────────────────────────────────
+
 	private void calculerHeures()
 	{
 		try
@@ -153,7 +210,7 @@ public class DialogAjoutLot extends JDialog
 			int    nb  = Integer.parseInt(fNbPieces.getText().trim());
 			double cad = Double.parseDouble(fCadence.getText().trim().replace(",", "."));
 			double h   = cad > 0 ? nb / cad : 0.0;
-			lblHeures.setText(String.format("%.2fh", h));
+			lblHeures.setText(String.format("%.2fh  (%.0f pièces ÷ %.2f p/h)", h, (double) nb, cad));
 			lblHeures.setForeground(IhmUtils.BLEU);
 		}
 		catch (NumberFormatException ex)
@@ -162,6 +219,18 @@ public class DialogAjoutLot extends JDialog
 			lblHeures.setForeground(Color.GRAY);
 		}
 	}
+
+	// ── Reconstitue "B" + "42" → "B42" pour le métier ────────────────────
+
+	private String getEmplacementCombine()
+	{
+		String lettre = s((String) fEmplacementLettre.getSelectedItem());
+		if (lettre.isEmpty()) return "";
+		if (SANS_NUMERO.contains(lettre)) return lettre;
+		return lettre + fEmplacementNumero.getText().trim();
+	}
+
+	// ── Validation ────────────────────────────────────────────────────────
 
 	private void valider()
 	{
@@ -177,14 +246,25 @@ public class DialogAjoutLot extends JDialog
 			int    val  = fValeur.getText().trim().isEmpty() ? 0
 						  : Integer.parseInt(fValeur.getText().trim());
 
-			ctrl.ajouterLot(cde, typo, fAffaire.getText().trim(), nb, cad, val,
-				(String) fStatut.getSelectedItem(),
-					(String) fStatutEchant.getSelectedItem(),
-					fSemaine.getText().trim(), (int) fPriorite.getValue(),
-					fLotACharge.getText().trim(),
-					(String) femplacement.getSelectedItem(),
-					fDouane.isSelected(), fDateRec.getText().trim(),
-					fDatePai.getText().trim(), fCommentaire.getText().trim());
+			ctrl.ajouterLot(
+				cde,
+				typo,
+				fAffaire     .getText().trim(),
+				nb,
+				cad,
+				val,
+				(String) fStatut      .getSelectedItem(),
+				(String) fStatutEchant.getSelectedItem(),
+				fSemaine     .getText().trim(),
+				(int) fPriorite.getValue(),
+				fLotACharge  .getText().trim(),
+				getEmplacementCombine(),
+				fDouane      .isSelected(),
+				fDateRec     .getText().trim(),
+				fDatePai     .getText().trim(),
+				fCommentaire .getText().trim()
+			);
+
 			if (panelAff != null) panelAff.remplirComboSocietes();
 			fenetre.rafraichirTout();
 			if (panelAff != null) panelAff.afficherStatut(
@@ -195,6 +275,7 @@ public class DialogAjoutLot extends JDialog
 		{
 			lblErreur.setText("Valeur numérique invalide : " + ex.getMessage());
 		}
-		this.fenetre.rafraichirTout();
 	}
+
+	private static String s(String v) { return v != null ? v : ""; }
 }
