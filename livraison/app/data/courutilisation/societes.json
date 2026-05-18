@@ -23,12 +23,12 @@
   {
     "nom": "PA",
     "ce": "CLYDE",
-    "totalHeuresCE": 902,
+    "totalHeuresCE": 822,
     "aces": [
       { "nom": "CHLOE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": [] },
-      { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": ["678220c1-42f9-499b-9d26-d7db53ca15bc"] }
+      { "nom": "MAUD", "nbPers": 0, "totalHeures": 0, "effectifActuel": 13, "estMachine": false, "lotsACE": ["678220c1-42f9-499b-9d26-d7db53ca15bc","a56e94a1-596c-445a-b3fe-66dafc18d315"] }
     ],
-    "lotsAffectes": ["678220c1-42f9-499b-9d26-d7db53ca15bc"]
+    "lotsAffectes": ["678220c1-42f9-499b-9d26-d7db53ca15bc","a56e94a1-596c-445a-b3fe-66dafc18d315"]
   },
   {
     "nom": "NP",

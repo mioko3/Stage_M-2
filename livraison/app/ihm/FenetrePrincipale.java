@@ -1,6 +1,7 @@
 package app.ihm;
 
 import app.Controleur;
+import app.ihm.automatisation.*;
 import app.ihm.ficheroute.PanelFicheRoute;
 import app.ihm.gestionlot.PanelAffectation;
 import app.ihm.gestionlot.PanelLots;
@@ -33,6 +34,7 @@ public class FenetrePrincipale extends JFrame
 	private PanelLots        panelLots;
 	private PanelFicheRoute  panelFicheRoute;
 	private PanelMap         panelMap;
+	private PanelAuto        panelAuto;
 	private JLabel           lblInfo;
 
 	public FenetrePrincipale(Controleur ctrl)
@@ -54,6 +56,7 @@ public class FenetrePrincipale extends JFrame
 		this.panelLots        = new PanelLots       (ctrl, this);
 		this.panelFicheRoute  = new PanelFicheRoute (ctrl, this);
 		this.panelMap         = new PanelMap        (ctrl, this);
+		this.panelAuto        = new PanelAuto       (ctrl, this);
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);
@@ -61,6 +64,7 @@ public class FenetrePrincipale extends JFrame
 		onglets.addTab("☰ Liste des lots",    panelLots);
 		onglets.addTab("▤ Sociétés & heures", panelSocietes);
 		onglets.addTab("🗺 Carte entrepôt",    panelMap);
+		onglets.addTab("⚙ Automatisation des affectations",panelAuto);
 		add(onglets, BorderLayout.CENTER);
 
 		// Rafraîchir fiche de route quand on clique sur l'onglet
