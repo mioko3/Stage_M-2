@@ -75,37 +75,31 @@ public class PanelGantt extends JPanel
     // ================= GRID =================
 
     private void drawGrid(Graphics2D g2)
-    {
-        g2.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+	{
+		g2.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 
-        for (int d = 0; d < DAYS.length; d++)
-        {
-            int baseX = LEFT + d * DAY_WIDTH;
+		for (int d = 0; d < DAYS.length; d++)
+		{
+			int baseX = LEFT + d * DAY_WIDTH;
 
-            // fond jour
-            g2.setColor(new Color(245,245,245));
-            g2.fillRect(baseX, TOP, DAY_WIDTH, getHeight());
+			g2.setColor(new Color(245,245,245));
+			g2.fillRect(baseX, TOP, DAY_WIDTH, getHeight());
 
-            g2.setColor(Color.BLACK);
-            g2.drawString(DAYS[d], baseX + 10, 40);
+			g2.setColor(Color.BLACK);
+			g2.drawString(DAYS[d], baseX + 10, 40);
 
-            // heures
-            for (int h = 8; h <= 16; h++)
-            {
-                int x = baseX + toMinutes(h, 0) * SCALE;
+			for (int h = 8; h <= 16; h++)
+			{
+				int x = baseX + (h - 8) * 60;
 
-                g2.setColor(new Color(220,220,220));
-                g2.drawLine(x, TOP, x, getHeight());
+				g2.setColor(new Color(220,220,220));
+				g2.drawLine(x, TOP, x, getHeight());
 
-                g2.setColor(Color.GRAY);
-                g2.drawString(h + "h", x + 2, TOP - 5);
-            }
-
-            // séparation jour
-            g2.setColor(Color.BLACK);
-            g2.drawLine(baseX, TOP, baseX, getHeight());
-        }
-    }
+				g2.setColor(Color.GRAY);
+				g2.drawString(h + "h", x + 2, TOP - 5);
+			}
+		}
+	}
 
     // ================= LOTS =================
 

@@ -12,6 +12,7 @@ import app.metier.lot.Lot;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -222,7 +223,7 @@ public class FenetrePrincipale extends JFrame
 		lblInfo.setForeground(new Color(180, 180, 180));
 		lblInfo.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
-		JPanel panelBtn = new JPanel();
+		JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelBtn.setBackground(IhmUtils.HEADER);
 		panelBtn.add(btnRafraichir);
 		panelBtn.add(btnSup);
@@ -242,7 +243,7 @@ public class FenetrePrincipale extends JFrame
 		return ctrl.getLots().size() + " lots  |  " + " Heures total Lot"+ getHeureLotTotal() +
 			+ ctrl.getSocietes().size() + " sociétés  |  "
 			+ nbAff + " affectés  |  "
-			+ nbH + "h disponibles  |  " + "Heures Sup "+ heureSup;
+			+ nbH + "h disponibles  |  " + "Heures Sup : "+ heureSup;
 	}
 
 	public String getHeureLotTotal()
