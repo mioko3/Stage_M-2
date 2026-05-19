@@ -21,6 +21,8 @@ import java.util.ArrayList;
  */
 public class PlanningGlobal
 {
+	public static boolean estHeureSup;
+
 	private ArrayList<Societe>    societes;
 	private ArrayList<Lot>        lots;
 	private ArrayList<FicheRoute> ficheRoute;
@@ -304,6 +306,7 @@ public class PlanningGlobal
 
 	// ── Getters / Setters ─────────────────────────────────────────────────
 
+	
 	public ArrayList<Societe> getSocietes()       { return societes; }
 	public ArrayList<Lot>     getLots()           { return lots;     }
 	public ArrayList<Ace>     getTouteAces()
@@ -313,5 +316,13 @@ public class PlanningGlobal
 			for (Ace a : s.getAces())
 				tout.add(a);
 		return tout;
+	}
+	public void setestHeureSup()
+	{
+		estHeureSup = !estHeureSup;
+		for (Lot l : this.lots)
+		{
+			l.calculDateFinThéorique();
+		}
 	}
 }

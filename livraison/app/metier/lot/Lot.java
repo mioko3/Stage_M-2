@@ -1,5 +1,6 @@
 package app.metier.lot;
 
+import app.metier.PlanningGlobal;
 import app.metier.ficheroute.Phase;
 import app.metier.ficheroute.SuivieProd;
 import java.util.ArrayList;
@@ -133,7 +134,11 @@ public class Lot
 
 			java.time.LocalTime DEBUT_JOURNEE = java.time.LocalTime.of(8, 15);
 
-			java.time.LocalTime FIN_LUN_JEU = java.time.LocalTime.of(16, 15);
+			java.time.LocalTime FIN_LUN_JEU;
+			if (PlanningGlobal.estHeureSup)
+				FIN_LUN_JEU = java.time.LocalTime.of(17, 15);
+			else 
+				FIN_LUN_JEU = java.time.LocalTime.of(16, 15);
 			java.time.LocalTime FIN_VEN     = java.time.LocalTime.of(14, 30);
 
 			double heuresRestantes = this.heuresAce;

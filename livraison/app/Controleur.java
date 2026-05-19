@@ -181,6 +181,11 @@ public class Controleur
 	public ArrayList<Societe> getSocietes() { return metier.getSocietes(); }
 	public ArrayList<Lot>     getLots()     { return metier.getLots();     }
 
+	public void semaineSup()
+	{
+		this.metier.setestHeureSup();
+	}
+
 	// ── Gestion des lots ──────────────────────────────────────────────────
 
 	public void supprimerLot(Lot lot)

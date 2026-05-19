@@ -7,6 +7,7 @@ import app.ihm.gestionlot.PanelAffectation;
 import app.ihm.gestionlot.PanelLots;
 import app.ihm.gestionlot.PanelSocietes;
 import app.ihm.map.PanelMap;
+import app.metier.PlanningGlobal;
 import app.metier.lot.Lot;
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -34,7 +35,7 @@ public class FenetrePrincipale extends JFrame
 	private PanelLots        panelLots;
 	private PanelFicheRoute  panelFicheRoute;
 	private PanelMap         panelMap;
-	private PanelDiagrame        panelAuto;
+	private PanelDiagrame    panelAuto;
 	private JLabel           lblInfo;
 
 	public FenetrePrincipale(Controleur ctrl)
@@ -211,15 +212,25 @@ public class FenetrePrincipale extends JFrame
 		btnRafraichir.setForeground(new Color(255, 255, 180));
 		btnRafraichir.addActionListener(e -> this.rafraichirTout());
 
+		Button btnSup = new Button("Heures Sup ");
+		btnSup.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		btnSup.setBackground(IhmUtils.HEADER);
+		btnSup.setForeground(new Color(255, 255, 180));
+		btnSup.addActionListener(e -> this.SemaineSup());
+
 		lblInfo = new JLabel(buildInfo());
 		lblInfo.setForeground(new Color(180, 180, 180));
 		lblInfo.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
-		
+		JPanel panelBtn = new JPanel();
+		panelBtn.setBackground(IhmUtils.HEADER);
+		panelBtn.add(btnRafraichir);
+		panelBtn.add(btnSup);
 
 		p.add(titre,   BorderLayout.WEST);
-		p.add(btnRafraichir, BorderLayout.SOUTH);
 		p.add(lblInfo, BorderLayout.EAST);
+		p.add(panelBtn,BorderLayout.SOUTH);
+		
 		return p;
 	}
 
@@ -227,10 +238,11 @@ public class FenetrePrincipale extends JFrame
 	{
 		long nbAff = ctrl.getSocietes().stream().mapToLong(s -> s.getLots().size()).sum();
 		int  nbH   = ctrl.getSocietes().stream().mapToInt(s -> s.getTotalHeuresCE()).sum();
+		String heureSup = PlanningGlobal.estHeureSup ? "oui" : "non";
 		return ctrl.getLots().size() + " lots  |  " + " Heures total Lot"+ getHeureLotTotal() +
 			+ ctrl.getSocietes().size() + " sociétés  |  "
 			+ nbAff + " affectés  |  "
-			+ nbH + "h disponibles";
+			+ nbH + "h disponibles  |  " + "Heures Sup "+ heureSup;
 	}
 
 	public String getHeureLotTotal()
@@ -263,6 +275,12 @@ public class FenetrePrincipale extends JFrame
 			if (lblInfo != null) lblInfo.setText(buildInfo());
 		});
 		this.ctrl.autoSauvegarde();
+	}
+
+	public void SemaineSup()
+	{
+		ctrl.semaineSup();
+		rafraichirTout();
 	}
 
 	public PanelAffectation getPanelAffectation() { return panelAffectation; }
