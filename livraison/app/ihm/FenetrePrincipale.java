@@ -57,7 +57,7 @@ public class FenetrePrincipale extends JFrame
 		this.panelFicheRoute  = new PanelFicheRoute (ctrl, this);
 		this.panelMap         = new PanelMap        (ctrl, this);
 		this.panelAuto        = new PanelDiagrame       (ctrl, this);
-		this.panelAuto.setEnabled(false);
+	
 		JTabbedPane onglets = new JTabbedPane();
 		onglets.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		onglets.addTab("⊕ Affectation",      panelAffectation);

@@ -3,7 +3,6 @@ package app.ihm.ficheroute;
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.metier.ficheroute.FicheRoute;
 import app.metier.lot.Lot;
 import app.metier.lot.Methode;
 import app.metier.personelle.Ace;
@@ -98,12 +97,10 @@ public class PanelFicheRoute extends JPanel
 		combSociete.setFont(new Font("SansSerif", Font.PLAIN, 13));
 		combSociete.setPreferredSize(new Dimension(280, 28));
 		combSociete.addActionListener(e -> changerSociete());
-		JButton btnExport   = IhmUtils.bouton("\uD83D\uDDB8 Aperçu / Export", IhmUtils.BLEU, Color.WHITE);
-		btnExport.addActionListener(e -> exporterTexte());
 		JButton btnMeth = IhmUtils.bouton("\uD83D\uDC41 Voir la Méthode", IhmUtils.VERT, Color.WHITE);
 		btnMeth.addActionListener(e -> ouvrirMeth_s());
 		ligneSelect.add(lbl); ligneSelect.add(combSociete);
-		ligneSelect.add(btnExport); ligneSelect.add(btnMeth);
+		ligneSelect.add(btnMeth);
 
 		// Tuiles stats globales
 		JPanel tuiles = new JPanel(new GridLayout(1, 5, 6, 0));
@@ -180,7 +177,11 @@ public class PanelFicheRoute extends JPanel
 		combAce = new JComboBox<>();
 		combAce.setPreferredSize(new Dimension(280, 28));
 		combAce.addActionListener(e -> changerAce());
+		JButton btnMeth = IhmUtils.bouton("\uD83D\uDC41 Voir la Méthode", IhmUtils.VERT, Color.WHITE);
+		btnMeth.addActionListener(e -> ouvrirMeth_a());
 		ligneSelect.add(lbl); ligneSelect.add(combAce);
+		ligneSelect.add(btnMeth);
+
 
 		JPanel tuiles = new JPanel(new GridLayout(1, 5, 6, 0));
 		tuiles.setBackground(IhmUtils.FOND);
@@ -504,27 +505,30 @@ public class PanelFicheRoute extends JPanel
 		methodes.stream().filter(m -> m.getNom().equals(choix)).findFirst().ifPresent(Methode::ouvrir);
 	}
 
-	private void exporterTexte()
+	private void ouvrirMeth_a()
 	{
-		if (societeCourante == null) { JOptionPane.showMessageDialog(this, "Sélectionnez d'abord une société.", "Export", JOptionPane.WARNING_MESSAGE); return; }
-		StringBuilder sb = new StringBuilder();
-		sb.append("FICHE DE ROUTE — ").append(societeCourante.getNom()).append("\n").append("=".repeat(90)).append("\n");
-		FicheRoute fdr = ctrl.genererFicheRoute(societeCourante);
-		sb.append(String.format("%-8s %-40s %-12s %-10s %-8s %-10s\n", "N° CDE", "Désignation", "Nb Pièces", "VVS (€)", "Heures", "Av.Étiq %"));
-		sb.append("-".repeat(90)).append("\n");
-		for (Lot lot : societeCourante.getLots()) {
-			double totH = lot.getHeures(); int hE = lot.getSuivieProd().getNbHeureEtiqRestant();
-			double av = totH > 0 ? Math.max(0, 100.0 - hE / totH * 100) : 0;
-			sb.append(String.format("%-8d %-40s %-12s %-10s %-8.1f %-10.1f%%\n",
-				lot.getNumCDE(), (s(lot.getAffaire()) + " " + s(lot.getTypologie())).trim(),
-				String.format("%,d", lot.getNbPieces()),
-				lot.getValeurVente() > 0 ? String.format("%,d", lot.getValeurVente()) : "—", totH, av));
+		if (aceCourante == null) { return;}
+
+		// Récupère uniquement les méthodes uniques
+		List<Methode> methodes = aceCourante.getLots().stream()
+				.map(Lot::getMethode).filter(Objects::nonNull)
+				.distinct().collect(Collectors.toList());
+
+		if (methodes.isEmpty())
+		{
+			JOptionPane.showMessageDialog(this,	"Aucune méthode.",
+					"Info",JOptionPane.INFORMATION_MESSAGE);
+			return;
 		}
-		sb.append("\n").append("=".repeat(90)).append("\n")
-		  .append(String.format("TOTAL : VVS=%,d €  |  Pièces=%,d  |  H CE dispo=%dh\n", fdr.getSommeVVS(), fdr.getSommePieces(), societeCourante.getTotalHeuresCE()));
-		JTextArea ta = new JTextArea(sb.toString(), 28, 90);
-		ta.setFont(new Font("Monospaced", Font.PLAIN, 12)); ta.setEditable(false);
-		JOptionPane.showMessageDialog(this, new JScrollPane(ta), "Fiche de Route — " + societeCourante.getNom(), JOptionPane.INFORMATION_MESSAGE);
+
+		String[] opts = methodes.stream().map(Methode::getNom).toArray(String[]::new);
+
+		String choix = (String) JOptionPane.showInputDialog(this,"Choisir la méthode :",
+				"Voir Méthode",JOptionPane.PLAIN_MESSAGE,null,opts,opts[0]);
+
+		if (choix == null) { return;}
+
+		methodes.stream().filter(m -> m.getNom().equals(choix)).findFirst().ifPresent(Methode::ouvrir);
 	}
 
 	// ══════════════════════════════════════════════════════════════════

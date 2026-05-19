@@ -234,7 +234,12 @@ public class PanelAffectation extends JPanel
 		int idx = combSociete.getSelectedIndex() - 1;
 		if (idx < 0 || idx >= ctrl.getSocietes().size()) return;
 		for (Ace a : ctrl.getSocietes().get(idx).getAces())
-			combAce.addItem(a.getNom() + " (" + a.getLots().size() + " Lot(s).)");
+		{
+			int nbPcs = 0;
+			for (Lot l : a.getLots()) 
+				nbPcs = l.getNbPieces();
+			combAce.addItem(a.getNom() + " (" + a.getLots().size() + " Lot(s) pour " +nbPcs+" Pieces )");
+		}
 	}
 
 	// ── Info lot ──────────────────────────────────────────────────────────
