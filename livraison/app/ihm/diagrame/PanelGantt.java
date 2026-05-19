@@ -1,6 +1,8 @@
 package app.ihm.diagrame;
 
+import app.Controleur;
 import app.metier.lot.Lot;
+import app.metier.personelle.Ace;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +13,7 @@ import javax.swing.*;
 public class PanelGantt extends JPanel
 {
     private ArrayList<Lot> lots = new ArrayList<>();
+    private Controleur     ctrl;
 
     private final DateTimeFormatter fmt =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -29,9 +32,10 @@ public class PanelGantt extends JPanel
 
     private final String[] DAYS = {"Lun", "Mar", "Mer", "Jeu", "Ven"};
 
-    public PanelGantt()
+    public PanelGantt(Controleur ctrl)
     {
         setBackground(Color.WHITE);
+        this.ctrl = ctrl;
     }
 
     // ================= DATA =================
@@ -108,6 +112,7 @@ public class PanelGantt extends JPanel
 		for (int i = 0; i < lots.size(); i++)
 		{
 			Lot l = lots.get(i);
+            Ace a = this.ctrl.getAceDuLot(l);
 
 			LocalDateTime start = safeStart(l);
 			LocalDateTime end = safeEnd(l);
@@ -119,16 +124,14 @@ public class PanelGantt extends JPanel
 
 			int y = TOP + i * ROW + 8;
 
-			g2.setColor(new Color(70,130,220));
+			g2.setColor(a.getColor());
 			g2.fillRoundRect(startX, y, width, 28, 10, 10);
 
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(startX, y, width, 28, 10, 10);
 
-			g2.setColor(Color.WHITE);
-
 			String txt =
-				"CDE " + l.getNumCDE() +
+				"["+a.getNom()+"] CDE " + l.getNumCDE() +
 				" " +
 				String.format("%02d:%02d",
 					start.getHour(),
@@ -144,11 +147,6 @@ public class PanelGantt extends JPanel
 	}
 
     // ================= TIME SYSTEM =================
-
-    private int toMinutes(int h, int m)
-    {
-        return (h * 60 + m) - (8 * 60 + 15);
-    }
 
     private int toWeekMinutes(LocalDateTime t)
 	{

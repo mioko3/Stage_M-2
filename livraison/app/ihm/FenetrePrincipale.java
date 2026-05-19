@@ -225,8 +225,8 @@ public class FenetrePrincipale extends JFrame
 
 		JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelBtn.setBackground(IhmUtils.HEADER);
-		panelBtn.add(btnRafraichir);
 		panelBtn.add(btnSup);
+		panelBtn.add(btnRafraichir);
 
 		p.add(titre,   BorderLayout.WEST);
 		p.add(lblInfo, BorderLayout.EAST);

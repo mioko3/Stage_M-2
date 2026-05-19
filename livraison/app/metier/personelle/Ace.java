@@ -29,7 +29,7 @@ public class Ace
 		this.effectifActuel = effectifActuel;
 		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
-		this.col            = trouverColor();
+		trouverColor();
 	}
 
 	// ← Constructeur alternatif avec totalHeures
@@ -41,10 +41,10 @@ public class Ace
 		this.effectifActuel = effectifActuel;
 		this.estMachine     = false;  // Par défaut, pas de machine
 		this.lots           = new ArrayList<>();
-		this.col            = trouverColor();
+		trouverColor();
 	}
 
-	private Color trouverColor()
+	private void trouverColor()
 	{
 		Color colr;
 		int a = this.nom.length() * 20;
@@ -53,7 +53,7 @@ public class Ace
 		for (int cpt=0;cpt<this.nom.length();cpt++) 
 			c = (int)this.nom.charAt(cpt);
 		colr = new Color(a,b,c*(3/2));
-		return colr;
+		this.col = colr;
 	}
 
 
@@ -84,7 +84,7 @@ public class Ace
 	public Color          getColor()          { return col;            }
 	public ArrayList<Lot> getLots()           { return lots;           }
 
-	public void setNom(String v)              { this.nom         = v; }
+	public void setNom(String v)              { this.nom         = v; trouverColor(); }
 	public void setNbPers(int v)              { this.nbPers      = v; }
 	public void setTotalHeures(int v)         { this.totalHeures = v; }
 	public void setColor(Color c)             { this.col         = c; }

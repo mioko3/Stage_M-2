@@ -47,7 +47,7 @@ public class PanelDiagrame extends JPanel
 
 		// ================= GANTT =================
 
-		panelGantt = new PanelGantt();
+		panelGantt = new PanelGantt(ctrl);
 
 		JScrollPane scroll = new JScrollPane(panelGantt);
 
