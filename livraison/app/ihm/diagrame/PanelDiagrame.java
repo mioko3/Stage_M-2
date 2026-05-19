@@ -3,13 +3,9 @@ package app.ihm.diagrame;
 import app.Controleur;
 import app.ihm.FenetrePrincipale;
 import app.ihm.IhmUtils;
-import app.metier.lot.Lot;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-
-import java.util.List;
 
 public class PanelDiagrame extends JPanel
 {
@@ -51,14 +47,20 @@ public class PanelDiagrame extends JPanel
 
 		// ================= GANTT =================
 
-		panelGantt = new PanelGantt(ctrl);
+		panelGantt = new PanelGantt();
 
 		JScrollPane scroll = new JScrollPane(panelGantt);
-		scroll.setBorder(null);
+
+		// 🔥 IMPORTANT : scroll dans les 2 directions
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+		// optionnel : rendu plus propre
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		scroll.getHorizontalScrollBar().setUnitIncrement(16);
 
 		add(scroll, BorderLayout.CENTER);
 
-		actualiser();
 	}
 
 	// =====================================================
@@ -67,8 +69,7 @@ public class PanelDiagrame extends JPanel
 
 	public void actualiser()
 	{
-		List<Lot> lots = ctrl.getLots();
-		panelGantt.setLots(lots);
+		panelGantt.setLots(ctrl.getLots());
 	}
 
 }

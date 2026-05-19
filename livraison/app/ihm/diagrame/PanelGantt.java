@@ -1,195 +1,204 @@
 package app.ihm.diagrame;
 
-import app.Controleur;
 import app.metier.lot.Lot;
-import app.metier.personelle.Societe;
-
-import javax.swing.*;
-
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
-
+import javax.swing.*;
 
 public class PanelGantt extends JPanel
 {
-	private final DateTimeFormatter fmt =
-	DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private ArrayList<Lot> lots = new ArrayList<>();
 
-    private List<Lot> lots = new ArrayList<>();
-	private static final int LEFT = 320;
-	private static final int TOP = 70;
-	private static final int ROW = 60;
-	private static final int BAR = 28;
-	private static final int HOUR = 45;
+    private final DateTimeFormatter fmt =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-	private Controleur ctrl;
+    // ================= CONFIG =================
+    private static final int LEFT = 120;
+    private static final int TOP = 80;
 
-	public PanelGantt(Controleur ctrl)
+    private static final int ROW = 45;
+
+    // 1 journée = 9h de travail (8h15 → 16h15)
+    private static final int SCALE = 1; // 1 min = 1 px
+    private static final int DAY_MINUTES = (9 * 60);
+
+    private static final int DAY_WIDTH = DAY_MINUTES * SCALE;
+
+    private final String[] DAYS = {"Lun", "Mar", "Mer", "Jeu", "Ven"};
+
+    public PanelGantt()
+    {
+        setBackground(Color.WHITE);
+    }
+
+    // ================= DATA =================
+
+    public void setLots(List<Lot> l)
+    {
+        lots.clear();
+
+        if (l != null)
+        {
+            for (Lot x : l)
+            {
+                if (x == null) continue;
+                if (x.getDateDebut() == null || x.getDateDebut().isEmpty()) continue;
+
+                lots.add(x);
+            }
+        }
+
+        lots.sort(Comparator.comparing(this::safeStart));
+
+        revalidate();
+        repaint();
+    }
+
+    // ================= PAINT =================
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        drawGrid(g2);
+        drawLots(g2);
+    }
+
+    // ================= GRID =================
+
+    private void drawGrid(Graphics2D g2)
+    {
+        g2.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+
+        for (int d = 0; d < DAYS.length; d++)
+        {
+            int baseX = LEFT + d * DAY_WIDTH;
+
+            // fond jour
+            g2.setColor(new Color(245,245,245));
+            g2.fillRect(baseX, TOP, DAY_WIDTH, getHeight());
+
+            g2.setColor(Color.BLACK);
+            g2.drawString(DAYS[d], baseX + 10, 40);
+
+            // heures
+            for (int h = 8; h <= 16; h++)
+            {
+                int x = baseX + toMinutes(h, 0) * SCALE;
+
+                g2.setColor(new Color(220,220,220));
+                g2.drawLine(x, TOP, x, getHeight());
+
+                g2.setColor(Color.GRAY);
+                g2.drawString(h + "h", x + 2, TOP - 5);
+            }
+
+            // séparation jour
+            g2.setColor(Color.BLACK);
+            g2.drawLine(baseX, TOP, baseX, getHeight());
+        }
+    }
+
+    // ================= LOTS =================
+
+    private void drawLots(Graphics2D g2)
 	{
-		setBackground(Color.WHITE);
-		this.ctrl = ctrl;
+		for (int i = 0; i < lots.size(); i++)
+		{
+			Lot l = lots.get(i);
+
+			LocalDateTime start = safeStart(l);
+			LocalDateTime end = safeEnd(l);
+
+			int startX = LEFT + toWeekMinutes(start);
+			int endX = LEFT + toWeekMinutes(end);
+
+			int width = Math.max(10, endX - startX);
+
+			int y = TOP + i * ROW + 8;
+
+			g2.setColor(new Color(70,130,220));
+			g2.fillRoundRect(startX, y, width, 28, 10, 10);
+
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(startX, y, width, 28, 10, 10);
+
+			g2.setColor(Color.WHITE);
+
+			String txt =
+				"CDE " + l.getNumCDE() +
+				" " +
+				String.format("%02d:%02d",
+					start.getHour(),
+					start.getMinute())
+				+
+				" → " +
+				String.format("%02d:%02d",
+					end.getHour(),
+					end.getMinute());
+
+			g2.drawString(txt, startX + 5, y + 18);
+		}
 	}
 
-	public void setLots(List<Lot> l)
+    // ================= TIME SYSTEM =================
+
+    private int toMinutes(int h, int m)
+    {
+        return (h * 60 + m) - (8 * 60 + 15);
+    }
+
+    private int toWeekMinutes(LocalDateTime t)
 	{
-		lots.clear();
+		int day = t.getDayOfWeek().getValue() - 1;
 
-		if (l != null)
-		{
-			for (Lot x : l)
-			{
-				if (x == null) continue;
-				if (x.getDateDebut() == null || x.getDateDebut().isEmpty()) continue;
-				lots.add(x);
-			}
-		}
+		int minutesDay = t.getHour() * 60 + t.getMinute();
 
-		lots.sort(Comparator.comparing(this::start));
+		int startDay = 8 * 60 + 15;
 
-		revalidate();
-		repaint();
+		int minutesSinceStart = minutesDay - startDay;
+
+		return day * DAY_WIDTH + minutesSinceStart;
 	}
 
 	@Override
 	public Dimension getPreferredSize()
 	{
-		if (lots.isEmpty())
-			return new Dimension(1400, 500);
+		int width = LEFT + DAYS.length * DAY_WIDTH + 100;
+		int height = TOP + Math.max(1, lots.size()) * ROW + 100;
 
-		long h = ChronoUnit.HOURS.between(startMin(), endMax()) + 10;
-
-		return new Dimension(
-			LEFT + (int)(h * HOUR),
-			TOP + lots.size() * ROW + 80
-		);
+		return new Dimension(width, height);
 	}
 
-	@Override
-	protected void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
+    // ================= SAFE PARSE =================
 
-		Graphics2D g2 = (Graphics2D) g;
+    private LocalDateTime safeStart(Lot l)
+    {
+        try {
+            return LocalDateTime.parse(l.getDateDebut(), fmt);
+        } catch (Exception e) {
+            return LocalDateTime.now();
+        }
+    }
 
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-			RenderingHints.VALUE_ANTIALIAS_ON);
+    private LocalDateTime safeEnd(Lot l)
+    {
+        try {
+            if (l.getdateFin() != null && !l.getdateFin().isEmpty())
+                return LocalDateTime.parse(l.getdateFin(), fmt);
 
-		if (lots.isEmpty())
-		{
-			g2.setColor(Color.GRAY);
-			g2.drawString("Aucun lot", 40, 80);
-			return;
-		}
+            if (l.getdateFinT() != null && !l.getdateFinT().isEmpty())
+                return LocalDateTime.parse(l.getdateFinT(), fmt);
+        } catch (Exception ignored) {}
 
-		drawGrid(g2);
-		drawTimeline(g2);
-		drawLots(g2);
-	}
-
-	private void drawGrid(Graphics2D g2)
-	{
-		g2.setColor(new Color(245,245,245));
-		g2.fillRect(0,0,getWidth(),TOP);
-
-		g2.setColor(new Color(250,250,250));
-		g2.fillRect(0,0,LEFT,getHeight());
-
-		g2.setColor(new Color(220,220,220));
-		g2.drawLine(LEFT,0,LEFT,getHeight());
-		g2.drawLine(0,TOP,getWidth(),TOP);
-	}
-
-	private void drawTimeline(Graphics2D g2)
-	{
-		LocalDateTime min = startMin();
-
-		for (int i = 0; i < 200; i++)
-		{
-			LocalDateTime d = min.plusHours(i);
-			int x = LEFT + i * HOUR;
-
-			g2.setColor(new Color(235,235,235));
-			g2.drawLine(x, TOP, x, getHeight());
-
-			// heure simple (comme avant)
-			g2.setColor(Color.DARK_GRAY);
-			g2.drawString(String.format("%02d:00", d.getHour()), x - 10, 60);
-
-			// 🔥 juste un repère jour (discret)
-			if (d.getHour() == 0)
-			{
-				g2.setColor(new Color(180,180,180));
-				g2.drawString(" " + d.toLocalDate(), x, TOP - 40);
-			}
-		}
-	}
-
-	private void drawLots(Graphics2D g2)
-	{
-		LocalDateTime min = startMin();
-		int i = 0;
-
-		for (Lot l : lots)
-		{
-			int y = TOP + i * ROW;
-
-            LocalDateTime s = start(l);
-			LocalDateTime e = end(l);
-
-			long off = ChronoUnit.MINUTES.between(min, s);
-			long dur = ChronoUnit.MINUTES.between(s, e);
-
-			int x = LEFT + (int)(off / 60.0 * HOUR);
-			int w = Math.max(40, (int)(dur / 60.0 * HOUR));
-
-            boolean done = l.getdateFin() != null && !l.getdateFin().isEmpty();
-
-			g2.setColor(done ? new Color(60,170,90) : new Color(70,130,220));
-			g2.fillRoundRect(x, y + 15, w, BAR, 12, 12);
-
-			// affichage société + lot
-			Societe soc = ctrl.getSocieteDuLot(l);
-
-			g2.setColor(Color.BLACK);
-			g2.drawString("N° CDE " + l.getNumCDE() + " (" + soc.getNom() + ")", 10, y + 30);
-
-			i++;
-		}
-	}
-
-	private LocalDateTime start(Lot l)
-	{
-		return LocalDateTime.parse(l.getDateDebut(), fmt);
-	}
-
-	private LocalDateTime end(Lot l)
-	{
-		try
-		{
-			if (l.getdateFin() != null && !l.getdateFin().isEmpty())
-				return LocalDateTime.parse(l.getdateFin(), fmt);
-
-			return LocalDateTime.parse(l.getdateFinT(), fmt);
-		}
-		catch (Exception e)
-		{
-			return start(l).plusHours(1);
-		}
-	}
-
-	private LocalDateTime startMin()
-	{
-		return lots.stream().map(this::start)
-			.min(LocalDateTime::compareTo).orElse(LocalDateTime.now());
-	}
-
-	private LocalDateTime endMax()
-	{
-		return lots.stream().map(this::end)
-			.max(LocalDateTime::compareTo).orElse(LocalDateTime.now());
-	}
+        return safeStart(l).plusHours(1);
+    }
 }
