@@ -5,7 +5,7 @@ chcp 65001 >nul
 cd /d "%~dp0"
 
 echo "==========================================="
-echo    "Planning Global Futura - PAM S07/2026"
+echo          "Planning Global Futura"
 echo "==========================================="
 echo.
 
