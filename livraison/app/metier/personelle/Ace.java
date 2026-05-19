@@ -66,7 +66,7 @@ public class Ace
 		if (!this.lots.contains(lot))
 		{
 			this.lots.add(lot);
-			lot.setHeuresAce(lot.getHeures() / this.effectifActuel);
+			lot.calculHeuresPiste(this.effectifActuel);
 		}
 	}
 

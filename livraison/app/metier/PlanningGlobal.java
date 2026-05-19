@@ -238,14 +238,10 @@ public class PlanningGlobal
 	 */
 	public boolean affecterLot(Lot lot, Societe societe, Ace ace)
 	{
-		int     heuresLot  = (int) Math.ceil(lot.getHeures());
 		Societe ancSociete = getSocieteDuLot(lot);
 		Ace     ancAce     = getAceDuLot(lot);
 
 		if (ancSociete == societe && ancAce == ace) return true;
-
-		if (ancSociete != societe && societe.getTotalHeuresCE() < heuresLot)
-			return false;
 
 		if (ancSociete != null)
 		{

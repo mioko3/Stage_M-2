@@ -112,6 +112,12 @@ public class Lot
 		this.heures = (this.cadenceReel > 0) ? this.nbPieces / this.cadenceReel : 0.0;
 	}
 
+	public void calculHeuresPiste(int eff)
+	{
+		this.heuresAce = (this.cadenceReel > 0) ? this.nbPieces / (this.cadenceReel * eff) : 0.0;
+		calculDateFinThéorique();
+	}
+
 	public void calculDateFinThéorique()
 	{
 		if (this.dateDebut == null || this.dateDebut.isEmpty()) return;
@@ -121,54 +127,84 @@ public class Lot
 		{
 			java.time.format.DateTimeFormatter fmt =
 				java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			java.time.LocalDateTime curseur = java.time.LocalDateTime.parse(this.dateDebut, fmt);
 
-			// Plages de travail : début = 08:15, fin lun-jeu = 16:15, fin ven = 14:30
-			java.time.LocalTime DEBUT_JOURNEE   = java.time.LocalTime.of(8, 15);
-			java.time.LocalTime FIN_LUN_JEU     = java.time.LocalTime.of(16, 15);
-			java.time.LocalTime FIN_VEN         = java.time.LocalTime.of(14, 30);
+			java.time.LocalDateTime curseur =
+				java.time.LocalDateTime.parse(this.dateDebut, fmt);
+
+			java.time.LocalTime DEBUT_JOURNEE = java.time.LocalTime.of(8, 15);
+
+			java.time.LocalTime FIN_LUN_JEU = java.time.LocalTime.of(16, 15);
+			java.time.LocalTime FIN_VEN     = java.time.LocalTime.of(14, 30);
 
 			double heuresRestantes = this.heuresAce;
 
-			// Si le curseur est avant le début de journée, avancer à 08:15
 			if (curseur.toLocalTime().isBefore(DEBUT_JOURNEE))
+			{
 				curseur = curseur.with(DEBUT_JOURNEE);
+			}
 
 			while (heuresRestantes > 0)
 			{
 				java.time.DayOfWeek jour = curseur.getDayOfWeek();
 
-				// Passer le week-end
+				// week-end
 				if (jour == java.time.DayOfWeek.SATURDAY)
-				{ curseur = curseur.plusDays(2).with(DEBUT_JOURNEE); continue; }
+				{
+					curseur = curseur.plusDays(2).with(DEBUT_JOURNEE);
+					continue;
+				}
+
 				if (jour == java.time.DayOfWeek.SUNDAY)
-				{ curseur = curseur.plusDays(1).with(DEBUT_JOURNEE); continue; }
-
-				java.time.LocalTime finJour = (jour == java.time.DayOfWeek.FRIDAY)
-					? FIN_VEN : FIN_LUN_JEU;
-
-				// Si on est après la fin de journée, passer au lendemain
-				if (!curseur.toLocalTime().isBefore(finJour))
 				{
 					curseur = curseur.plusDays(1).with(DEBUT_JOURNEE);
 					continue;
 				}
 
-				// Heures disponibles dans cette journée
-				long minutesDisponibles = java.time.Duration.between(
-					curseur.toLocalTime(), finJour).toMinutes();
-				double heuresDisponibles = minutesDisponibles / 60.0;
+				boolean isFriday = (jour == java.time.DayOfWeek.FRIDAY);
 
-				if (heuresRestantes <= heuresDisponibles)
+				java.time.LocalTime finJour =
+					isFriday ? FIN_VEN : FIN_LUN_JEU;
+
+				// pause selon jour
+				java.time.LocalTime pauseDebut =
+					isFriday ? java.time.LocalTime.of(11, 0)
+							: java.time.LocalTime.of(12, 0);
+
+				java.time.LocalTime pauseFin =
+					isFriday ? java.time.LocalTime.of(11, 45)
+							: java.time.LocalTime.of(12, 45);
+
+				java.time.LocalDateTime finJourDT =
+					curseur.with(finJour);
+
+				java.time.LocalDateTime pauseDebutDT =
+					curseur.with(pauseDebut);
+
+				java.time.LocalDateTime pauseFinDT =
+					curseur.with(pauseFin);
+
+				if (!curseur.isBefore(finJourDT))
 				{
-					// On termine dans cette journée
-					curseur = curseur.plusMinutes((long)(heuresRestantes * 60));
-					heuresRestantes = 0;
+					curseur = curseur.plusDays(1).with(DEBUT_JOURNEE);
+					continue;
 				}
-				else
+
+				while (heuresRestantes > 0 && curseur.isBefore(finJourDT))
 				{
-					// On consomme toute la journée et on continue demain
-					heuresRestantes -= heuresDisponibles;
+					// gestion pause
+					if (!curseur.isBefore(pauseDebutDT) &&
+						curseur.isBefore(pauseFinDT))
+					{
+						curseur = pauseFinDT;
+						continue;
+					}
+
+					curseur = curseur.plusMinutes(1);
+					heuresRestantes -= 1.0 / 60.0;
+				}
+
+				if (heuresRestantes > 0 && !curseur.isBefore(finJourDT))
+				{
 					curseur = curseur.plusDays(1).with(DEBUT_JOURNEE);
 				}
 			}
@@ -290,7 +326,7 @@ public class Lot
 		recalculerLignesColisage();
 	}
 	public void setCadence(double v)       { this.cadence      = v; }
-	public void setCadenceReel(double v)   { this.cadenceReel  = v; }
+	public void setCadenceReel(double v)   { this.cadenceReel  = v; this.calculHeuresPiste(this.nbPers);this.recalculerHeures();}
 	public void setHeures(double v)        { this.heures       = v; }
 	public void setValeurVente(int v)      { this.valeurVente  = v; this.prixUnitaire = calculerPU(); }
 	public void setPrixUnitaire(double v)  { this.prixUnitaire = v; }
@@ -319,5 +355,5 @@ public class Lot
 	public void setdateFin(String v)        { this.dateFin = v;      }
 	public void setdateFinT(String v)       { this.dateFinTheorique = v; }
 	public void setEstMachine(boolean v)    { this.estMachine = v;   }
-	public void setNbPers(int v)            { this.nbPers = v;            }
+	public void setNbPers(int v)            { this.nbPers = v; this.calculHeuresPiste(v); }
 }
