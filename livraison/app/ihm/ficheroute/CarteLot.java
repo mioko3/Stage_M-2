@@ -78,6 +78,11 @@ public class CarteLot extends JPanel implements ActionListener
 			)
 		));
 
+		JPanel ligne2 = new JPanel(new BorderLayout());
+		ligne2.setBackground(bg);
+		ligne2.add(construireLigne2(bg)  , BorderLayout.WEST);
+		ligne2.add(construireLigneFin(bg), BorderLayout.EAST);
+
 		JPanel corps = new JPanel();
 		corps.setLayout(new BoxLayout(corps, BoxLayout.Y_AXIS));
 		corps.setBackground(bg);
@@ -87,9 +92,9 @@ public class CarteLot extends JPanel implements ActionListener
 		corps.add(construireLigne1(bg));
 		corps.add(Box.createVerticalStrut(5));
 		corps.add(separateur());
-		corps.add(construireLigne2(bg));
+		corps.add(ligne2);
 		corps.add(separateur());
-		corps.add(construireLigne2Bis(bg));
+		corps.add(construireLigneDate(bg));
 		corps.add(separateur());
 		corps.add(construireLigne3Phases(bg));
 		corps.add(separateur());
@@ -177,34 +182,48 @@ public class CarteLot extends JPanel implements ActionListener
 		if (!s(lot.getEmplacement()).isEmpty()) info(l2, "Emplacement", s(lot.getEmplacement()), bg);
 		if (!s(lot.getDateReception()).isEmpty()) info(l2, "Réception", lot.getDateReception(), bg);
 		if (!s(lot.getDatePaiement()).isEmpty())  info(l2, "Paiement",  lot.getDatePaiement(),  bg);
+		info(l2, "Nb de colis recup", lot.getNbColisRecup() > 0 ? String.format("%d pcs", lot.getNbColisRecup()) : "—", bg);
 		return l2;
 	}
 
-	private JPanel construireLigne2Bis(Color bg)
+	private JPanel construireLigneFin(Color bg)
 	{
-		JPanel l2Bis = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
-		l2Bis.setBackground(bg);
+		JPanel lFin = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		lFin.setBackground(bg);
+		if (!lot.getdateFin().isEmpty())
+		{
+			info(lFin, "Temp : "      , lot.calculDuree(), bg);
+			info(lFin, "cadence Moy :", String.format("%.0f p/h",lot.calculCadenceMoyenne()), bg);
+		}
+
+		return lFin;
+	}
+
+	private JPanel construireLigneDate(Color bg)
+	{
+		JPanel lDate = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 2));
+		lDate.setBackground(bg);
 		if (!estcommencer)
 		{
 			this.btncommencer = new JButton("Commencer");
 			this.btncommencer.addActionListener(e -> commencer());
-			l2Bis.add(this.btncommencer);
+			lDate.add(this.btncommencer);
 		}
 		else
 		{
 			this.btncommencer = new JButton("Annuler");
 			this.btncommencer.addActionListener(e -> annuler());
-			l2Bis.add(this.btncommencer);
+			lDate.add(this.btncommencer);
 		}
 
-		info(l2Bis, "Date de Debut : ", lot.getDateDebut(), bg);
-		l2Bis.add(separateur());
-		info(l2Bis, "Date de Fin : ", lot.getdateFin(), bg);
+		info(lDate, "Date de Debut : ", lot.getDateDebut(), bg);
+		lDate.add(separateur());
+		info(lDate, "Date de Fin : ", lot.getdateFin(), bg);
 		for (int idx = 0; idx < 5; idx++)
-			l2Bis.add(separateur());
-		info(l2Bis, "Date de Fin théorique : ", lot.getdateFinT(), bg);
+			lDate.add(separateur());
+		info(lDate, "Date de Fin théorique : ", lot.getdateFinT(), bg);
 		
-		return l2Bis;
+		return lDate;
 	}
 
 	private void commencer()
@@ -291,7 +310,7 @@ public class CarteLot extends JPanel implements ActionListener
 		this.combFormCart   = new JComboBox(lot.F_CARTON);
 		this.combFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
 		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
-		this.textColisRecup = new JTextField(String.valueOf(lot.getNbColisRecup()), 6);
+		this.textColisRecup = new JTextField(String.valueOf(lot.getPoucentrecupCartonFour()),10);
 		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
 		this.textCadenceReel= new JTextField(String.valueOf(lot.getCadenceReel()),10);
 		this.textNbPers     = new JTextField(String.valueOf(lot.getNbPers()),10);
@@ -301,7 +320,7 @@ public class CarteLot extends JPanel implements ActionListener
 		l5.add(champEditable("Collisage",     this.textCollisage,  bg, "COLLISAGES", this));
 		l5.add(champEditable("Nombre de pers",  this.textNbPers, bg, "NBPERS",   this));
 		l5.add(champEditable("Distribution",  this.combDistri,     bg, "DISTRI",     this));
-		l5.add(champEditable("Colis récup.", this.textColisRecup, bg, "COLIS_RECUP", this));
+		l5.add(champEditable("Colis récup.%", this.textColisRecup, bg, "COLISRECUP", this));
 		// ligne 2
 		info(l5, "Palettes",     String.valueOf(lot.getNbPalettes()),    bg);
 		info(l5, "Colis prévus", String.valueOf(lot.getNbColisPrevue()), bg);
@@ -549,12 +568,11 @@ public class CarteLot extends JPanel implements ActionListener
 					lot.setCollisage(v);
 					break;
 				}
-				case "COLIS_RECUP":
+				case "COLISRECUP":
 				{
 					int v = Integer.parseInt(textColisRecup.getText().trim());
-					if (v < 0) throw new NumberFormatException();
-					lot.setNbColisRecup(v);
-					textColisRecup.setBackground(Color.WHITE);
+					if (v < 0)            v = v * 100;
+					if (v > 0 && v < 100) lot.setPoucentrecupCartonFour(v);
 					break;
 				}
 				case "METHODE":
