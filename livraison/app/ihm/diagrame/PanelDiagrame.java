@@ -60,7 +60,7 @@ public class PanelDiagrame extends JPanel
 		scroll.getHorizontalScrollBar().setUnitIncrement(16);
 
 		add(scroll, BorderLayout.CENTER);
-
+		actualiser();
 	}
 
 	// =====================================================

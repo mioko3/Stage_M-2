@@ -1,6 +1,7 @@
 package app.ihm.diagrame;
 
 import app.Controleur;
+import app.ihm.IhmUtils;
 import app.metier.lot.Lot;
 import app.metier.personelle.Ace;
 import java.awt.*;
@@ -15,8 +16,7 @@ public class PanelGantt extends JPanel
 	private ArrayList<Lot> lots = new ArrayList<>();
 	private Controleur     ctrl;
 
-	private final DateTimeFormatter fmt =
-			DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+	private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 	// ================= CONFIG =================
 	private static final int LEFT = 120;
@@ -30,7 +30,7 @@ public class PanelGantt extends JPanel
 
 	private static final int DAY_WIDTH = DAY_MINUTES * SCALE;
 
-	private final String[] DAYS = {"Lun", "Mar", "Mer", "Jeu", "Ven"};
+	private final String[] DAYS = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"};
 
 	public PanelGantt(Controleur ctrl)
 	{
@@ -124,7 +124,8 @@ public class PanelGantt extends JPanel
 
 			int y = TOP + i * ROW + 8;
 
-			g2.setColor(a.getColor());
+			if (l.getdateFin() != null && !l.getdateFin().isEmpty()) g2.setColor(IhmUtils.VERT);
+			else g2.setColor(a.getColor());
 			g2.fillRoundRect(startX, y, width, 28, 10, 10);
 
 			g2.setColor(Color.BLACK);
