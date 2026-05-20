@@ -581,8 +581,6 @@ public class PanelFicheRoute extends JPanel
 		majTuile(lblHeures_a2,"Av. valeur","-",IhmUtils.ROUGE);
 	}
 
-	private String s(String v) { return v != null ? v : ""; }
-
 	// ══════════════════════════════════════════════════════════════════
 	// RAFRAÎCHISSEMENT
 	// ══════════════════════════════════════════════════════════════════

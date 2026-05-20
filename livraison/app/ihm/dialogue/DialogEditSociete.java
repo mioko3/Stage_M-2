@@ -138,8 +138,8 @@ public class DialogEditSociete extends JDialog
 		lblErreur.setForeground(IhmUtils.ROUGE);
 		lblErreur.setFont(new Font("SansSerif", Font.ITALIC, 12));
 
-		JButton btnOk  = IhmUtils.bouton("Enregistrer", IhmUtils.VERT,          Color.WHITE);
-		JButton btnAnn = IhmUtils.bouton("Annuler",     new Color(100,100,100), Color.WHITE);
+		JButton btnOk  = IhmUtils.bouton("Enregistrer", IhmUtils.VERT, Color.WHITE);
+		JButton btnAnn = IhmUtils.bouton("Annuler", new Color(100,100,100), Color.WHITE);
 		btnAnn.addActionListener(e -> dispose());
 		btnOk .addActionListener(e -> valider());
 
@@ -157,7 +157,6 @@ public class DialogEditSociete extends JDialog
 		for (Ace a : soc.getAces())
 			modelAces.addRow(new Object[]{a.getNom(), a.getNbPers(), a.getEffectifActuel()});
 		fEffect.setText(String.valueOf(soc.getEffectifTotal()));
-
 	}
 
 	private void valider()

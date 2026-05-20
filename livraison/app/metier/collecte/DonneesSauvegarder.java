@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 public class DonneesSauvegarder
 {
-	private static final int VERSION = 2;
-
 	private static final String FICHIER_LOTS     = "lots.json";
 	private static final String FICHIER_SOCIETES = "societes.json";
 

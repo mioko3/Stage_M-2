@@ -91,7 +91,7 @@ public class CarteLot extends JPanel implements ActionListener
 		corps.add(separateur());
 		corps.add(construireLigne2Bis(bg));
 		corps.add(separateur());
-		corps.add(construireLigne3Phases(bg, accent));
+		corps.add(construireLigne3Phases(bg));
 		corps.add(separateur());
 		corps.add(construireLigne4Avancement(bg));
 		corps.add(separateur());
@@ -223,7 +223,7 @@ public class CarteLot extends JPanel implements ActionListener
 		this.m.rafraichir();
 	}
 
-	private JPanel construireLigne3Phases(Color bg, Color accent)
+	private JPanel construireLigne3Phases(Color bg)
 	{
 		JPanel l3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 2));
 		l3.setBackground(bg);
@@ -233,11 +233,11 @@ public class CarteLot extends JPanel implements ActionListener
 		titPhases.setForeground(Color.GRAY);
 		l3.add(titPhases);
 
-		l3.add(checkPhase("PRÉ TRI",     lot.getPhase().isPreTri(),     "PRETRI",   accent, bg));
-		l3.add(checkPhase("SUR PISTE",   lot.getPhase().isSurPiste(),   "SURPISTE", accent, bg));
-		l3.add(checkPhase("SORTIE ÉTIQ", lot.getPhase().isSortieEtiq(), "SORETIQ",  accent, bg));
-		l3.add(checkPhase("TRI",         lot.getPhase().isTri(),        "TRI",      accent, bg));
-		l3.add(checkPhase("FINI",        lot.getPhase().isFinit(),      "FINI",     accent, bg));
+		l3.add(checkPhase("PRÉ TRI"    , lot.getPhase().isPreTri()    , "PRETRI"  ));
+		l3.add(checkPhase("SUR PISTE"  , lot.getPhase().isSurPiste()  , "SURPISTE"));
+		l3.add(checkPhase("SORTIE ÉTIQ", lot.getPhase().isSortieEtiq(), "SORETIQ" ));
+		l3.add(checkPhase("TRI"        , lot.getPhase().isTri()       , "TRI"     ));
+		l3.add(checkPhase("FINI"       , lot.getPhase().isFinit()     , "FINI"    ));
 
 		l3.add(Box.createHorizontalStrut(6));
 
@@ -436,7 +436,7 @@ public class CarteLot extends JPanel implements ActionListener
 	// Phases
 	// ══════════════════════════════════════════════════════════════════
 
-	private JCheckBox checkPhase(String label, boolean etat, String code, Color accent, Color bg)
+	private JCheckBox checkPhase(String label, boolean etat, String code)
 	{
 		JCheckBox cb = new JCheckBox(label, etat);
 		cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
