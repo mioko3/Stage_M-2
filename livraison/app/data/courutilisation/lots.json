@@ -67,7 +67,7 @@
     "distribution": "",
     "formatCarton": "1/4",
     "dateDebut": "19/05/2026 11:04:10",
-    "dateFin": "",
+    "dateFin": "20/05/2026 10:18:55",
     "dateFinTheorique": "20/05/2026 08:34:00",
     "heuresAce": 4.742102575326475,
     "collisage": 15,
@@ -78,7 +78,7 @@
     "phase_surPiste": false,
     "phase_sortieEtiq": false,
     "phase_tri": false,
-    "phase_finit": false
+    "phase_finit": true
 
   },
   {
@@ -107,9 +107,9 @@
     "methode": "",
     "distribution": "",
     "formatCarton": "",
-    "dateDebut": "",
+    "dateDebut": "20/05/2026 10:10:59",
     "dateFin": "",
-    "dateFinTheorique": "",
+    "dateFinTheorique": "20/05/2026 10:12:59",
     "heuresAce": 0.032125132931584546,
     "collisage": 0,
     "estMachine": false,
@@ -889,7 +889,7 @@
     "dateDebut": "19/05/2026 15:13:13",
     "dateFin": "",
     "dateFinTheorique": "20/05/2026 11:26:00",
-    "heuresAce": 4.2160087719298245,
+    "heuresAce": 4.210468681559352,
     "collisage": 0,
     "estMachine": false,
     "nbPers": 12,

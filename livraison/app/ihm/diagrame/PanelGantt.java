@@ -12,73 +12,73 @@ import javax.swing.*;
 
 public class PanelGantt extends JPanel
 {
-    private ArrayList<Lot> lots = new ArrayList<>();
-    private Controleur     ctrl;
+	private ArrayList<Lot> lots = new ArrayList<>();
+	private Controleur     ctrl;
 
-    private final DateTimeFormatter fmt =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+	private final DateTimeFormatter fmt =
+			DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    // ================= CONFIG =================
-    private static final int LEFT = 120;
-    private static final int TOP = 80;
+	// ================= CONFIG =================
+	private static final int LEFT = 120;
+	private static final int TOP = 80;
 
-    private static final int ROW = 45;
+	private static final int ROW = 45;
 
-    // 1 journée = 9h de travail (8h15 → 16h15)
-    private static final int SCALE = 1; // 1 min = 1 px
-    private static final int DAY_MINUTES = (9 * 60);
+	// 1 journée = 9h de travail (8h15 → 16h15)
+	private static final int SCALE = 1; // 1 min = 1 px
+	private static final int DAY_MINUTES = (9 * 60);
 
-    private static final int DAY_WIDTH = DAY_MINUTES * SCALE;
+	private static final int DAY_WIDTH = DAY_MINUTES * SCALE;
 
-    private final String[] DAYS = {"Lun", "Mar", "Mer", "Jeu", "Ven"};
+	private final String[] DAYS = {"Lun", "Mar", "Mer", "Jeu", "Ven"};
 
-    public PanelGantt(Controleur ctrl)
-    {
-        setBackground(Color.WHITE);
-        this.ctrl = ctrl;
-    }
+	public PanelGantt(Controleur ctrl)
+	{
+		setBackground(Color.WHITE);
+		this.ctrl = ctrl;
+	}
 
-    // ================= DATA =================
+	// ================= DATA =================
 
-    public void setLots(List<Lot> l)
-    {
-        lots.clear();
+	public void setLots(List<Lot> l)
+	{
+		lots.clear();
 
-        if (l != null)
-        {
-            for (Lot x : l)
-            {
-                if (x == null) continue;
-                if (x.getDateDebut() == null || x.getDateDebut().isEmpty()) continue;
+		if (l != null)
+		{
+			for (Lot x : l)
+			{
+				if (x == null) continue;
+				if (x.getDateDebut() == null || x.getDateDebut().isEmpty()) continue;
 
-                lots.add(x);
-            }
-        }
+				lots.add(x);
+			}
+		}
 
-        lots.sort(Comparator.comparing(this::safeStart));
+		lots.sort(Comparator.comparing(this::safeStart));
 
-        revalidate();
-        repaint();
-    }
+		revalidate();
+		repaint();
+	}
 
-    // ================= PAINT =================
+	// ================= PAINT =================
 
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
-        drawGrid(g2);
-        drawLots(g2);
-    }
+		drawGrid(g2);
+		drawLots(g2);
+	}
 
-    // ================= GRID =================
+	// ================= GRID =================
 
-    private void drawGrid(Graphics2D g2)
+	private void drawGrid(Graphics2D g2)
 	{
 		g2.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 
@@ -105,14 +105,14 @@ public class PanelGantt extends JPanel
 		}
 	}
 
-    // ================= LOTS =================
+	// ================= LOTS =================
 
-    private void drawLots(Graphics2D g2)
+	private void drawLots(Graphics2D g2)
 	{
 		for (int i = 0; i < lots.size(); i++)
 		{
 			Lot l = lots.get(i);
-            Ace a = this.ctrl.getAceDuLot(l);
+			Ace a = this.ctrl.getAceDuLot(l);
 
 			LocalDateTime start = safeStart(l);
 			LocalDateTime end = safeEnd(l);
@@ -146,15 +146,15 @@ public class PanelGantt extends JPanel
 		}
 	}
 
-    // ================= TIME SYSTEM =================
+	// ================= TIME SYSTEM =================
 
-    private int toWeekMinutes(LocalDateTime t)
+	private int toWeekMinutes(LocalDateTime t)
 	{
 		int day = t.getDayOfWeek().getValue() - 1;
 
 		int minutesDay = t.getHour() * 60 + t.getMinute();
 
-		int startDay = 8 * 60 + 15;
+		int startDay = 8 * 60;
 
 		int minutesSinceStart = minutesDay - startDay;
 
@@ -170,27 +170,27 @@ public class PanelGantt extends JPanel
 		return new Dimension(width, height);
 	}
 
-    // ================= SAFE PARSE =================
+	// ================= SAFE PARSE =================
 
-    private LocalDateTime safeStart(Lot l)
-    {
-        try {
-            return LocalDateTime.parse(l.getDateDebut(), fmt);
-        } catch (Exception e) {
-            return LocalDateTime.now();
-        }
-    }
+	private LocalDateTime safeStart(Lot l)
+	{
+		try {
+			return LocalDateTime.parse(l.getDateDebut(), fmt);
+		} catch (Exception e) {
+			return LocalDateTime.now();
+		}
+	}
 
-    private LocalDateTime safeEnd(Lot l)
-    {
-        try {
-            if (l.getdateFin() != null && !l.getdateFin().isEmpty())
-                return LocalDateTime.parse(l.getdateFin(), fmt);
+	private LocalDateTime safeEnd(Lot l)
+	{
+		try {
+			if (l.getdateFin() != null && !l.getdateFin().isEmpty())
+				return LocalDateTime.parse(l.getdateFin(), fmt);
 
-            if (l.getdateFinT() != null && !l.getdateFinT().isEmpty())
-                return LocalDateTime.parse(l.getdateFinT(), fmt);
-        } catch (Exception ignored) {}
+			if (l.getdateFinT() != null && !l.getdateFinT().isEmpty())
+				return LocalDateTime.parse(l.getdateFinT(), fmt);
+		} catch (Exception ignored) {}
 
-        return safeStart(l).plusHours(1);
-    }
+		return safeStart(l).plusHours(1);
+	}
 }
