@@ -116,12 +116,12 @@ public class Lot
 	// ── Recalcul ───────────────────────────────────────────────
 	public void recalculerHeures()
 	{
-		this.heures = (this.cadenceReel > 0) ? this.nbPieces / this.cadenceReel : 0.0;
+		this.heures = arrondi2((this.cadenceReel > 0) ? this.nbPieces / this.cadenceReel : this.nbPieces / this.cadence);
 	}
 
 	public void calculHeuresPiste(int eff)
 	{
-		this.heuresAce = (this.cadenceReel > 0) ? this.nbPieces / (this.cadenceReel * eff) : 0.0;
+		this.heuresAce = arrondi2((this.cadenceReel > 0) ? this.nbPieces / (this.cadenceReel * eff) : this.nbPieces / (this.cadence * eff));
 		calculDateFinThéorique();
 		this.suivieProd.miseAJJourAvancement();
 	}
@@ -435,7 +435,13 @@ public class Lot
 		recalculerLignesColisage();
 	}
 	public void setCadence(double v)       { this.cadence      = v; }
-	public void setCadenceReel(double v)   { this.cadenceReel  = v; this.calculHeuresPiste(this.nbPers);this.recalculerHeures();}
+	public void setCadenceReel(double v) 
+	{
+		if (v > 0) this.cadenceReel = v;
+		else       this.cadenceReel = this.cadence;
+		this.calculHeuresPiste(this.nbPers);
+		this.recalculerHeures();
+	}
 	public void setHeures(double v)        { this.heures       = v; }
 	public void setValeurVente(int v)      { this.valeurVente  = v; this.prixUnitaire = calculerPU(); }
 	public void setPrixUnitaire(double v)  { this.prixUnitaire = v; }
@@ -465,4 +471,10 @@ public class Lot
 	public void setdateFinT(String v)       { this.dateFinTheorique = v; }
 	public void setEstMachine(boolean v)    { this.estMachine = v;   }
 	public void setNbPers(int v)            { this.nbPers = v; this.calculHeuresPiste(v); }
+
+
+	private double arrondi2(double val)
+	{
+		return Math.round(val * 100.0) / 100.0;
+	}
 }

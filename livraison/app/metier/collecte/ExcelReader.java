@@ -316,6 +316,7 @@ public class ExcelReader
 			lot.setCollisage    (getInt   (obj, "collisage"));
 			lot.setEstMachine   (getBool  (obj, "estMachine"));
 			lot.setNbPers       (getInt(obj, "nbPers"));
+			lot.setCadenceReel  (getDouble(obj, "cadenceReel"));
 
 			// ── Lignes de colisage multiples ──────────────────────────────
 			String blocLignes = extraireBloc(obj, "\"lignesColisage\"");
