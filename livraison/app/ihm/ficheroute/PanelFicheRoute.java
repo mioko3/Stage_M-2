@@ -326,7 +326,7 @@ public class PanelFicheRoute extends JPanel
 		if (aces == null || aces.isEmpty())
 		{
 			for (Lot lot : societeCourante.getLots())
-				panelCartes_s.add(new CarteLot(lot, IhmUtils.BLEU,this.ctrl,this));
+				panelCartes_s.add(new CarteLot(lot, IhmUtils.BLEU,this.ctrl,this,false));
 		}
 		else
 		{
@@ -340,14 +340,14 @@ public class PanelFicheRoute extends JPanel
 	
 				if (aceExpanded.getOrDefault(ace, true))
 					for (Lot lot : lotsAce)
-						panelCartes_s.add(new CarteLot(lot, ace,this.ctrl,this));
+						panelCartes_s.add(new CarteLot(lot, ace,this.ctrl,this,false));
 			}
 			List<Lot> sans = new ArrayList<>();
 			for (Lot lot : societeCourante.getLots()) if (!dansAce.contains(lot)) sans.add(lot);
 			if (!sans.isEmpty())
 			{
 				panelCartes_s.add(creerEnteteSection("Sans ACE (" + sans.size() + " lot(s))", new Color(80, 80, 80)));
-				for (Lot lot : sans) panelCartes_s.add(new CarteLot(lot, new Color(80, 80, 80),this.ctrl,this));
+				for (Lot lot : sans) panelCartes_s.add(new CarteLot(lot, new Color(80, 80, 80),this.ctrl,this,false));
 			}
 		}
 		panelCartes_s.add(Box.createVerticalGlue());
@@ -416,7 +416,7 @@ public class PanelFicheRoute extends JPanel
 
 		panelCartes_a.removeAll();
 		panelCartes_a.add(creerEnteteSection("▶  " + aceCourante.getNom() + "  (" + lots.size() + " lot(s))", aceCourante.getColor()));
-		for (Lot lot : lots) panelCartes_a.add(new CarteLot(lot, this.ctrl.getAceDuLot(lot).getColor(),this.ctrl,this));
+		for (Lot lot : lots) panelCartes_a.add(new CarteLot(lot, this.ctrl.getAceDuLot(lot).getColor(),this.ctrl,this,true));
 		panelCartes_a.add(Box.createVerticalGlue());
 		panelCartes_a.revalidate(); panelCartes_a.repaint();
 	}

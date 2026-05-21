@@ -30,7 +30,8 @@ public class CarteLot extends JPanel implements ActionListener
 	private final Lot             lot;
 	private final Controleur      ctrl;
 	private final PanelFicheRoute m;
-	private Ace             couranAce;
+
+	private boolean estAce;
 
 	// ── Champs éditables ──────────────────────────────────────────────
 	private JButton    btncommencer;
@@ -55,11 +56,12 @@ public class CarteLot extends JPanel implements ActionListener
 	private JPanel panelBadgesEtat;
 	private JPanel ligne1;
 
-	public CarteLot(Lot lot, Color color, Controleur ctrl, PanelFicheRoute m)
+	public CarteLot(Lot lot, Color color, Controleur ctrl, PanelFicheRoute m, Boolean estAce)
 	{
 		this.lot  = lot;
 		this.ctrl = ctrl;
 		this.m    = m;
+		this.estAce = estAce;
 		
 		estcommencer = !lot.getDateDebut().equals("");
 
@@ -109,10 +111,9 @@ public class CarteLot extends JPanel implements ActionListener
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height + 16));
 	}
 
-	public CarteLot(Lot lot, Ace ace, Controleur ctrl, PanelFicheRoute m)
+	public CarteLot(Lot lot, Ace ace, Controleur ctrl, PanelFicheRoute m, Boolean estAce)
 	{
-		this(lot, ace.getColor(), ctrl, m);
-		this.couranAce = ace;
+		this(lot, ace.getColor(), ctrl, m , estAce);
 	}
 
 	// ══════════════════════════════════════════════════════════════════
@@ -305,16 +306,20 @@ public class CarteLot extends JPanel implements ActionListener
 		JPanel l5 = new JPanel(new GridLayout(2, 5, 4, 2));
 		l5.setBackground(bg);
 
-		this.combDistri     = new JComboBox(lot.DISTRI);
-		this.combDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getDistribution());
-		this.textLotCharge  = new JTextField(s(lot.getLotACharge()), 10);
+		// ligne 1
 		this.combFormCart   = new JComboBox(lot.F_CARTON);
 		this.combFormCart.setSelectedItem(lot.getFormatCarton()==null ? "" : lot.getFormatCarton());
 		this.textCollisage  = new JTextField(String.valueOf(lot.getCollisage()), 10);
-		this.textColisRecup = new JTextField(String.valueOf(lot.getPoucentrecupCartonFour()),10);
-		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
-		this.textCadenceReel= new JTextField(String.valueOf(lot.getCadenceReel()),10);
 		this.textNbPers     = new JTextField(String.valueOf(lot.getNbPers()),10);
+		this.combDistri     = new JComboBox(lot.DISTRI);
+		this.combDistri.setSelectedItem(lot.getDistribution()==null ? "" : lot.getDistribution());
+		this.textColisRecup = new JTextField(String.valueOf(lot.getPoucentrecupCartonFour()),10);
+		// ligne 2
+		this.textCadenceReel= new JTextField(String.valueOf(lot.getCadenceReel()),10);
+		this.textLotCharge  = new JTextField(s(lot.getLotACharge()), 10);
+		this.textMethode    = new JTextField(lot.getMethode() == null ? "" : lot.getMethode().getNom(), 10);
+		
+		
 
 		// Ligne 1
 		l5.add(champEditable("Format carton", this.combFormCart,   bg, "FORM_CART",  this));
@@ -350,6 +355,16 @@ public class CarteLot extends JPanel implements ActionListener
 		wrapBtn.setBackground(bg);
 		wrapBtn.add(btnAjouter);
 		conteneur.add(wrapBtn);
+
+		if (estAce)
+		{
+			this.combDistri.setEnabled      (false);
+			this.combDistri.setEnabled      (false);
+			this.textColisRecup.setEnabled  (false);
+			this.textCadenceReel.setEnabled (false);
+			this.textLotCharge.setEnabled   (false);
+			this.textMethode.setEnabled     (false);
+		}
 
 		return conteneur;
 	}
