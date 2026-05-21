@@ -42,7 +42,7 @@ public class PanelGantt extends JPanel
 
 	public void setLots(List<Lot> l)
 	{
-		lots.clear();
+		lots = new ArrayList<>();
 
 		if (l != null)
 		{
@@ -113,6 +113,8 @@ public class PanelGantt extends JPanel
 		{
 			Lot l = lots.get(i);
 			Ace a = this.ctrl.getAceDuLot(l);
+			String nomAce = (a != null) ? a.getNom() : "—";
+			Color colorAce = (a != null) ? a.getColor() : Color.LIGHT_GRAY;
 
 			LocalDateTime start = safeStart(l);
 			LocalDateTime end = safeEnd(l);
@@ -125,14 +127,14 @@ public class PanelGantt extends JPanel
 			int y = TOP + i * ROW + 8;
 
 			if (l.getdateFin() != null && !l.getdateFin().isEmpty()) g2.setColor(IhmUtils.VERT);
-			else g2.setColor(a.getColor());
+			else g2.setColor(colorAce);
 			g2.fillRoundRect(startX, y, width, 28, 10, 10);
 
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(startX, y, width, 28, 10, 10);
 
 			String txt =
-				"["+a.getNom()+"] CDE " + l.getNumCDE() +
+				"["+nomAce+"] CDE " + l.getNumCDE() +
 				" " +
 				String.format("%02d:%02d",
 					start.getHour(),

@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -44,9 +46,11 @@ public class PanelAffectation extends JPanel
 	private final FenetrePrincipale fenetre;
 
 	// Tableau lots disponibles (gauche)
+	private List<Lot> lotsDisponiblesAffiches = new ArrayList<>();
 	private DefaultTableModel modelDisponibles;
 	private JTable            tblDisponibles;
 	private JTextField        txtRechercheDisp;
+	private JComboBox<String>  combFiltreStatut;
 
 	// Panneau central
 	private JTextArea         infoLot;
@@ -55,6 +59,7 @@ public class PanelAffectation extends JPanel
 	private JLabel            lblStatut;
 
 	// Tableau lots affectés (droite)
+	private List<Lot> lotsAffectesAffiches = new ArrayList<>();
 	private DefaultTableModel modelAffectes;
 	private JTable            tblAffectes;
 	private JTextField        txtRechercheAff;
@@ -76,7 +81,7 @@ public class PanelAffectation extends JPanel
 
 	private JPanel creerTableauDisponibles()
 	{
-		String[] cols = {"N° CDE", "Typologie", "H", "Statut"};
+		String[] cols = {"N° CDE", "Typologie", "Nb pcs", "H", "Statut"};
 		modelDisponibles = new DefaultTableModel(cols, 0)
 		{
 			public boolean isCellEditable(int r, int c) { return false; }
@@ -94,6 +99,9 @@ public class PanelAffectation extends JPanel
 		{
 			public void keyReleased(KeyEvent e) { rafraichirTableauDisponibles(); }
 		});
+		combFiltreStatut = new JComboBox<>(new String[]{"Tous les statuts", "VA - Validé avec le CP"
+														, "BL - Bloqué","EP - Envoi au CP"});
+		combFiltreStatut.addActionListener(e -> rafraichirTableauDisponibles());
 
 		JPanel p = new JPanel(new BorderLayout(0, 4));
 		p.setBackground(IhmUtils.FOND);
@@ -103,6 +111,7 @@ public class PanelAffectation extends JPanel
 		top.setBackground(IhmUtils.FOND);
 		top.add(IhmUtils.labelSection("Lots disponibles"), BorderLayout.WEST);
 		top.add(txtRechercheDisp, BorderLayout.CENTER);
+		top.add(combFiltreStatut, BorderLayout.SOUTH);
 
 		JPanel tblPanel = new JPanel(new BorderLayout());
 		tblPanel.setBackground(Color.WHITE);
@@ -300,6 +309,7 @@ public class PanelAffectation extends JPanel
 		if (lot == null) lot = getLotSelectionne();
 		if (lot == null) { afficherStatut("Sélectionnez un lot à désaffecter.", IhmUtils.ROUGE); return; }
 		if (ctrl.getSocieteDuLot(lot) == null) { afficherStatut("Ce lot n'est pas affecté.", IhmUtils.AMBER); return; }
+		if (!lot.getDateDebut().isEmpty()) { afficherStatut("ce lot est déjà commencer", IhmUtils.AMBER); return;}
 
 		ctrl.desaffecterLot(lot);
 		afficherStatut("Lot " + lot.getNumCDE() + " désaffecté.", Color.DARK_GRAY);
@@ -321,44 +331,16 @@ public class PanelAffectation extends JPanel
 	private Lot getLotSelectionne()
 	{
 		int row = tblDisponibles.getSelectedRow();
-		if (row < 0) return null;
-		String filtre = txtRechercheDisp.getText().toLowerCase();
-		int compteur = 0;
-		for (Lot l : ctrl.getLots())
-		{
-			// Filtrer : pas sous douane, pas déjà affecté, pas bloqué
-			if (l.isEstSousDouane() | l.getStatutEchant().contains("BL")) continue;
-			if (ctrl.getSocieteDuLot(l) != null) continue;
-			if (l.getStatut() != null && l.getStatut().contains("BL")) continue;
-
-			if (!filtre.isEmpty()
-				&& !String.valueOf(l.getNumCDE()).contains(filtre)
-				&& !safe2(l.getTypologie()).toLowerCase().contains(filtre)
-				&& !safe2(l.getAffaire()).toLowerCase().contains(filtre)) continue;
-			if (compteur == row) return l;
-			compteur++;
-		}
-		return null;
+		if (row < 0 || row >= lotsDisponiblesAffiches.size()) return null;
+		return lotsDisponiblesAffiches.get(row);
 	}
-
+	
 	/** Retourne le lot sélectionné dans le tableau droite (affectés). */
 	private Lot getLotAffecteSelectionne()
 	{
 		int row = tblAffectes.getSelectedRow();
-		if (row < 0) return null;
-		String filtre = txtRechercheAff.getText().toLowerCase();
-		int compteur = 0;
-		for (Societe soc : ctrl.getSocietes())
-			for (Lot l : soc.getLots())
-			{
-				if (!filtre.isEmpty()
-					&& !String.valueOf(l.getNumCDE()).contains(filtre)
-					&& !safe2(l.getTypologie()).toLowerCase().contains(filtre)
-					&& !safe2(soc.getNom()).toLowerCase().contains(filtre)) continue;
-				if (compteur == row) return l;
-				compteur++;
-			}
-		return null;
+		if (row < 0 || row >= lotsAffectesAffiches.size()) return null;
+		return lotsAffectesAffiches.get(row);
 	}
 
 	private String safe2(String s) { return s != null ? s : ""; }
@@ -376,26 +358,35 @@ public class PanelAffectation extends JPanel
 	private void rafraichirTableauDisponibles()
 	{
 		modelDisponibles.setRowCount(0);
-		String filtre = txtRechercheDisp != null ? txtRechercheDisp.getText().toLowerCase() : "";
+		lotsDisponiblesAffiches.clear();
+
+		String filtre = combFiltreStatut != null && combFiltreStatut.getSelectedIndex() > 0
+			? (String) combFiltreStatut.getSelectedItem() : "";
+		String recherche = txtRechercheDisp != null ? txtRechercheDisp.getText().toLowerCase() : "";
+
 		for (Lot l : ctrl.getLots())
 		{
-			// Filtrer : pas sous douane, pas déjà affecté, pas bloqué
-			if (l.isEstSousDouane() | l.getStatutEchant().contains("BL")) continue;
+			if (l.isEstSousDouane()) continue;
 			if (ctrl.getSocieteDuLot(l) != null) continue;
-			if (l.getStatut() != null && l.getStatut().contains("BL")) continue;
 
 			if (!filtre.isEmpty()
-				&& !String.valueOf(l.getNumCDE()).contains(filtre)
-				&& !safe2(l.getTypologie()).toLowerCase().contains(filtre)
-				&& !safe2(l.getAffaire()).toLowerCase().contains(filtre)) continue;
+				&& !filtre.equals(l.getStatutEchant())
+				&& !filtre.equals(l.getStatut())) continue;
 
-			Societe soc = ctrl.getSocieteDuLot(l);
+			if (!recherche.isEmpty()
+				&& !String.valueOf(l.getNumCDE()).contains(recherche)
+				&& !safe2(l.getTypologie()).toLowerCase().contains(recherche)
+				&& !safe2(l.getAffaire()).toLowerCase().contains(recherche)) continue;
+
+			lotsDisponiblesAffiches.add(l);
+
 			modelDisponibles.addRow(new Object[]{
 				l.getNumCDE(),
 				safe2(l.getTypologie()).length() > 28
 					? safe2(l.getTypologie()).substring(0, 28) + "…" : safe2(l.getTypologie()),
+				l.getNbPieces(),
 				IhmUtils.fmt(l.getHeures()),
-				soc != null ? "✔ Affecté" : safe2(l.getStatutEchant())
+				safe2(l.getStatutEchant())
 			});
 		}
 	}
@@ -416,7 +407,10 @@ public class PanelAffectation extends JPanel
 	private void rafraichirTableauAffectes()
 	{
 		modelAffectes.setRowCount(0);
+		lotsAffectesAffiches.clear();
+
 		String filtre = txtRechercheAff != null ? txtRechercheAff.getText().toLowerCase() : "";
+
 		for (Societe soc : ctrl.getSocietes())
 			for (Lot l : soc.getLots())
 			{
@@ -426,6 +420,9 @@ public class PanelAffectation extends JPanel
 					&& !soc.getNom().toLowerCase().contains(filtre)) continue;
 
 				Ace ace = ctrl.getAceDuLot(l);
+
+				lotsAffectesAffiches.add(l);
+
 				modelAffectes.addRow(new Object[]{
 					l.getNumCDE(),
 					safe2(l.getTypologie()).length() > 22

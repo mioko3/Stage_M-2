@@ -20,6 +20,7 @@ public class CarteLot extends JPanel implements ActionListener
 	static final Color BG_DOUANE    = new Color(238, 224, 255);
 	static final Color BG_URGENCE   = new Color(255, 232, 232);
 	static final Color BG_COMMENCER = new Color(250, 250, 220);
+	static final Color BG_BLOQUE    = new Color(180,180,180);
 	static final Color BG_NORMAL    = Color.WHITE;
 
 	private static final String PRESERVE_BG = "preserve_bg";
@@ -715,6 +716,7 @@ public class CarteLot extends JPanel implements ActionListener
 		if (lot.isEstSousDouane()   ) return BG_DOUANE;
 		if (lot.getPriorite() >= 8  ) return BG_URGENCE;
 		if (estcommencer            ) return BG_COMMENCER;
+		if (lot.getStatutEchant().contains("BL")) return BG_BLOQUE;
 		return BG_NORMAL;
 	}
 
