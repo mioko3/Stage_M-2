@@ -123,6 +123,7 @@ public class Lot
 	{
 		this.heuresAce = (this.cadenceReel > 0) ? this.nbPieces / (this.cadenceReel * eff) : 0.0;
 		calculDateFinThéorique();
+		this.suivieProd.miseAJJourAvancement();
 	}
 
 	public void calculColisRecup()

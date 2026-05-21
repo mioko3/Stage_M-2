@@ -2,7 +2,7 @@
   {
     "nom": "EUP",
     "ce": "GERALDINE",
-    "totalHeuresCE": 571,
+    "totalHeuresCE": 567,
     "aces": [
       { "nom": "CHARLENE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["538cf1c7-c48d-4cf0-a085-59209357dee4","eac91755-4376-4e4e-ab4e-88d89bce3fbd"] },
       { "nom": "FLORE", "nbPers": 0, "totalHeures": 0, "effectifActuel": 9, "estMachine": false, "lotsACE": ["108acb43-d305-4121-84e1-4135763f0766","44aa66bd-bc67-49e7-b010-ea0ba413d498"] },
